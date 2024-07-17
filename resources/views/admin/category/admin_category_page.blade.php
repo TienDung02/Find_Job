@@ -51,10 +51,8 @@
                                         <td>{{optional($value->parent)->name}}</td>
                                         <td>{{$value->name}}</td>
                                         <td class="d-flex">
-
-                                            <form action="{{ route('categories.destroy', $value['id_category']) }}" method="POST" class="me-3">
+                                            <form  action="{{ route('categories.edit', $value['id_category']) }}" method="GET" class="me-3">
                                                 @csrf
-                                                @method('put')
                                                 <button type="submit" class="btn btn-secondary">Update</button>
                                             </form>
                                             <form id='delete-form-{{ $value['id_category'] }}' action="{{ route('categories.destroy', $value['id_category']) }}" method="POST">
