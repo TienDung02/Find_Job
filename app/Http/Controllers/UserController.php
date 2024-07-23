@@ -2,36 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\category;
+use App\Models\job;
+use App\Models\user;
 use Illuminate\Http\Request;
 use \Illuminate\Pagination\LengthAwarePaginator;
-class CategoryController extends Controller
+class UserController extends Controller
 {
 
-    private $GetCategory;
-    private $category;
+    private $getCandidate;
     private $search;
 
-    public function _construct(category $category){
-        $this->category = $category;
-    }
+
     public function index(Request $request)
     {
-        $data = category::query();
-        $data->with('parent');
-
-        $keyword = $request->input('keyword');
-        $type = $request->input('type');
-        $limit = $request->input('limit', 5);
-
-
-        $categories = $this->search($type, $keyword, $limit);
-
+        $data = user::query();
+        $limit = 5;
         $data = $data->paginate($limit);
-        if ($categories->isNotEmpty()) {
-            $data = $categories;
-        }
-        return view('admin.category.admin_category_page', compact('data'));
+
+        return view('admin.user.admin_user_page', compact('data'));
     }
 
     public function getLimit (Request $request) {
@@ -40,7 +28,7 @@ class CategoryController extends Controller
 
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $limit = $request->input('limit', 5);
+        $limit = $request->input('limit-category', 5);
 
 
         $categories = $this->search($type, $keyword, $limit);
@@ -107,7 +95,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = category::query();
-        $limit = $request->input('limit', 5);
+        $limit = $request->input('limit-category', 5);
         $data = $data->paginate($limit);
         $insert_category = new category();
         $insert_category->name = $request->input('name');
@@ -150,9 +138,10 @@ class CategoryController extends Controller
     {
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $parent_id = $request->input('data_first_suggest', null);
+        $parent_id = $request->input('parent_id', null);
 
         $query = Category::query();
+
         if ($type === 'parent') {
             $query->where('parent_id', 0);
             if ($keyword) {
@@ -167,14 +156,7 @@ class CategoryController extends Controller
             }
         }
 
-        $suggestions = $query->get(['id_category', 'name']);
-        $suggestions = $suggestions->map(function ($item) {
-            return [
-                'id_data' => $item->id_category, // Đổi tên trường từ id_category thành id
-                'data1' => $item->name,
-                'data2' => $item->name
-            ];
-        });
+        $suggestions = $query->take(100)->get(['id_category', 'name']);
 
         return response()->json($suggestions);
     }

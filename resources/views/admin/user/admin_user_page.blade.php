@@ -1,8 +1,8 @@
 @include('component.admin_head')
 <body>
+
 <div id="admin_wrapper">
     @include('component.admin_header')
-
     <main>
         @include('component.admin_menu_left')
         <div class="contain">
@@ -24,25 +24,35 @@
                     <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Employer</th>
-                        <th>Company Name</th>
+                        <th>Email</th>
+                        <th>Type User</th>
                         <th>Active</th>
-                        <th>Action</th>
+                        <th>View</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($data as $key => $value)
-                    <tr>
-                        <td>{{$key +1}}</td>
-                        <td>{{$value->employer->last_name . $value->employer->first_name}}</td>
-                        <td>{{$value['company_name']}}</td>
-                        <td> <input class="toggle_switch" {{$value['active']==1?'checked':''}} type="checkbox"> </td>
-                        <td>
-                            <a class="" href="{{ route('company.edit', $value['id_company']) }}">
-                                <button type="submit" style="margin-top: -1rem" class="btn btn-primary text-white">View</button>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td> {{$key + 1}} </td>
+                            <td> {{$value['email']}} </td>
+                            <td>
+                                @if($value['role'] == 1)
+                                    Candidate
+                                @elseif($value['role'] == 2)
+                                    Employer
+                                @elseif($value['role'] == 3)
+                                    Admin
+                                @endif
+                            </td>
+                            <td>
+                                <input class="toggle_switch" {{$value['active']==1?'checked':''}} type="checkbox">
+                            </td>
+                            <td>
+                                <a class="" href="">
+                                    <button type="submit" style="margin-top: -1rem" class="btn btn-primary text-white">View</button>
+                                </a>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -78,6 +88,5 @@
     </main>
 </div>
 @include('component.admin_script')
-
 </body>
 </html>

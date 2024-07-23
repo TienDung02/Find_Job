@@ -2,13 +2,12 @@
 <body>
 <div id="admin_wrapper">
     @include('component.admin_header')
-
     <main>
         @include('component.admin_menu_left')
         <div class="contain">
             <section>
                 <div class="title-table">
-                    <h3>Categories</h3>
+                    <h3>JOBS</h3>
                 </div>
             </section>
             <div class="table-main">
@@ -25,7 +24,7 @@
                     <tr>
                         <th>STT</th>
                         <th>Employer</th>
-                        <th>Company Name</th>
+                        <th>Title</th>
                         <th>Active</th>
                         <th>Action</th>
                     </tr>
@@ -33,12 +32,14 @@
                     <tbody>
                     @foreach($data as $key => $value)
                     <tr>
-                        <td>{{$key +1}}</td>
-                        <td>{{$value->employer->last_name . $value->employer->first_name}}</td>
-                        <td>{{$value['company_name']}}</td>
-                        <td> <input class="toggle_switch" {{$value['active']==1?'checked':''}} type="checkbox"> </td>
+                        <td> {{$key + 1}}</td>
                         <td>
-                            <a class="" href="{{ route('company.edit', $value['id_company']) }}">
+{{--                            {{ $value->employer->last_name . $value->employer->first_name }}--}}
+                        </td>
+                        <td> {{ $value['title'] }} </td>
+                        <td><input class="toggle_switch ms-3 mt-3" {{$value['active']==1?'checked':''}} type="checkbox"> </td>
+                        <td>
+                            <a class="" href="{{ route('job.edit', $value['job_id']) }}">
                                 <button type="submit" style="margin-top: -1rem" class="btn btn-primary text-white">View</button>
                             </a>
                         </td>
@@ -66,7 +67,6 @@
                                 }
                             @endphp
                             @foreach($shows as $show)
-
                                 <option  {{$show==$limit_category?'selected':''}} value="{{$show}}">{{$show}}</option>
                             @endforeach
                         </select>
@@ -78,6 +78,5 @@
     </main>
 </div>
 @include('component.admin_script')
-
 </body>
 </html>

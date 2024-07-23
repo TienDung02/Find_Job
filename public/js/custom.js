@@ -586,11 +586,13 @@
         /*----------------------------*/
 
 
-        //------------------------------ Ajax show category ---------------------------//
+        //------------------------------ Ajax show Limit ---------------------------//
+        var first_type = $('#first_suggest').attr('data-type');
+        var second_type = $('#second_suggest').attr('data-type');
             $(document).on('change', '#show-limit',function() {
                 var limit = $(this).val();
-                var keyword1 = $('#name_category').val();
-                var keyword2 = $('#parent_name').val();
+                var keyword1 = $('#second_suggest').val();
+                var keyword2 = $('#first_suggest').val();
                 var type = '';
                 var keyword = '';
 
@@ -598,7 +600,7 @@
                     type = 'category';
                     keyword = keyword1;
                 } else if (keyword2) {
-                    type = 'parent';
+                    type = first_type;
                     keyword = keyword2;
                 }
 
@@ -607,7 +609,7 @@
                     type: 'GET',
                     data: {
                         'keyword': keyword,
-                        'limit-category': limit,
+                        'limit': limit,
                         'type': type
                     },
                     success: function(data) {
@@ -618,7 +620,7 @@
                         $('#append_ajax').html(html);
                         var newUrl = new URL(window.location.href);
                         newUrl.searchParams.set('keyword', keyword);
-                        newUrl.searchParams.set('limit-category', limit);
+                        newUrl.searchParams.set('limit', limit);
                         window.history.pushState({path: newUrl.href}, '', newUrl.href);
                     },
                     error: function(xhr, status, error) {
@@ -628,15 +630,15 @@
             });
         //------------------------------------------------------------------------------//
 
-        // ------------------------------ Ajax Get table Category ---------------------------//
-        $(document).on('change', '#parent_name', function() {
+        // ------------------------------ Ajax Get Table ---------------------------//
+        $(document).on('change', '#first_suggest', function() {
             var keyword = $(this).val();
             $.ajax({
                 url: $('#get_limit').attr('data-url'),
                 type: 'GET',
                 data: {
                     'keyword': keyword,
-                    'type': 'parent'
+                    'type': first_type
                 },
                 success: function(data) {
                     var html = $(data).children();
@@ -646,7 +648,9 @@
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
                     newUrl.searchParams.set('keyword', keyword);
-                    newUrl.searchParams.set('limit-category', limit);
+                    if (typeof limit !== 'undefined' && limit !== null){
+                        newUrl.searchParams.set('limit', limit);
+                    }
                     window.history.pushState({path: newUrl.href}, '', newUrl.href);
                 },
                 error: function(xhr, status, error) {
@@ -654,14 +658,14 @@
                 }
             });
         });
-        $(document).on('change', '#name_category', function() {
+        $(document).on('change', '#second_suggest', function() {
             var keyword = $(this).val();
             $.ajax({
                 url: $('#get_limit').attr('data-url'),
                 type: 'GET',
                 data: {
                     'keyword': keyword,
-                    'type': 'child'
+                    'type': second_type
                 },
                 success: function(data) {
                     var html = $(data).children();
@@ -671,7 +675,7 @@
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
                     newUrl.searchParams.set('keyword', keyword);
-                    newUrl.searchParams.set('limit-category', limit);
+                    newUrl.searchParams.set('limit', limit);
                     window.history.pushState({path: newUrl.href}, '', newUrl.href);
                 },
                 error: function(xhr, status, error) {
@@ -682,9 +686,35 @@
         //--------------------------------------------------------------------------------//
 
 
-        //------------------------------ Ajax Get Suggest Category -----------------------------------------//
-            $('#parent_name').select2({
-                placeholder: 'Select Parent Category',
+        //------------------------------ Ajax Get Suggest -----------------------------------------//
+        var first_placeholder = $('#first_suggest').attr('data-placeholder');
+        $('#first_suggest').select2({
+            placeholder: first_placeholder,
+            ajax: {
+                url: $('#formSearch').attr('action'),
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        keyword: params.term,
+                        type: first_type
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data.map(function(item) {
+                            return { id: item.id_data, text: item.data1};
+                        })
+                    };
+                },
+                cache: true
+            }
+        }).on('select2:select', function(e) {
+            var data_first_suggest = e.params.data.id;
+            var second_type = $('#second_suggest').attr('data-type');
+            var second_placeholder = $('#second_suggest').attr('data-placeholder');
+            $('#second_suggest').prop('disabled', false).select2({
+                placeholder: second_placeholder,
                 ajax: {
                     url: $('#formSearch').attr('action'),
                     dataType: 'json',
@@ -692,77 +722,52 @@
                     data: function(params) {
                         return {
                             keyword: params.term,
-                            type: 'parent'
+                            type: second_type,
+                            data_first_suggest: data_first_suggest
                         };
                     },
                     processResults: function(data) {
                         return {
                             results: data.map(function(item) {
-                                return { id: item.id_category, text: item.name };
+                                return { id: item.data2, text: item.data2};
                             })
                         };
                     },
                     cache: true
                 }
-            }).on('select2:select', function(e) {
-                var parent_id = e.params.data.id;
-                $('#name_category').prop('disabled', false).select2({
-                    placeholder: 'Select Category',
-                    ajax: {
-                        url: $('#formSearch').attr('action'),
-                        dataType: 'json',
-                        delay: 250,
-                        data: function(params) {
-                            return {
-                                keyword: params.term,
-                                type: 'category',
-                                parent_id: parent_id
-                            };
-                        },
-                        processResults: function(data) {
-                            return {
-                                results: data.map(function(item) {
-                                    return { id: item.id_category, text: item.name };
-                                })
-                            };
-                        },
-                        cache: true
-                    }
-                });
             });
+        });
 
-            $('#name_category').select2({
-                placeholder: 'Select Category',
-                ajax: {
-                    url: $('#formSearch').attr('action'),
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            keyword: params.term,
-                            type: 'category'
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.map(function(item) {
-                                return { id: item.id_category, text: item.name };
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            }).on('select2:select', function(e) {
-                $('#parent_name').prop('disabled', true);
-            });
+        var second_type = $('#second_suggest').attr('data-type');
+        var second_placeholder = $('#second_suggest').attr('data-placeholder');
+        $('#second_suggest').select2({
+            placeholder: second_placeholder,
+            ajax: {
+                url: $('#formSearch').attr('action'),
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        keyword: params.term,
+                        type: second_type
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data.map(function(item) {
+                            return { id: item.data2, text: item.data2};
+                        })
+                    };
+                },
+                cache: true
+            }
+        }).on('select2:select', function(e) {
+            $('#first_suggest').prop('disabled', true);
+        });
 
-            $('#clearCategory').on('click', function() {
-                $('#name_category').val(null).trigger('change');
-                $('#parent_name').val(null).trigger('change').removeClass('hidden').prop('disabled', false);
-            });
         //---------------------------------------------------------------------------------//
 
-        // ---------------------------------------------------------------------------------------------
+        // -----------------------------------------Alert Confirm Delete----------------------------------------------------
         function confirmDelete(formId) {
             Swal.fire({
                 title: "Are you sure?",
@@ -775,8 +780,6 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById(formId).submit();
-                } else {
-                    Swal.fire('Đã hủy xóa!', '', 'info');
                 }
             });
         }
@@ -786,6 +789,116 @@
             var id_form = _this.attr('data-id');
             confirmDelete('delete-form-'+id_form);
         })
+        // ---------------------------------------------------------------------------------------------
+
+
+
+        // -----------------------------------------Alert Confirm Active----------------------------------------------------
+        // function confirmDelete(formId) {
+        //     Swal.fire({
+        //         title: "Are you sure?",
+        //         text: "You won't be able to revert this!",
+        //         icon: "warning",
+        //         showCancelButton: true,
+        //         confirmButtonColor: "#3085d6",
+        //         cancelButtonColor: "#d33",
+        //         confirmButtonText: "Yes, delete it!"
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             document.getElementById(formId).submit();
+        //         }
+        //     });
+        // }
+        // $('.btn-delete').on('click', function (e) {
+        //     e.preventDefault();
+        //     var _this = $(this);
+        //     var id_form = _this.attr('data-id');
+        //     confirmDelete('delete-form-'+id_form);
+        // })
+        // ---------------------------------------------------------------------------------------------
+
+
+        // ------------------------------------------- Loader Image --------------------------------------------------
+        function toggleInput() {
+            const inputType = document.getElementById('input-type').value;
+            const fileInputGroup = document.getElementById('file-input-group');
+            const urlInputGroup = document.getElementById('url-input-group');
+
+            // Reset visibility
+            fileInputGroup.classList.add('d-none');
+            urlInputGroup.classList.add('d-none');
+
+            if (inputType === 'file') {
+                fileInputGroup.classList.remove('d-none');
+            } else if (inputType === 'url') {
+                urlInputGroup.classList.remove('d-none');
+            }
+        }
+
+        function loadImage() {
+            const fileInput = document.getElementById('image-upload');
+            const urlInput = document.getElementById('image-url');
+            const preview = document.getElementById('image-preview');
+            const file = fileInput.files[0];
+            const url = urlInput.value;
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else if (url) {
+                preview.src = url;
+            } else {
+                alert('Vui lòng chọn ảnh từ máy tính hoặc nhập URL của ảnh.');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Ẩn tất cả các input ban đầu
+            toggleInput();
+        });
+        // ---------------------------------------------------------------------------------------------
+
+
+
+
+        // ---------------------------------------------------------------------------------------------
+        // function menuActive(){
+        //     var url = window.location.href;
+        //     const currentUrl = new URL(window.location.href);
+        //     console.log("URL hiện tại:", url);
+        //     console.log("URL hiện tại:", currentUrl);
+        // }
+        // document.addEventListener("DOMContentLoaded", function() {
+        //
+        //
+        //     var parts = url.split('/');
+        //     console.log("Các phần của URL:", parts);
+        //
+        //     var localIndex = parts.indexOf('local');
+        //     if (localIndex !== -1 && localIndex + 1 < parts.length) {
+        //         var value = parts[localIndex + 1];
+        //         console.log("Giá trị sau 'local':", value);
+        //
+        //         // Tìm thẻ HTML có class là giá trị vừa lấy được và thêm class 'menu_active'
+        //         var element = document.querySelector('.' + value);
+        //         if (element) {
+        //             element.classList.add('menu_active');
+        //             console.log("Thêm class 'menu_active' vào phần tử:", element);
+        //         } else {
+        //             console.log("Không tìm thấy phần tử với class:", value);
+        //         }
+        //     } else {
+        //         console.log("Không tìm thấy 'local' trong URL hoặc không có giá trị sau 'local'");
+        //     }
+        // });
+
+
+
+
+
         // ---------------------------------------------------------------------------------------------
 
 

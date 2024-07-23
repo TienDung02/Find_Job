@@ -8,7 +8,13 @@
         <div class="contain">
             <section>
                 <div class="title-table">
-                    <h3>CATEGORY / ADD</h3>
+                    <h3>CATEGORY /
+                        @if($category_id != '')
+                            EDIT
+                        @else
+                            ADD
+                        @endif
+                        </h3>
                 </div>
             </section>
 

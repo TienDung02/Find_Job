@@ -9,19 +9,19 @@
             <div class="contain">
                 <section class="sticky-top">
                     <div class="title-table">
-                        <h3>LIST CATEGORIES</h3>
+                        <h4>LIST CATEGORIES</h4>
                     </div>
                     <div class="section-item-right">
                         <form id="formSearch" method="GET" action="{{ route('categories.suggest') }}">
                             <div class="form-group ">
-                                <select class="js-example-basic-single form-control"  id="parent_name" name="state">
+                                <select class="js-example-basic-single form-control"  id="first_suggest" data-type="parent" data-placeholder="Select parent name"  name="state">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <select class="js-example-basic-single form-control" id="name_category" name="state">
+                                <select class="js-example-basic-single form-control" id="second_suggest" data-type="category" data-placeholder="Name category" name="state">
                                 </select>
                             </div>
-                            <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
+                                <a href="{{route("categories.index")}}"><button type="button" id="clearCategory" class="btn-add">CLEAR</button></a>
                         </form>
                         <a style="color: #ffffff"  href="{{route("categories.create")}}"   ><button  class="btn-add">ADD NEW</button></a>
                     </div>
@@ -31,9 +31,9 @@
                         <table class="table table-hover modal-scrollbar-measure" id="table">
                             <colgroup>
                                 <col width="200">
-                                <col width="400">
-                                <col>
                                 <col width="300">
+                                <col >
+                                <col width="200">
                             </colgroup>
                             <thead>
                             <tr>
@@ -51,14 +51,13 @@
                                         <td>{{optional($value->parent)->name}}</td>
                                         <td>{{$value->name}}</td>
                                         <td class="d-flex">
-                                            <form  action="{{ route('categories.edit', $value['id_category']) }}" method="GET" class="me-3">
-                                                @csrf
-                                                <button type="submit" class="btn btn-secondary">Update</button>
-                                            </form>
+                                            <a href="{{ route('categories.edit', $value['id_category']) }}">
+                                                <button type="submit"  class="btn btn-secondary">Update</button>
+                                            </a>
                                             <form id='delete-form-{{ $value['id_category'] }}' action="{{ route('categories.destroy', $value['id_category']) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_category'] }}" >Delete</button>
+                                                <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_category'] }}" >Delete</button></a>
                                             </form>
                                         </td>
                                     </tr>
@@ -75,20 +74,12 @@
                             @csrf
                             <div class="border-start">
                                 <p>Show</p>
-                                <select name="limit-category" id="show-limit">
+                                <select name="limit" id="show-limit">
                                     @php
                                         $shows = [ '5', '10', '15'];
-                                        if ($limit_category = request()->input('limit-category'))
+                                        if ($limit_category = request()->input('limit'))
                                         {
-                                            $limit_category = request()->input('limit-category');
-                                        }else{
                                             $limit_category = request()->input('limit');
-                                        }
-                                        if ($limit_category)
-                                        {
-                                            echo $limit_category;
-                                        }else{
-                                            echo 'none';
                                         }
                                     @endphp
                                     @foreach($shows as $show)

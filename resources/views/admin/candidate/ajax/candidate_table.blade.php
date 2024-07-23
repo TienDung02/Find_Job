@@ -1,46 +1,47 @@
 <div id="append_ajax">
     <div class="table-main">
-        <table class="table table-hover" id="table">
+
+        <table class="table table-hover">
             <colgroup>
                 <col width="200">
-                <col width="300">
-                <col >
+                <col width="400">
+                <col>
+                <col>
                 <col width="200">
             </colgroup>
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Parent</th>
-                <th>Name</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Active</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <span id="get_limit" data-url="{{ route('categories.limit') }}"> </span>
+            <span id="get_limit" data-url="{{ route('candidate.limit') }}"> </span>
             @foreach($data as $key => $value)
+
                 <tr>
                     <td>{{$key + 1}}</td>
-                    <td>{{optional($value->parent)->name}}</td>
-                    <td>{{$value->name}}</td>
+                    <td>{{$value['last_name'] . ' ' . $value['first_name']}}</td>
+                    <td>{{$value['email']}}</td>
+                    <td><input class="toggle_switch ms-3 mt-3" {{$value['active']==1?'checked':''}}  type="checkbox"></td>
                     <td class="d-flex">
-                        <form  action="{{ route('categories.edit', $value['id_category']) }}" method="GET" class="me-3">
-                            @csrf
-                            <button type="submit" class="btn btn-secondary">Update</button>
-                        </form>
-                        <form id='delete-form-{{ $value['id_category'] }}' action="{{ route('categories.destroy', $value['id_category']) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_category'] }}" >Delete</button>
-                        </form>
+                        <a href="{{ route('candidate.edit', $value['id_candidate']) }}">
+                            <button type="submit"  class="btn btn-primary">View</button>
+                        </a>
                     </td>
                 </tr>
             @endforeach
+
             </tbody>
         </table>
+
     </div>
     <div class="card-bottom">
         <div class="paginate">
-            {{ $data->withQueryString()->appends($_GET)->links() }}
+{{--            {{ $data->withQueryString()->appends($_GET)->links() }}--}}
         </div>
         <form action="" method="post">
             @csrf

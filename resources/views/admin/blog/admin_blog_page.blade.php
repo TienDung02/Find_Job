@@ -8,19 +8,21 @@
         <div class="contain">
             <section>
                 <div class="title-table">
-                    <h3>Blog</h3>
+                    <h4>BLOG</h4>
                 </div>
                 <div class="section-item-right">
-                    <form onsubmit="event.preventDefault();" role="search" class="form-search-admin">
-                        <label for="search" class="label-search">Search for stuff</label>
-                        <input id="search" type="search" class="input-search" placeholder="Search..." autofocus
-                               required/>
-                        <button class="button-search" type="submit">Go</button>
+                    <form id="formSearch" method="GET" action="{{ route('categories.suggest') }}">
+                        <div class="form-group ">
+                            <select class="js-example-basic-single form-control"  id="first_suggest" data-name="Parent" name="state">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="js-example-basic-single form-control" id="second_suggest" name="state">
+                            </select>
+                        </div>
+                        <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                     </form>
-                    <button
-                        onClick="document.location.href='/admin/blog/admin_add_blog.php?id=0'"
-                        class="btn-add">ADD NEW
-                    </button>
+                    <a style="color: #ffffff"  href="{{route("blog.create")}}"   ><button  class="btn-add">ADD NEW</button></a>
                 </div>
             </section>
             <div class="table-main">
@@ -41,37 +43,49 @@
                     </tr>
                     </thead>
                     <tbody>
-
+{{--                    @php print_r($data); @endphp--}}
+                    @foreach($data as $key => $value)
                     <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <a
-                                href=""><i
-                                    class="bi bi-pencil-square"></i></a>
-                            <a href=""><i class="delete bi bi-x-circle"></i></a>
+                        <td> {{$key+1}}</td>
+                        <td>{{$value['author']}} </td>
+                        <td>{{$value['title']}}</td>
+                        <td class="d-flex">
+                            <a href="{{ route('blog.edit', $value['id_blog']) }}">
+                                <button type="submit"  class="btn btn-secondary">Update</button>
+                            </a>
+                            <form id='delete-form-{{ $value['id_blog'] }}' action="{{ route('blog.destroy', $value['id_blog']) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_blog'] }}" >Delete</button></a>
+                            </form>
                         </td>
                     </tr>
-
+                    @endforeach
                     </tbody>
                 </table>
 
             </div>
             <div class="card-bottom">
-                <a href="?page=1" class="">First</a>
+                <div class="paginate" id="pagination-links">
+                    {{ $data->withQueryString()->appends($_GET)->links() }}
+                </div>
 
-                <a href="">Last</a>
-                <form action="#" method="post">
-                    <div>
+                <form action="" method="post">
+                    @csrf
+                    <div class="border-start">
                         <p>Show</p>
                         <select name="limit-category" id="show-limit">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
+                            @php
+                                $shows = [ '5', '10', '15'];
+                                if ($limit_category = request()->input('limit-category'))
+                                {
+                                    $limit_category = request()->input('limit-category');
+                                }
+                            @endphp
+                            @foreach($shows as $show)
+
+                                <option  {{$show==$limit_category?'selected':''}} value="{{$show}}">{{$show}}</option>
+                            @endforeach
                         </select>
                         <p>item</p>
                     </div>
@@ -81,101 +95,6 @@
     </main>
 </div>
 @include('component.admin_script')
-<script>
-    $(document).ready(function executeExample() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: 'Add success'
-        })
-    });
-</script>
-
-<script>
-    $(document).ready(function executeExample() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: 'Update success'
-        })
-    });
-</script>
-
-<script>
-    $(document).ready(function executeExample() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: 'Delete success'
-        })
-    });
-</script>
-
-<script>
-    $(document).ready(function executeExample() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'error',
-            title: 'System error'
-        })
-    });
-</script>
-
-<script>
-    $("#show-limit").on("change", function () {
-        var selectData = $(this).val();
-        console.log(selectData);
-        $.ajax({
-            url: "admin-category-page.php",
-            method: 'POST',
-            data: {val: $(this).val()},
-            success: function (data) {
-                $(".asdvdv").val(data);
-
-            }
-        });
-    });
-</script>
 </body>
 
 </html>

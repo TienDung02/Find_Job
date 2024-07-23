@@ -182,7 +182,6 @@ input.input-search:not(:placeholder-shown) {
 #formSearch{
     display: flex;
     height: 30px;
-    width: 460px;
     border-right: 1px solid #b3b3b3;
     border-left: 1px solid #b3b3b3;
     padding: 0 1rem;
@@ -228,7 +227,13 @@ input.input-search:not(:placeholder-shown) {
     margin-bottom: 0.5rem;
 }
 #admin_wrapper textarea {
-    height: 150px;
+    min-height: 70px;
+    overflow-y: auto;
+    max-height: 500px;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 1rem;
 }
 #admin_wrapper header {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
@@ -306,18 +311,23 @@ input.input-search:not(:placeholder-shown) {
     width: 110px;
 }
 
+#admin_wrapper main aside .menu_left ul{
+    padding-left: 0;
+}
+
 #admin_wrapper main aside .menu_left ul li {
     height: 60px;
     margin: auto;
     position: relative;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-left: 2rem;
 }
 #admin_wrapper main aside .menu_left ul li:hover {
     background-color: #0369a126;
     border-left: 4px solid #0369a1d4;
 }
-
 .form-admin-insert-data{
     display: flex;
     height: 40px;
@@ -344,11 +354,15 @@ input.input-search:not(:placeholder-shown) {
 
 #admin_wrapper main aside .menu_left ul li:hover a {
     color: #0369a1d4;
+    transform: translateX(10px);
+    transition: color 0.3s ease, transform 0.8s ease;
 }
 .menu_01 .menu_left ul li a {
-    color: #6b727a;
+    color: #565656;
     font-size: 1.5rem;
     margin-left: 1rem;
+    font-weight: 500;
+    text-decoration: none;
 }
 
 .btn_Show_menu, .btn_hidden_menu{
@@ -364,7 +378,7 @@ input.input-search:not(:placeholder-shown) {
 }
 
 .menu_02 .menu_left ul li a {
-    color: #6b727a;
+    color: #565656;
     font-size: 2.5rem;
     margin-left: 1rem;
 }
@@ -385,8 +399,9 @@ input.input-search:not(:placeholder-shown) {
     display: flex;
     background-color: #f3f4f6;
 }
-#admin_wrapper main .contain section .title-table h3 {
-    color: #6b727a;
+#admin_wrapper main .contain section .title-table h4 {
+    color: #585858;
+    font-weight: 700;
 }
 #admin_wrapper main .contain section .section-item-right {
     position: absolute;
@@ -394,7 +409,7 @@ input.input-search:not(:placeholder-shown) {
     display: flex;
 }
 #admin_wrapper main .contain section .section-item-right form {
-    margin: 0 2rem;
+    margin: 0 1rem;
 }
 
 
@@ -419,65 +434,86 @@ input.input-search:not(:placeholder-shown) {
     background-color: #4b586369 !important;
 }
 
+.form_add_company{
+    background-color: #ffff;
+    padding: 4rem 2rem 5rem 4rem;
+    margin-bottom: 6rem;
+    border-radius: 15px;
+}
+
 #admin_wrapper main .contain .parent-form-admin {
     width: 75%;
     margin: auto;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main input {
-    margin-bottom: 1rem;
+
+#admin_wrapper main .contain .parent-form-admin  input {
+    margin-bottom: 2rem;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main label {
-    font-size: 1.25rem;
+#admin_wrapper main .contain .parent-form-admin  .search-field {
+    width: 90%;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company {
-    display: flex;
+
+.avatar_profile{
+    width: 20%;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company h4 {
-    text-align: center;
-    color: #7a7a7a;
+.avatar_profile img{
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .about-company {
-    border-radius: 15px;
-    background-color: #fff;
-    width: 55%;
-    padding: 20px;
-    margin: 10px;
+#admin_wrapper main .contain .parent-form-admin textarea{
+    height: 200px;
+    padding: 1.5rem;
+    font-size: 1.2rem;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .about-company .description-company textarea {
-    background-color: #fff;
+#admin_wrapper main .contain .parent-form-admin select{
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #ececec;
+    width: 100%;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .about-company .note-editor.note-frame {
-    border: 1px solid #e0e0e0;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .about-contact-person {
-    padding: 20px;
-    border-radius: 15px;
-    margin: 1rem 16px;
-    width: 1000px;
-    background-color: #fff;
-    height: auto;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .network-profile {
-    height: 240px;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .compnay-form-right {
-    width: 45%;
-    height: auto;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .form-admin-company .compnay-form-right .company-status {
-    padding: 20px;
-    margin: 10px;
-    border-radius: 15px;
-    background-color: #fff;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .file-input-group {
-    position: relative;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .file-input-group .input-group-append {
-    position: absolute;
-    right: 0;
-}
-#admin_wrapper main .contain .parent-form-admin form.form-main .file-input-group .input-group-append label {
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-company {*/
+/*    border-radius: 15px;*/
+/*    background-color: #fff;*/
+/*    width: 55%;*/
+/*    padding: 20px;*/
+/*    margin: 10px;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-company .description-company textarea {*/
+/*    background-color: #fff;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-company .note-editor.note-frame {*/
+/*    border: 1px solid #e0e0e0;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-contact-person {*/
+/*    padding: 20px;*/
+/*    border-radius: 15px;*/
+/*    margin: 1rem 16px;*/
+/*    width: 1000px;*/
+/*    background-color: #fff;*/
+/*    height: auto;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .network-profile {*/
+/*    height: 240px;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .compnay-form-right {*/
+/*    width: 45%;*/
+/*    height: auto;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .compnay-form-right .company-status {*/
+/*    padding: 20px;*/
+/*    margin: 10px;*/
+/*    border-radius: 15px;*/
+/*    background-color: #fff;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .file-input-group {*/
+/*    position: relative;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  .file-input-group .input-group-append {*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*}*/
+#admin_wrapper main .contain .parent-form-admin  .file-input-group label {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     transform: translateY(-1px);
@@ -486,7 +522,7 @@ input.input-search:not(:placeholder-shown) {
     background-color: #0284c7;
     color: #111827;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main .file-input-group input[type=file] {
+#admin_wrapper main .contain .parent-form-admin  .file-input-group input[type=file] {
     border-radius: 0;
     width: 0.1px;
     height: 0.1px;
@@ -495,21 +531,30 @@ input.input-search:not(:placeholder-shown) {
     position: absolute;
     z-index: -1;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main input[type=text] {
+#admin_wrapper main .contain .parent-form-admin  input[type=text] {
     border-radius: 5px;
-    height: 40px;
+    height: 35px;
     background-color: #fff;
     border: 1px solid #e0e0e0;
     padding-left: 2rem;
+    font-size: 1.2rem;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main input[type=text]::-moz-placeholder {
-    color: #6b727a;
-    font-size: 1rem;
+
+.company_fnl{
+    width: 90%;
+    justify-content: space-between;
+    padding-bottom: 34px;
+    padding-right: 5rem;
 }
-#admin_wrapper main .contain .parent-form-admin form.form-main input[type=text]::placeholder {
-    color: #6b727a;
-    font-size: 1rem;
-}
+
+/*#admin_wrapper main .contain .parent-form-admin  input[type=text]::-moz-placeholder {*/
+/*    color: #6b727a;*/
+/*    font-size: 1rem;*/
+/*}*/
+/*#admin_wrapper main .contain .parent-form-admin  input[type=text]::placeholder {*/
+/*    color: #6b727a;*/
+/*    font-size: 1rem;*/
+/*}*/
 #admin_wrapper main .contain .table-main {
     width: 95%;
     margin: auto;
@@ -525,6 +570,11 @@ input.input-search:not(:placeholder-shown) {
 
 
 }
+
+.title-table h4{
+    color: #5d5d5d;
+}
+
 #admin_wrapper main .contain .table-main table thead {
     border-bottom: 1px solid rgba(179, 179, 179, 0.4509803922);
 }
@@ -549,6 +599,8 @@ input.input-search:not(:placeholder-shown) {
 #admin_wrapper main .contain .table-main table tbody tr td {
     padding: 1rem;
     border: none;
+    font-size: 1.25rem;
+    color: #000;
 }
 #admin_wrapper main .contain .table-main table tbody tr td a {
     margin: 0 0.25rem;
@@ -564,7 +616,7 @@ input.input-search:not(:placeholder-shown) {
     background-color: #f0f9ff;
 }
 #admin_wrapper main .contain .table-main table tbody tr:hover td {
-    color: #5d5d5d;
+    color: #565656;
 }
 #admin_wrapper main .contain .card-bottom {
     height: 60px;
@@ -609,7 +661,6 @@ input.input-search:not(:placeholder-shown) {
     margin: 0;
 }
 
-
 #admin_wrapper main .contain .card-bottom .page_active{
     background-color: #0284c7 ;
     color: #fff;
@@ -617,6 +668,12 @@ input.input-search:not(:placeholder-shown) {
 
 .hide_menu_{
     display: none !important;
+}
+
+.menu_active{
+    background-color: #0369a126;
+    border-left: 4px solid #0369a1d4;
+
 }
 
 span.inline-flex.shadow-sm{
@@ -642,7 +699,7 @@ span.inline-flex.shadow-sm span[aria-disabled="true"] span{
 
 span.inline-flex.shadow-sm [aria-current="page"] span{
     display: flex;
-    background-color: #006da7 !important;
+    background-color: #0284c7 !important;
     width: 42px;
     height: 36.5px;
     margin: 0px 0.25rem 0px 0.25rem ;
@@ -673,6 +730,11 @@ span.inline-flex.shadow-sm a svg{
 .paginate nav{
     display: flex;
     height: 100%;
+}
+.paginate nav div.flex.justify-between a{
+    color: #fff !important;
+    background-color: #0284c7 !important;
+
 }
 .paginate nav div{
     position: static !important;

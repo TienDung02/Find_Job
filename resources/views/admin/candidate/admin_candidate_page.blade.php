@@ -9,17 +9,27 @@
         <div class="contain">
             <section>
                 <div class="title-table">
-                    <h3>Candidate</h3>
+                    <h4>CANDIDATES
+{{--                        @if (isset($aa))--}}
+{{--                            @php print_r($aa); @endphp--}}
+{{--                        @endif--}}
+                    </h4>
                 </div>
-                <div class="section-item-right">
-                    <form onsubmit="event.preventDefault();" role="search" class="form-search-admin">
-                        <label for="search" class="label-search">Search for stuff</label>
-                        <input id="search" type="search" class="input-search" placeholder="Search..." autofocus
-                               required />
-                        <button class="button-search" type="submit">Go</button>
+                <div class="section-item-right ">
+                    <form id="formSearch" class="border-0" method="GET" action="{{ route('candidate.suggest') }}">
+                        <div class="form-group ">
+                            <select class="js-example-basic-single form-control"  id="first_suggest" data-type="email" data-placeholder="Email"  name="state">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="js-example-basic-single form-control" id="second_suggest" data-type="name" data-placeholder="Name" name="state">
+                            </select>
+                        </div>
+                        <a href="{{route("candidate.index")}}"><button type="button" id="clearCategory" class="btn-add">CLEAR</button></a>
                     </form>
                 </div>
             </section>
+            <div id="append_ajax">
             <div class="table-main">
 
                 <table class="table table-hover">
@@ -40,101 +50,58 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <span id="get_limit" data-url="{{ route('candidate.limit') }}"> </span>
+                    @foreach($data as $key => $value)
 
                     <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <input class="toggle_switch"  " type="checkbox">
-                        </td>
-                        <td>
-                            <a
-                                href="<?php  ?>"><i
-                                    class="bi bi-pencil-square"></i></a>
-                            <a href="<?php  ?>"><i class="delete bi bi-x-circle"></i></a>
+                        <td>{{$key + 1}}</td>
+                        <td>{{$value['last_name'] . ' ' . $value['first_name']}}</td>
+                        <td>{{$value['email']}}</td>
+                        <td><input class="toggle_switch ms-3 mt-3" {{$value['active']==1?'checked':''}}  type="checkbox"></td>
+                        <td class="d-flex">
+                            <a href="{{ route('candidate.edit', $value['id_candidate']) }}">
+                                <button type="submit"  class="btn btn-primary">View</button>
+                            </a>
                         </td>
                     </tr>
-                    }
+                    @endforeach
+
                     </tbody>
                 </table>
 
             </div>
-            <div class="card-bottom">
-                <a href="?page=1" class="">First</a>
 
-                <a href="">Last</a>
-                <form action="#" method="post">
-                    <div>
+            <div class="card-bottom">
+                <div class="paginate" id="pagination-links">
+                    {{ $data->withQueryString()->appends($_GET)->links() }}
+                </div>
+
+                <form action="" method="post">
+                    @csrf
+                    <div class="border-start">
                         <p>Show</p>
-                        <select name="limit-category" id="show-limit">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
+                        <select name="limit" id="show-limit">
+                            @php
+                                $shows = [ '5', '10', '15'];
+                                if ($limit_category = request()->input('limit'))
+                                {
+                                    $limit_category = request()->input('limit');
+                                }
+                            @endphp
+                            @foreach($shows as $show)
+
+                                <option  {{$show==$limit_category?'selected':''}} value="{{$show}}">{{$show}}</option>
+                            @endforeach
                         </select>
                         <p>item</p>
                     </div>
                 </form>
             </div>
         </div>
+        </div>
     </main>
 </div>
 @include('component.admin_script')
-<script>
-    $(document).ready(function executeExample() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: 'Thêm thành công'
-        })
-    });
-</script>
-
-<script>
-    $(document).ready(function executeExample() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: 'Cập nhật thành công'
-        })
-    });
-</script>
-
-<script>
-    // $(".btn_hidden_menu").click(function(){
-    //     console.log('aadasd');
-    //     $('.menu_01').addClass('d-none').removeClass('d-block');
-    //     $('.menu_02').addClass('d-block').removeClass('d-none');
-    // });
-    // $(".btn_Show_menu").click(function(){
-    //     console.log('aadasd');
-    //     $('.menu_02').addClass('d-none').removeClass('d-block');
-    //     $('.menu_01').addClass('d-block').removeClass('d-none');
-    // });
-</script>
 </body>
 
 </html>

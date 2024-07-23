@@ -3,156 +3,137 @@
 <div id="admin_wrapper">
     @include('component.admin_header')
     <main>
+        @include('component.admin_menu_left')
+
         <div class="contain">
             <section>
                 <div class="title-table">
-                    <h3>Company</h3>
+                    <h4>COMPANY</h4>
                 </div>
             </section>
 
             <div class="parent-form-admin  m-auto">
-                <form class="form_add_company  w-100 m-0 " method="post" action="active_company_process.php?id_company=<?php echo $id_company; ?>"
-                      enctype="multipart/form-data">
+                <form class="form_add_company  w-100" method="post" action=""   enctype="multipart/form-data">
 
-                    <div class="form w-100 rounded-top rounded-4"
-                         style="background-color: #f5f5f5bf;padding: 0px 54px;">
-                        <h3>Company Details</h3>
-                        <hr style="width: 109%;  transform: translateX(-53px);">
-                    </div>
-                    <div class="d-flex m-auto"
-                         style="width: 85%;justify-content: space-between;padding-bottom: 34px">
-                        <div class="avatar_profile h-100" style=" width: 20%;position: relative">
-                            <h5>Company Logo (optional)</h5>
 
-                            <img class="border image-preview" style="width: auto; max-width: 270px; height: 270px;"
-                                 src="" alt="">
+                    <div class="d-flex m-auto company_fnl" style="">
+                        <div class="avatar_profile h-100" style=" ">
+                            <h5 class="text-center">Company Logo (optional)</h5>
+
+                            <img class="border image-preview" src="{{$company->company_logo}}" alt="">
 
                         </div>
-                        <div class="" style="width: 70%">
+                        <div style="width: 65%">
                             <div class="form w-100">
                                 <h5>Company name</h5>
-                                <input class="search-field" type="text" readonly name="company_name" placeholder=""
-                                       value="" required/>
+                                <input class="search-field " type="text" readonly name="company_name"
+                                       value="{{$company->company_name}}" required/>
                             </div>
                             <div class="form w-100">
                                 <h5>Company Tagline (optional)</h5>
                                 <input class="search-field" type="text" readonly name="company_tagline"
-                                       placeholder="" value=""/>
+                                        value="{{$company->company_tagline}}"/>
                             </div>
                             <div class="form w-100">
                                 <h5>Headquarters (optional)</h5>
-                                <input class="search-field" type="text" readonly name="headquarter" placeholder=""
-                                       value=""/>
-                                <p>Leave this blank if the headquarters location is not important</p>
+                                <input class="search-field" type="text" readonly name="headquarter"
+                                       value="{{$company->headquarters}}"/>
                             </div>
                         </div>
                     </div>
-                    <input name="id_employer" value="<?php ?>" type="hidden">
 
                     <div class="d-flex form optional flex-wrap ">
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Latitude (optional)</h5>
-                            <input class="search-field" type="text" readonly name="latitude" placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" readonly name="latitude"   value="{{$company->latitude}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Longitude (optional)</h5>
-                            <input class="search-field" type="text" readonly name="longitude" placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" readonly name="longitude"  value="{{$company->longitude}}"/>
                         </div>
 
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Video (optional)</h5>
-                            <input class="search-field" type="text" readonly name="link_video" placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" readonly name="link_video"  value="{{$company->video}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Since (optional)</h5>
-                            <input class="search-field" type="text" readonly name="since" placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" readonly name="since" value="{{$company->since}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Company Website (optional)</h5>
-                            <input class="search-field" type="text" name="company_website" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_website" readonly value="{{$company->company_website}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Email (optional)</h5>
-                            <input class="search-field" type="text" name="company_email" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_email" readonly value="{{$company->email}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Phone (optional)</h5>
-                            <input class="search-field" type="text" name="company_phone" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_phone" readonly value="{{$company->phone}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Twitter (optional)</h5>
-                            <input class="search-field" type="text" name="company_twitter" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_twitter" readonly value="{{$company->twitter}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Facebook (optional)</h5>
-                            <input class="search-field" type="text" name="company_facebook" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_facebook" readonly value="{{$company->facebook}}"/>
                         </div>
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Industry (optional)</h5>
-                            <input class="search-field" type="text" name="company_facebook" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_facebook" readonly  value="{{$company->industry->name ?? 'N / A'}}"/>
                         </div>
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Company Size (optional)</h5>
-                            <input class="search-field" type="text" name="company_facebook" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_facebook" readonly  value="{{$company->company_size}}"/>
                         </div>
 
-                        <div class="form">
+                        <div class="form w-50">
                             <h5>Average Salary (optional)</h5>
-                            <input class="search-field" type="text" name="company_facebook" readonly placeholder=""
-                                   value=""/>
+                            <input class="search-field" type="text" name="company_facebook" readonly value="{{$company->company_average_salary }}"/>
                         </div>
-                        <div class="d-flex m-auto w-100"
-                             style="justify-content: space-between;padding-bottom: 34px">
-                            <div class="" style="width: 70%">
 
-                                <div class="form ms-0 w-100">
-                                    <h5>Short Description (optional)</h5>
-                                    <textarea style="height: 250px" name="desc"
-                                              readonly> </textarea>
-                                </div>
+                    </div>
+                    <div class="d-flex m-auto w-100 mt-3 company_fnl">
+                        <div class="" style="width: 70%">
+
+                            <div class="form ms-0 w-100">
+                                <h5>Short Description (optional)</h5>
+                                <textarea name="desc" readonly>{{$company->description}}</textarea>
                             </div>
-                            <div class="avatar_profile h-100" style=" width: 20%;position: relative">
-                                <h5>Header Image (optional)</h5>
-                                <img class="border image-preview"
-                                     style="width: auto; max-width: 250px; height: 250px;"
-                                     src="" alt="">
-                            </div>
+                        </div>
+                        <div class="avatar_profile h-100">
+                            <h5 class="text-center">Header Image (optional)</h5>
+                            <img class="border image-preview" src="{{$company->header_img}}" alt="">
                         </div>
                     </div>
-                    <div class="form d-flex flex-row-reverse">
-                        <input class="toggle_switch ms-3 me-5" name="active"   type="checkbox">
+                    <div class="form d-flex flex-row-reverse pe-5">
+                        <input class="toggle_switch ms-3 me-5" name="active" {{$company->active == 1?'checked' : 'aaa'}}  type="checkbox">
                         <h5>Active Company</h5>
                     </div>
-                    <div class="form text-end">
-                        <input type="submit" value="Save">
+                    <div class="form text-end pe-5">
+                        <input type="submit" style="width:10rem;" value="SAVE"   class="btn me-5 mt-3 rounded-pill fw-bold fs-6 mb-0">
+                        <a href="{{ route('categories.index') }}">
+                            <button type="button" style="width:10rem;padding: 0.75rem;" class="btn btn-danger mt-3 rounded-pill fw-bold fs-6">
+                                CANCEL
+                            </button>
+                        </a>
                     </div>
                 </form>
             </div>
-
         </div>
     </main>
 </div>
 @include('component.admin_script')
 </body>
-
 </html>

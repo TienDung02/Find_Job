@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('candidate_experience', function (Blueprint $table) {
             $table->integer('id_experience', true);
             $table->integer('id_candidate');
-            $table->string('Employer');
+            $table->string('employer');
             $table->string('job_title');
             $table->date('start_day');
             $table->date('end_day');
