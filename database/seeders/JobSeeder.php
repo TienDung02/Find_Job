@@ -29,7 +29,7 @@ class JobSeeder extends Seeder
             $jobs[] = [
                 'id_employer' => $faker->numberBetween(1, 50), // Giả định có 50 employers
                 'title' => $faker->jobTitle,
-                'category' => $faker->randomElement($categories),
+                'categories' => $faker->randomElement($categories),
                 'job_type' => $faker->randomElement($job_types),
                 'location' => $faker->randomElement($location),
                 'job_tag' => $faker->randomElement($job_tags),

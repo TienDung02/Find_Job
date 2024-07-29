@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('id_employer');
             $table->string('title');
-            $table->string('category');
+            $table->string('categories');
             $table->string('job_type', 40);
             $table->string('location');
             $table->string('job_tag');

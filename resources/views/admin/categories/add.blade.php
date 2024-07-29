@@ -24,7 +24,7 @@
                     @if($category_id != '')
                         @method('PUT')
                     @endif
-                    <div class="form-admin-company flex-wrap" >
+                    <div class="form_add_company  flex-wrap" >
                         <div class="about-contact-person m-auto" style=" width: 1000px;">
                             <h4>
 
@@ -43,7 +43,7 @@
                             <div class="form-group d-flex m-auto" style="width:23rem;">
                                 <input type="submit" style="width:10rem;" value="SAVE"   class="btn me-5 mt-3 rounded-pill fw-bold fs-6">
                                 <a href="{{ route('categories.index') }}">
-                                    <button type="button" style="width:10rem;padding: 0.75rem;" class="btn btn-danger mt-3 rounded-pill fw-bold fs-6">
+                                    <button type="button" style="width:10rem;padding: 0.75rem;" class="btn btn-secondary mt-3 rounded-pill fw-bold fs-6">
                                         CANCEL
                                     </button>
                                 </a>

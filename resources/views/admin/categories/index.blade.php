@@ -65,9 +65,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-bottom">
+                    <div class="card-bottom {{$search ?'d-none': ''}}">
                         <div class="paginate" id="pagination-links">
-                            {{ $data->withQueryString()->appends($_GET)->links() }}
+{{--                            {{ $data->withQueryString()->appends($_GET)->links() }}--}}
+                            {{ $data->withQueryString()->appends($_GET)->links('component.admin') }}
                         </div>
 
                         <form action="" method="post">
@@ -128,7 +129,6 @@
     </main>
 </div>
 @include('component.admin_script')
-
 </body>
 
 </html>

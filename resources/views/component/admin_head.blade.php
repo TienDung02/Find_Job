@@ -36,5 +36,6 @@
 {{--    <link rel="stylesheet" href="{{asset("plugin/animate/animate.min.css")}}"/>--}}
 
     <link rel="stylesheet" href="{{asset("css/admin_style.css")}}">
-
+    <link rel="icon" href="Find_Job.jpg" type="image/png">
+    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
 </head>

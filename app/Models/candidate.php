@@ -13,20 +13,21 @@ class candidate extends Model
 
     protected $fillable = ['id_user', 'avatar', 'first_name', 'last_name', 'tel', 'about', 'active', 'create_at', 'update_at'];
 
-    public function user()
+    const UPDATED_AT = 'update_at';
+    public function users()
     {
-        return $this->belongsTo(user::class, 'id_user');
+        return $this->belongsTo(users::class, 'id_user', 'id_user');
     }
     public function educations()
     {
-        return $this->hasMany(candidate_education::class, 'id_candidate');
+        return $this->hasMany(candidate_education::class, 'id_candidate', 'id_candidate');
     }
     public function experience()
     {
-        return $this->hasMany(candidate_experience::class, 'id_candidate');
+        return $this->hasMany(candidate_experience::class, 'id_candidate', 'id_candidate');
     }
     public function network_profile()
     {
-        return $this->hasMany(candidate_network_profile::class, 'id_candidate');
+        return $this->hasMany(candidate_network_profile::class, 'id_candidate', 'id_candidate');
     }
 }

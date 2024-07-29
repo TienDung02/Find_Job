@@ -2,41 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\candidate;
+use App\Models\categories;
 use App\Models\company;
 use App\Models\job;
 use Illuminate\Http\Request;
 use \Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
+
 class JobController extends Controller
 {
-
-    private $getCandidate;
-    private $search;
-
-
     public function index(Request $request)
     {
-        $limit = 5;
-        $data = job::with('employer')->paginate($limit);
-        return view('admin.job.admin_job_page', compact('data'));
+        $data = job::query();
+        $search = '';
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $limit = $request->input('limit', 5);
+
+        $data = $data->paginate($limit);
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword,$limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
+        }
+
+        return view('admin.job.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
         $data = job::query();
-        $data->with('parent');
-
+        $search = '';
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $limit = $request->input('limit-job', 5);
-
-
-        $categories = $this->search($type, $keyword, $limit);
+        $limit = $request->input('limit', 5);
 
         $data = $data->paginate($limit);
-        if ($categories->isNotEmpty()) {
-            $data = $categories;
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword,$limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
         }
-
-        return view('admin.job.ajax.job_table', compact('data'));
+        return view('admin.job.ajax.table', compact('data', 'search'));
     }
 
     public function create()
@@ -47,82 +64,22 @@ class JobController extends Controller
         return view('admin.job.admin_add_job', compact('jobList', 'name', 'job_id'));
     }
 
-//    public function search($type, $keyword, $limit)
-//    {
-//        if ($type === 'parent') {
-//            $this->search = job::where('parent_id', $keyword)->paginate($limit);
-//        }else{
-//            $this->search = job::where('id_job', $keyword)->paginate($limit);
-//        }
-//
-//        return $this->search;
-//    }
-
-//    public function show($type = 'add', $id=0, $job_id=0, $space='&nbsp;')
-//    {
-//        $data = job::all();
-//        foreach ($data as $value) {
-//            if ($type == 'add'){
-//                if ($value['parent_id'] == $id){
-//                    $this->Getjob .= "<option "  . " value='" . $value['id_job'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-//                    $this->show('add',$value['id_job'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-//                }
-//            }
-//            else if ($type == 'edit'){
-//                if ($job_id == 0){
-//                    if ($value['parent_id'] == $id){
-//                        $this->Getjob .= "<option "  . " value='" . $value['id_job'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-//                        $this->show($type = 'add', $value['id_job'],$job_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-//                    }
-//                }else{
-//                    $selected = ' ';
-//                    if ($value['parent_id'] == $id) {
-//                        if ($value['id_job'] == $job_id) {
-//                            $selected = 'selected';
-//                        }
-//                        $this->Getjob .= "<option "  . " value='" . $value['id_job'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
-//                        $this->show('add',$value['id_job'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-//                    }
-//                }
-//            }
-//        }
-//
-//        return $this->Getjob;
-//    }
-
-//    public function store(Request $request)
-//    {
-//        $data = job::query();
-//        $limit = $request->input('limit-job', 5);
-//        $data = $data->paginate($limit);
-//        $insert_job = new job();
-//        $insert_job->name = $request->input('name');
-//        $insert_job->parent_id = $request->input('parent_id');
-//
-//        $jobExists = job::where('name', $insert_job->name)
-//            ->where('parent_id', $insert_job->parent_id)
-//            ->exists();
-//
-//        if (!$jobExists) {
-//            if ($insert_job->save()) {
-//                toastr()->success('Added job successfully!');
-//            } else {
-//                toastr()->error('There was an error adding a job!');
-//                return back();
-//            }
-//        } else {
-//            toastr()->error('This job already exists!');
-//            return back();
-//        }
-//        return view('admin.job.admin_job_page', compact('data'));
-//    }
-
-
-
+    public function search($type, $keyword,$limit)
+    {
+        if ($type == 'company') {
+            return job::whereHas('company', function ($query) use ($keyword) {
+                $query->where('company_name', 'like', "%$keyword%");
+            })->get();
+        }elseif($type == 'active'){
+            return job::where('active', $keyword)->paginate($limit);
+        }else{
+            return job::where('title', 'like', "%$keyword%")->get();
+        }
+    }
     public function edit($id_job)
     {
-        $jobList = job::with('employer')->findOrFail($id_job);
-        return view('admin.job.admin_view_job', compact('jobList', ));
+        $job = job::with('company')->findOrFail($id_job);
+        return view('admin.job.view', compact('job'));
     }
 
 
@@ -131,51 +88,74 @@ class JobController extends Controller
     {
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $parent_id = $request->input('parent_id', null);
 
-        $query = job::query();
+        $query = Job::query();
 
-        if ($type === 'parent') {
-            $query->where('parent_id', 0);
-            if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
-            }
-        } else if ($type === 'job') {
-            if ($parent_id) {
-                $query->where('parent_id', $parent_id);
-            }
-            if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
-            }
+        if ($type == 'company') {
+            $query->whereHas('company', function ($query) use ($keyword) {
+                $query->where('company_name', 'like', '%' . $keyword . '%');
+            });
+        } elseif ($type == 'title') {
+            $query->where('title', 'like', '%' . $keyword . '%');
         }
+        $data = $query
+            ->join('companies', 'jobs.id_company', '=', 'companies.id_company')
+            ->select('jobs.job_id', 'companies.company_name as data1', 'jobs.title as data2', 'jobs.active as data3')
+            ->get();
 
-        $suggestions = $query->take(100)->get(['id_job', 'name']);
-
-        return response()->json($suggestions);
+        $data = $data->map(function ($item) {
+            return [
+                'id_data' => $item->data1,
+                'data1' => $item->data1,
+                'data2' => $item->data2,
+                'data3' => $item->data3
+            ];
+        });
+        return response()->json($data);
     }
 
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $request->validate([
-            'parent_id' => 'nullable|integer',
-            'name' => 'required|string|max:255',
-        ]);
-        $id_job = job::find($id);
-        if (!$id_job) {
-            return redirect()->route('categories.index')->with('error', 'job not found.');
+        $data = job::query();
+        $search = '';
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $limit = $request->input('limit', 5);
+        $data = $data->paginate($limit);
+        if ($keyword != '') {
+            $search = $this->search($type, $keyword, $limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active') {
+                    $search = '';
+                }
+            }
         }
-        $id_job->parent_id = $request->input('parent_id');
-        $id_job->name = $request->input('name');
-        if ($id_job->save()) {
-            toastr()->success('Update job successfully!');
+        $id = $request->input('id');
+        $job_id = job::find($id);
+        if (!$job_id) {
+            return redirect()->route('admin.job.index')->with('error', 'Job not found.');
+        }
+        $job_id->active = $request->input('status_to');
+        $job_id->update_at = Carbon::now();
+        if ($job_id->save()) {
+            $type_ = $request->input('type_');
+            if ($type_ == 'view') {
+                toastr()->success('Update candidate successfully!');
+                return response()->json([
+                    'redirect' => route('job.index' ,compact('data', 'search')),
+                    'message' => 'Update candidate successfully!'
+                ]);
+            } else {
+                toastr()->success('Update candidate successfully!');
+                return redirect()->back();
+            }
         } else {
-            toastr()->error('There was an error updating a job!');
-            return back();
+            toastr()->error('There was an error updating a categories!');
+//            return back();
         }
-
-        return redirect()->route('categories.index');
     }
 
 

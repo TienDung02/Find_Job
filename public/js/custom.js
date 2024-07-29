@@ -586,51 +586,7 @@
         /*----------------------------*/
 
 
-        //------------------------------ Ajax show Limit ---------------------------//
-        var first_type = $('#first_suggest').attr('data-type');
-        var second_type = $('#second_suggest').attr('data-type');
-            $(document).on('change', '#show-limit',function() {
-                var limit = $(this).val();
-                var keyword1 = $('#second_suggest').val();
-                var keyword2 = $('#first_suggest').val();
-                var type = '';
-                var keyword = '';
-
-                if (keyword1) {
-                    type = 'category';
-                    keyword = keyword1;
-                } else if (keyword2) {
-                    type = first_type;
-                    keyword = keyword2;
-                }
-
-                $.ajax({
-                    url: $('#get_limit').attr('data-url'),
-                    type: 'GET',
-                    data: {
-                        'keyword': keyword,
-                        'limit': limit,
-                        'type': type
-                    },
-                    success: function(data) {
-                        var html = $(data).children();
-                        html.find('div.paginate a').attr('href', function(index, oldHref) {
-                            return oldHref.replace('/paginate-limit', '');
-                        });
-                        $('#append_ajax').html(html);
-                        var newUrl = new URL(window.location.href);
-                        newUrl.searchParams.set('keyword', keyword);
-                        newUrl.searchParams.set('limit', limit);
-                        window.history.pushState({path: newUrl.href}, '', newUrl.href);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        //------------------------------------------------------------------------------//
-
-        // ------------------------------ Ajax Get Table ---------------------------//
+        // ------------------------------ Ajax Get Table After Search ---------------------------//
         $(document).on('change', '#first_suggest', function() {
             var keyword = $(this).val();
             $.ajax({
@@ -648,9 +604,7 @@
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
                     newUrl.searchParams.set('keyword', keyword);
-                    if (typeof limit !== 'undefined' && limit !== null){
-                        newUrl.searchParams.set('limit', limit);
-                    }
+                    newUrl.searchParams.set('type', first_type);
                     window.history.pushState({path: newUrl.href}, '', newUrl.href);
                 },
                 error: function(xhr, status, error) {
@@ -660,6 +614,7 @@
         });
         $(document).on('change', '#second_suggest', function() {
             var keyword = $(this).val();
+            console.log('Keyword:', keyword);
             $.ajax({
                 url: $('#get_limit').attr('data-url'),
                 type: 'GET',
@@ -675,7 +630,33 @@
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
                     newUrl.searchParams.set('keyword', keyword);
-                    newUrl.searchParams.set('limit', limit);
+                    newUrl.searchParams.set('type', second_type);
+                    window.history.pushState({path: newUrl.href}, '', newUrl.href);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+        $(document).on('change', '#select_active', function() {
+            var keyword = $(this).val();
+            console.log('Keyword:', keyword);
+            $.ajax({
+                url: $('#get_limit').attr('data-url'),
+                type: 'GET',
+                data: {
+                    'keyword': keyword,
+                    'type': third_type
+                },
+                success: function(data) {
+                    var html = $(data).children();
+                    html.find('div.paginate a').attr('href', function(index, oldHref) {
+                        return oldHref.replace('/paginate-limit', '');
+                    });
+                    $('#append_ajax').html(html);
+                    var newUrl = new URL(window.location.href);
+                    newUrl.searchParams.set('keyword', keyword);
+                    newUrl.searchParams.set('type', third_type);
                     window.history.pushState({path: newUrl.href}, '', newUrl.href);
                 },
                 error: function(xhr, status, error) {
@@ -688,6 +669,8 @@
 
         //------------------------------ Ajax Get Suggest -----------------------------------------//
         var first_placeholder = $('#first_suggest').attr('data-placeholder');
+        var first_type = $('#first_suggest').attr('data-type');
+        // console.log('aaaaaaaaaa');
         $('#first_suggest').select2({
             placeholder: first_placeholder,
             ajax: {
@@ -710,32 +693,35 @@
                 cache: true
             }
         }).on('select2:select', function(e) {
-            var data_first_suggest = e.params.data.id;
-            var second_type = $('#second_suggest').attr('data-type');
-            var second_placeholder = $('#second_suggest').attr('data-placeholder');
-            $('#second_suggest').prop('disabled', false).select2({
-                placeholder: second_placeholder,
-                ajax: {
-                    url: $('#formSearch').attr('action'),
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            keyword: params.term,
-                            type: second_type,
-                            data_first_suggest: data_first_suggest
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.map(function(item) {
-                                return { id: item.data2, text: item.data2};
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
+            if (first_type == 'parent'){
+                var data_first_suggest = e.params.data.id;
+                var second_placeholder = $('#second_suggest').attr('data-placeholder');
+                $('#second_suggest').prop('disabled', false).select2({
+                    placeholder: second_placeholder,
+                    ajax: {
+                        url: $('#formSearch').attr('action'),
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                keyword: params.term,
+                                type: second_type,
+                                data_first_suggest: data_first_suggest
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: data.map(function(item) {
+                                    return { id: item.data2, text: item.data2};
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                });
+            }else {
+                $('#second_suggest').prop('disabled', true);
+            }
         });
 
         var second_type = $('#second_suggest').attr('data-type');
@@ -753,6 +739,7 @@
                     };
                 },
                 processResults: function(data) {
+                    // console.log(data);
                     return {
                         results: data.map(function(item) {
                             return { id: item.data2, text: item.data2};
@@ -765,7 +752,109 @@
             $('#first_suggest').prop('disabled', true);
         });
 
+        var third_type = $('#select_active').attr('data-type');
+        var third_placeholder = $('#select_active').attr('data-placeholder');
+        $('#select_active').select2({
+            placeholder: third_placeholder,
+            ajax: {
+                url: $('#formSearch').attr('action'),
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        keyword: params.term,
+                        type: third_type
+                    };
+                },
+                processResults: function(data) {
+                    const statusText = {
+                        1: 'Active',
+                        0: 'No Active'
+                    };
+
+                    const seen = {};
+                    const results = data.filter(item => {
+                        if (seen[item.data3]) {
+                            return false;
+                        }
+                        seen[item.data3] = true;
+                        return true;
+                    }).map(item => ({
+                        id: item.data3,
+                        text: statusText[item.data3]
+                    }));
+                    return {
+                        results: results
+                    };
+                },
+                cache: true
+            }
+        });
+
         //---------------------------------------------------------------------------------//
+
+
+        //------------------------------ Ajax show Limit ---------------------------//
+        // var first_type = $('#first_suggest').attr('data-type');
+        // var second_type = $('#second_suggest').attr('data-type');
+        // var keyword1 = $('#first_suggest').val();
+        // var keyword2 = $('#second_suggest').val();
+        // var type = '';
+        // var keyword = '';
+        //
+        // if (keyword1) {
+        //     type = first_type;
+        //     keyword = keyword1;
+        // } else if (keyword2) {
+        //     type = second_type;
+        //     keyword = keyword2;
+        // }
+
+
+        $(document).on('change', '#show-limit',function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var keyword = urlParams.get('keyword');
+            var type = urlParams.get('type');
+            var limit = $(this).val();
+            console.log('aaa');
+            console.log(limit);
+
+            $.ajax({
+                url: $('#get_limit').attr('data-url'),
+                type: 'GET',
+                data: {
+                    'keyword': keyword,
+                    'limit': limit,
+                    'type': type
+                },
+                success: function(data) {
+                    var html = $(data).children();
+                    html.find('div.paginate a').attr('href', function(index, oldHref) {
+                        return oldHref.replace('/paginate-limit', '');
+                    });
+                    $('#append_ajax').html(html);
+                    var newUrl = new URL(window.location.href);
+                    newUrl.searchParams.set('keyword', keyword);
+                    newUrl.searchParams.set('type', type);
+                    newUrl.searchParams.set('limit', limit);
+                    window.history.pushState({path: newUrl.href}, '', newUrl.href);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+        //------------------------------------------------------------------------------//
+
+
+
+
+
+        //------------------------------------- Dropdown Select Active -----------------------------------------//
+
+        // Populate the dropdown with example data
+        //------------------------------------------------------------------------------//
+
 
         // -----------------------------------------Alert Confirm Delete----------------------------------------------------
         function confirmDelete(formId) {
@@ -783,8 +872,9 @@
                 }
             });
         }
-        $('.btn-delete').on('click', function (e) {
+        $(document).on('click', '.btn-delete', function (e) {
             e.preventDefault();
+            console.log('aaaaaaaaa');
             var _this = $(this);
             var id_form = _this.attr('data-id');
             confirmDelete('delete-form-'+id_form);
@@ -794,27 +884,97 @@
 
 
         // -----------------------------------------Alert Confirm Active----------------------------------------------------
-        // function confirmDelete(formId) {
-        //     Swal.fire({
-        //         title: "Are you sure?",
-        //         text: "You won't be able to revert this!",
-        //         icon: "warning",
-        //         showCancelButton: true,
-        //         confirmButtonColor: "#3085d6",
-        //         cancelButtonColor: "#d33",
-        //         confirmButtonText: "Yes, delete it!"
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             document.getElementById(formId).submit();
-        //         }
-        //     });
-        // }
-        // $('.btn-delete').on('click', function (e) {
-        //     e.preventDefault();
-        //     var _this = $(this);
-        //     var id_form = _this.attr('data-id');
-        //     confirmDelete('delete-form-'+id_form);
-        // })
+        function confirmActive(status_to, alert, type_, id_) {
+            var urlParams = new URLSearchParams(window.location.search);
+            var keyword = urlParams.get('keyword');
+            var type = urlParams.get('type');
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            // var csrf = $('#csrf').attr('data-csrf');
+            var url = $('#change_active').attr('data-url');
+            var executeAjax = function() {
+                $.ajax({
+                    url: url,
+                    method: 'POST', // Dùng POST để gửi phương thức PATCH
+                    data: {
+                        '_method': 'put', // Chỉ định phương thức PATCH
+                        '_token': csrfToken, // Chuyển CSRF token
+                        'status_to': status_to,
+                        'keyword': keyword,
+                        'type': type,
+                        'type_': type_,
+                        'id': id_
+                    },
+                    success: function(response) {
+                        if (response.redirect) {
+                            window.location.href = response.redirect;
+                        } else {
+                            location.reload();
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('XHR:', xhr);
+                        Swal.fire(
+                            'Error!',
+                            'There was an error updating the status.',
+                            'error'
+                        );
+                    }
+                });
+            };
+
+            if (type_ === 'view') {
+                executeAjax();
+            } else {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: alert,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        executeAjax();
+                    } else if (result.isDismissed) {
+                        $('input[data-name="' + name_ + '"]').prop('checked', status_to === 0);
+                    }
+                });
+            }
+        }
+        $(document).on('click', '.toggle_switch', function(e) {
+            // e.stopImmediatePropagation();
+            e.preventDefault();
+            var name_ = $(this).attr('data-name');
+            var type_ = $(this).attr('data-type');
+
+            var id_ = $(this).attr('data-id');
+            var isChecked = $(this).is(':checked');
+            if (isChecked === false){
+                console.log('Checkbox is checked');
+                var status_to = 0;
+                var alert = 'Do you really want to disable the ' + type_ +  name_ + '?';
+            }else {
+                console.log('Checkbox is not checked');
+                var status_to = 1;
+                var alert = 'Do you really want to enable the ' + type_ +  name_ + '?';
+
+            }
+            if (type_ === 'view'){
+                alert = '';
+                var isChecked = $('.status_active').is(':checked');
+                if (isChecked === false){
+                    console.log('Checkbox is checked');
+                    var status_to = 0;
+                }else {
+                    console.log('Checkbox is not checked');
+                    var status_to = 1;
+                }
+            }
+            confirmActive(status_to, alert, type_, id_);
+        });
+
         // ---------------------------------------------------------------------------------------------
 
 

@@ -16,46 +16,47 @@ class BlogController extends Controller
     {
         $limit = 5;
         $data = blog::with('category_blog')->paginate($limit);
-        return view('admin.blog.admin_blog_page', compact('data'));
+        return view('admin.blog.index', compact('data'));
     }
 
-//    public function getLimit (Request $request) {
-//        $data = blog::query();
-//        $data->with('parent');
-//
-//        $keyword = $request->input('keyword');
-//        $type = $request->input('type');
-//        $limit = $request->input('limit-blog', 5);
-//
-//
-//        $categories = $this->search($type, $keyword, $limit);
-//
-//        $data = $data->paginate($limit);
-//        if ($categories->isNotEmpty()) {
-//            $data = $categories;
-//        }
-//
-//        return view('admin.blog.ajax.blog_table', compact('data'));
-//    }
+    public function getLimit (Request $request) {
+        $data = blog::query();
+        $search = '';
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $limit = $request->input('limit', 5);
+        $data = $data->paginate($limit);
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword, $limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
+        }
+        return view('admin.blog.ajax.table', compact('data', 'search'));
+    }
 
     public function create()
     {
         $name = '';
         $blog_id = '';
         $blogList = $this->show();
-        return view('admin.blog.admin_add_blog', compact('blogList', 'name', 'blog_id'));
+        return view('admin.blog.add', compact('blogList', 'name', 'blog_id'));
     }
 
-//    public function search($type, $keyword, $limit)
-//    {
-//        if ($type === 'parent') {
-//            $this->search = blog::where('parent_id', $keyword)->paginate($limit);
-//        }else{
-//            $this->search = blog::where('id_blog', $keyword)->paginate($limit);
-//        }
-//
-//        return $this->search;
-//    }
+    public function search($type, $keyword, $limit)
+    {
+        if ($type === 'parent') {
+            $this->search = blog::where('parent_id', $keyword)->paginate($limit);
+        }else{
+            $this->search = blog::where('id_blog', $keyword)->paginate($limit);
+        }
+
+        return $this->search;
+    }
 
     public function show($type = 'add', $id=0, $blog_id=0, $space='&nbsp;')
     {
@@ -121,7 +122,7 @@ class BlogController extends Controller
     public function edit($id_blog)
     {
         $blog = blog::with('category_blog')->findOrFail($id_blog);
-        return view('admin.blog.admin_add_blog', compact('blog', 'id_blog'));
+        return view('admin.blog.add', compact('blog', 'id_blog'));
     }
 
 
@@ -130,27 +131,27 @@ class BlogController extends Controller
     {
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $parent_id = $request->input('parent_id', null);
 
         $query = blog::query();
 
-        if ($type === 'parent') {
-            $query->where('parent_id', 0);
-            if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
-            }
-        } else if ($type === 'blog') {
-            if ($parent_id) {
-                $query->where('parent_id', $parent_id);
-            }
-            if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
-            }
+        if ($type == 'author') {
+            $query->where('author', 'like', "%$keyword%");
+        } elseif ($type == 'title') {
+            $query->where('title', 'like', "%$keyword%");
         }
 
-        $suggestions = $query->take(100)->get(['id_blog', 'name']);
-
-        return response()->json($suggestions);
+        $data = $query
+            ->select('blogs.id_blog', 'blogs.title as data2', 'blogs.author as data1')->get();
+        $data = $data->map(function ($item) {
+            return [
+                'id_data' => $item->data1,
+                'data1' => $item->data1,
+                'data2' => $item->data2,
+                'data3' => $item->data2
+            ];
+        });
+//        return 123;
+        return response()->json($data);
     }
 
 

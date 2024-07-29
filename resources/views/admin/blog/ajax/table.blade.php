@@ -19,18 +19,17 @@
             <span id="get_limit" data-url="{{ route('categories.limit') }}"> </span>
             @foreach($data as $key => $value)
                 <tr>
-                    <td>{{$key + 1}}</td>
-                    <td>{{optional($value->parent)->name}}</td>
-                    <td>{{$value->name}}</td>
+                    <td> {{$key+1}}</td>
+                    <td>{{$value['author']}} </td>
+                    <td>{{$value['title']}}</td>
                     <td class="d-flex">
-                        <form  action="{{ route('categories.edit', $value['id_category']) }}" method="GET" class="me-3">
-                            @csrf
-                            <button type="submit" class="btn btn-secondary">Update</button>
-                        </form>
-                        <form id='delete-form-{{ $value['id_category'] }}' action="{{ route('categories.destroy', $value['id_category']) }}" method="POST">
+                        <a href="{{ route('blog.edit', $value['id_blog']) }}">
+                            <button type="submit"  class="btn btn-secondary">Update</button>
+                        </a>
+                        <form id='delete-form-{{ $value['id_blog'] }}' action="{{ route('blog.destroy', $value['id_blog']) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_category'] }}" >Delete</button>
+                            <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_blog'] }}" >Delete</button></a>
                         </form>
                     </td>
                 </tr>
@@ -38,9 +37,9 @@
             </tbody>
         </table>
     </div>
-    <div class="card-bottom">
+    <div class="card-bottom {{$search ?'d-none': ''}}">
         <div class="paginate">
-            {{ $data->withQueryString()->appends($_GET)->links() }}
+            {{ $data->withQueryString()->appends($_GET)->links('component.admin') }}
         </div>
         <form action="" method="post">
             @csrf
@@ -49,9 +48,9 @@
                 <select name="limit-category" id="show-limit">
                     @php
                         $shows = [ '5', '10', '15'];
-                        if ($limit_category = request()->input('limit-category'))
+                        if ($limit_category = request()->input('limit-categories'))
                         {
-                            $limit_category = request()->input('limit-category');
+                            $limit_category = request()->input('limit-categories');
                         }else{
                             $limit_category = request()->input('limit');
                         }

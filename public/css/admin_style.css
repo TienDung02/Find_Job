@@ -188,20 +188,35 @@ input.input-search:not(:placeholder-shown) {
     border-radius: 0;
 }
 
-.form-group{
+#formSearch .form-group{
     margin: 0 0.5rem;
+    width: 250px;
+    margin-right: 1rem;
 }
-.form-group span{
-    width: 150px;
+
+#myDropdown{
+    /*height: 100%;*/
+    height: 28px;
 }
 
+#select_active{
+    border: 1px solid #aaa;
+    height: 100%;
+    border-radius: 0.375rem;
+    background-color: #ffffff;
+}
 
+#select_active:first-child{
+    color: #999;
+}
 
-
-
-
-
-
+#select_active:focus{
+    border-radius: 0.375rem 0.375rem 0 0;
+    color: #565656;
+}
+#select_active option{
+    border-radius: 0;
+}
 
 
 
@@ -324,19 +339,18 @@ input.input-search:not(:placeholder-shown) {
     border-bottom: 1px solid #e0e0e0;
     padding-left: 2rem;
 }
-#admin_wrapper main aside .menu_left ul li:hover {
-    background-color: #0369a126;
-    border-left: 4px solid #0369a1d4;
-}
+    /*#admin_wrapper main aside .menu_left ul li:hover {*/
+    /*    background-color: #0369a126;*/
+    /*}*/
 .form-admin-insert-data{
     display: flex;
-    height: 40px;
-    margin: 2rem 0;
+    /*height: 40px;*/
+    margin: 1rem 2rem 0 0;
 }
 .form-admin-insert-data label{
     width: 170px;
     height: 100%;
-    align-items: center;
+    /*align-items: center;*/
     display: flex;
     font-size: 1.25rem;
 }
@@ -618,62 +632,30 @@ input.input-search:not(:placeholder-shown) {
 #admin_wrapper main .contain .table-main table tbody tr:hover td {
     color: #565656;
 }
-#admin_wrapper main .contain .card-bottom {
-    height: 60px;
-    background-color: #ffffff;
-    width: 95%;
-    margin: auto;
-    border-radius: 15px;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-#admin_wrapper main .contain .card-bottom a {
-    background-color: #fff;
-    padding: 0 1.25rem;
-    border-radius: 18px;
-    margin: 0.25rem;
-    font-size: 1.25rem;
-    color: #646464;
-    border: 1px solid #b3b3b3;
-}
-#admin_wrapper main .contain .card-bottom a:first-child {
-    margin-left: 2rem;
-}
-#admin_wrapper main .contain .card-bottom div {
-    position: absolute;
-    height: 100%;
-    padding-right: 10px;
-    top: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-}
-#admin_wrapper main .contain .card-bottom div select {
-    background-color: #ffffff;
-    border-radius: 15px;
-    padding: 0.25rem 0.75rem;
-    border: 1px solid #7c7c7c;
-}
-#admin_wrapper main .contain .card-bottom div p {
-    padding: 0 10px;
-    margin: 0;
-}
-
-#admin_wrapper main .contain .card-bottom .page_active{
-    background-color: #0284c7 ;
-    color: #fff;
-}
 
 .hide_menu_{
     display: none !important;
 }
 
 .menu_active{
-    background-color: #0369a126;
-    border-left: 4px solid #0369a1d4;
+    border-top: 1px solid #56C8FFFF;
+    border-bottom: 1px solid #56C8FFFF !important;
+}
 
+.menu_active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    height: 50px;
+    width: 5px;
+    background-color: #0369a1d4;
+    transition: width 0.3s ease;
+    border-radius: 0 5px 5px 0;
+}
+
+.menu_active a{
+    color: #0084cd !important;
 }
 
 span.inline-flex.shadow-sm{
@@ -722,44 +704,149 @@ span.inline-flex.shadow-sm a svg{
     align-items: center;
 }
 
+.pagination1 a{
+    background-color: #0284c7;
+    padding: 0 1.25rem;
+    font-size: 1.25rem;
+    height: 100%;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    border: 1px solid #b3b3b3;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+#paginate-pre{
+    border-radius: 18px 0 0 18px;
+}
+#paginate-next{
+    border-radius: 0 18px 18px 0;
+    margin-left: 0.15rem;
+    margin-right: 1.5rem;
+}
+
+.disabled{
+    background-color: #6c757d !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.pagination2 a.active{
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+#admin_wrapper main .contain .card-bottom {
+    height: 60px;
+    background-color: #ffffff;
+    width: 95%;
+    margin: auto;
+    border-radius: 15px;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+#admin_wrapper main .contain .card-bottom .pagination2 a {
+    background-color: #fff;
+    padding: 0 1.25rem;
+    border-radius: 18px;
+    font-size: 1.25rem;
+    color: #646464;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #b3b3b3;
+    font-weight: 500;
+}
+#admin_wrapper main .contain .card-bottom .pagination2 a {
+    margin-left: 0.75rem;
+}
+#admin_wrapper main .contain .card-bottom div {
+    position: absolute;
+    height: 100%;
+    padding-right: 10px;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+#admin_wrapper main .contain .card-bottom div select {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid #7c7c7c;
+}
+#admin_wrapper main .contain .card-bottom div p {
+    padding: 0 10px;
+    margin: 0;
+}
+
+#admin_wrapper main .contain .card-bottom .page_active{
+    background-color: #0284c7 ;
+    color: #fff;
+}
+
 .paginate{
     width: auto;
     position: static !important;
     margin-left: 2rem;
 }
-.paginate nav{
+
+.pagination1 {
+    border-right: 1px solid #dee2e6;
+}
+
+
+
+.paginate ul{
     display: flex;
     height: 100%;
-}
-.paginate nav div.flex.justify-between a{
-    color: #fff !important;
-    background-color: #0284c7 !important;
-
-}
-.paginate nav div{
-    position: static !important;
-    border-left: none !important;
-    height: 40px;
-    border-right: 1px #dee2e6 !important;
-    margin: auto;
+    align-items: center;
+    justify-content: center
 }
 
-.paginate nav div.flex.justify-between.flex-1 span{
-    display: flex;
-    background-color: #a7a7a7 !important;
-    width: auto;
-    height: 36.5px;
-    margin: 0px 0.25rem 0px 0.25rem ;
-    justify-content: center;
-    font-size: 1.25rem;
-    opacity: 0.5;
-}
-.paginate nav div a{
-    text-decoration: none;
-    /*width: 36px;*/
+.paginate ul li{
+    height: 50%;
 }
 
-.paginate nav div span{
-    border-radius: 18px;
-    /*width: 36px;*/
+
+.paginate ul.pagination1 li:first-child{
+
 }
+
+
+/*.paginate nav div.flex.justify-between a{*/
+/*    color: #fff !important;*/
+/*    background-color: #0284c7 !important;*/
+
+/*}*/
+/*.paginate nav div{*/
+/*    position: static !important;*/
+/*    border-left: none !important;*/
+/*    height: 40px;*/
+/*    border-right: 1px #dee2e6 !important;*/
+/*    margin: auto;*/
+/*}*/
+
+/*.paginate nav div.flex.justify-between.flex-1 span{*/
+/*    display: flex;*/
+/*    background-color: #a7a7a7 !important;*/
+/*    width: auto;*/
+/*    height: 36.5px;*/
+/*    margin: 0px 0.25rem 0px 0.25rem ;*/
+/*    justify-content: center;*/
+/*    font-size: 1.25rem;*/
+/*    opacity: 0.5;*/
+/*}*/
+/*.paginate nav div a{*/
+/*    text-decoration: none;*/
+/*    !*width: 36px;*!*/
+/*}*/
+
+/*.paginate nav div span{*/
+/*    border-radius: 18px;*/
+/*    !*width: 36px;*!*/
+/*}*/

@@ -11,16 +11,16 @@
                     <h4>BLOG</h4>
                 </div>
                 <div class="section-item-right">
-                    <form id="formSearch" method="GET" action="{{ route('categories.suggest') }}">
+                    <form id="formSearch" method="GET" action="{{ route('blog.suggest') }}">
                         <div class="form-group ">
-                            <select class="js-example-basic-single form-control"  id="first_suggest" data-name="Parent" name="state">
+                            <select class="js-example-basic-single form-control"  id="first_suggest" data-type="author" data-placeholder="Select author name"  name="state">
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="js-example-basic-single form-control" id="second_suggest" name="state">
+                            <select class="js-example-basic-single form-control" id="second_suggest" data-type="title" data-placeholder="Title" name="state">
                             </select>
                         </div>
-                        <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
+                        <a href="{{route("blog.index")}}"><button type="button" id="clearCategory" class="btn-add">CLEAR</button></a>
                     </form>
                     <a style="color: #ffffff"  href="{{route("blog.create")}}"   ><button  class="btn-add">ADD NEW</button></a>
                 </div>
@@ -77,9 +77,9 @@
                         <select name="limit-category" id="show-limit">
                             @php
                                 $shows = [ '5', '10', '15'];
-                                if ($limit_category = request()->input('limit-category'))
+                                if ($limit_category = request()->input('limit-categories'))
                                 {
-                                    $limit_category = request()->input('limit-category');
+                                    $limit_category = request()->input('limit-categories');
                                 }
                             @endphp
                             @foreach($shows as $show)

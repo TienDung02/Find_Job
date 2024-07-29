@@ -118,12 +118,15 @@
                         </div>
                     </div>
                     <div class="form d-flex flex-row-reverse pe-5">
-                        <input class="toggle_switch ms-3 me-5" name="active" {{$company->active == 1?'checked' : 'aaa'}}  type="checkbox">
+{{--                        <input class="toggle_switch ms-3 me-5" name="active" {{$company->active == 1?'checked' : 'aaa'}}  type="checkbox">--}}
+                        <span id="change_active" data-url="{{ route('company.update') }}"> </span>
+                        <input class=" ms-3 mt-2 me-5 status_active"  data-id="{{$company->id_company}}" {{$company->active==1?'checked':''}}  type="checkbox">
                         <h5>Active Company</h5>
                     </div>
                     <div class="form text-end pe-5">
-                        <input type="submit" style="width:10rem;" value="SAVE"   class="btn me-5 mt-3 rounded-pill fw-bold fs-6 mb-0">
-                        <a href="{{ route('categories.index') }}">
+{{--                        <input type="submit" style="width:10rem;" value="SAVE"   class="btn me-5 mt-3 rounded-pill fw-bold fs-6 mb-0">--}}
+                        <input type="submit" style="width:10rem;" value="SAVE"   class="btn me-3 text-light mt-3 rounded-pill fw-bold fs-6 mb-0 toggle_switch" data-type="view" data-id="{{$company->id_company}}" data-name="">
+                        <a href="{{ route('company.index') }}">
                             <button type="button" style="width:10rem;padding: 0.75rem;" class="btn btn-danger mt-3 rounded-pill fw-bold fs-6">
                                 CANCEL
                             </button>

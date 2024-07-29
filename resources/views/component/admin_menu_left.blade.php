@@ -16,8 +16,8 @@
             <li class="{{Str::is('company.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a href="{{route("company.index")}}"><i class="bi bi-building"></i>Company</a>
             </li>
-            <li class="{{Str::is('user.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("user.index")}}"><i class="bi bi-person-circle"></i>User</a>
+            <li class="{{Str::is('users.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a href="{{route("users.index")}}"><i class="bi bi-person-circle"></i>User</a>
             </li>
             <li class="{{Str::is('blog.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a href="{{route("blog.index")}}"><i class="bi bi-pen"></i>Blog</a>
@@ -43,8 +43,8 @@
             <li class="{{Str::is('company.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a href="{{route("company.index")}}"><i class="bi bi-building"></i></a>
             </li>
-            <li class="{{Str::is('user.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("user.index")}}"><i class="bi bi-person-circle"></i></a>
+            <li class="{{Str::is('users.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a href="{{route("users.index")}}"><i class="bi bi-person-circle"></i></a>
             </li>
             <li class="{{Str::is('blog.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a href="{{route("blog.index")}}"><i class="bi bi-pen"></i></a>

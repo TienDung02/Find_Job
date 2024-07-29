@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\blog;
 use App\Models\company;
-use App\Models\job;
 use Illuminate\Http\Request;
 use \Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
+
 class CompanyController extends Controller
 {
 
@@ -15,28 +16,46 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
-        $limit = 5;
-        $data = company::with('employer')->paginate($limit);
-        return view('admin.company.admin_company_page', compact('data'));
+        $data = company::query();
+        $search = '';
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $limit = $request->input('limit', 5);
+
+        $data = $data->paginate($limit);
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword,$limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
+        }
+        return view('admin.company.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
-        $data = category::query();
-        $data->with('parent');
-
+        $data = company::query();
+        $search = '';
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $limit = $request->input('limit-category', 5);
-
-
-        $categories = $this->search($type, $keyword, $limit);
+        $limit = $request->input('limit', 5);
 
         $data = $data->paginate($limit);
-        if ($categories->isNotEmpty()) {
-            $data = $categories;
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword,$limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
         }
 
-        return view('admin.category.ajax.category_table', compact('data'));
+        return view('admin.company.ajax.table', compact('data', 'search'));
     }
 
     public function create()
@@ -44,85 +63,27 @@ class CompanyController extends Controller
         $name = '';
         $category_id = '';
         $categoryList = $this->show();
-        return view('admin.category.admin_add_category', compact('categoryList', 'name', 'category_id'));
+        return view('admin.categories.add', compact('categoryList', 'name', 'category_id'));
     }
 
     public function search($type, $keyword, $limit)
     {
-        if ($type === 'parent') {
-            $this->search = Category::where('parent_id', $keyword)->paginate($limit);
-        }else{
-            $this->search = Category::where('id_category', $keyword)->paginate($limit);
+        $query = company::query();
+        if ($type == 'employer') {
+            return $query->whereHas('employer', function ($query) use ($keyword) {
+                $query->whereRaw("CONCAT(last_name, ' ', first_name) LIKE ?", ["%$keyword%"]);
+            })->get();
+        }elseif ($type == 'active'){
+            return $query->where('active', $keyword)->paginate($limit);
+        }elseif ($type == 'company'){
+            return $query->where("company_name", 'like' , ["%$keyword%"])->get();
         }
-
-        return $this->search;
     }
-
-    public function show($type = 'add', $id=0, $category_id=0, $space='&nbsp;')
-    {
-        $data = category::all();
-        foreach ($data as $value) {
-            if ($type == 'add'){
-                if ($value['parent_id'] == $id){
-                    $this->GetCategory .= "<option "  . " value='" . $value['id_category'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                    $this->show('add',$value['id_category'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                }
-            }
-            else if ($type == 'edit'){
-                if ($category_id == 0){
-                    if ($value['parent_id'] == $id){
-                        $this->GetCategory .= "<option "  . " value='" . $value['id_category'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show($type = 'add', $value['id_category'],$category_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    }
-                }else{
-                    $selected = ' ';
-                    if ($value['parent_id'] == $id) {
-                        if ($value['id_category'] == $category_id) {
-                            $selected = 'selected';
-                        }
-                        $this->GetCategory .= "<option "  . " value='" . $value['id_category'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show('add',$value['id_category'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    }
-                }
-            }
-        }
-
-        return $this->GetCategory;
-    }
-
-    public function store(Request $request)
-    {
-        $data = category::query();
-        $limit = $request->input('limit-category', 5);
-        $data = $data->paginate($limit);
-        $insert_category = new category();
-        $insert_category->name = $request->input('name');
-        $insert_category->parent_id = $request->input('parent_id');
-
-        $categoryExists = Category::where('name', $insert_category->name)
-            ->where('parent_id', $insert_category->parent_id)
-            ->exists();
-
-        if (!$categoryExists) {
-            if ($insert_category->save()) {
-                toastr()->success('Added category successfully!');
-            } else {
-                toastr()->error('There was an error adding a category!');
-                return back();
-            }
-        } else {
-            toastr()->error('This category already exists!');
-            return back();
-        }
-        return view('admin.category.admin_category_page', compact('data'));
-    }
-
-
 
     public function edit($id)
     {
         $company = company::with('industry')->findOrFail($id);
-        return view('admin.company.admin_view_company', compact('company', ));
+        return view('admin.company.view', compact('company'));
     }
 
 
@@ -131,69 +92,72 @@ class CompanyController extends Controller
     {
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $parent_id = $request->input('parent_id', null);
-
-        $query = Category::query();
-
-        if ($type === 'parent') {
-            $query->where('parent_id', 0);
-            if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
-            }
-        } else if ($type === 'category') {
-            if ($parent_id) {
-                $query->where('parent_id', $parent_id);
-            }
-            if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
-            }
+        $query = company::query();
+        if ($type == 'employer') {
+            $query->whereHas('employer', function ($query) use ($keyword) {
+                $query->whereRaw("CONCAT(last_name, ' ', first_name) LIKE ?", ["%$keyword%"]);
+            });
+        } elseif ($type == 'company') {
+            $query->where('company_name', 'like', '%' . $keyword . '%');
         }
 
-        $suggestions = $query->take(100)->get(['id_category', 'name']);
+        $data = $query
+            ->join('employers', 'companies.id_employer', '=', 'employers.id_employer')
+            ->select('companies.id_company', 'companies.company_name as data2', 'companies.active as data3', \DB::raw("CONCAT(employers.last_name, ' ', employers.first_name) as data1"))
+            ->get();
 
-        return response()->json($suggestions);
+        $data = $data->map(function ($item) {
+            return [
+                'id_data' => $item->data1,
+                'data1' => $item->data1,
+                'data2' => $item->data2,
+                'data3' => $item->data3
+            ];
+        });
+        return response()->json($data);
     }
 
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $request->validate([
-            'parent_id' => 'nullable|integer',
-            'name' => 'required|string|max:255',
-        ]);
-        $id_category = Category::find($id);
-        if (!$id_category) {
-            return redirect()->route('categories.index')->with('error', 'Category not found.');
+        $data = company::query();
+        $search = '';
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $limit = $request->input('limit', 5);
+        $data = $data->paginate($limit);
+        if ($keyword != '') {
+            $search = $this->search($type, $keyword, $limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active') {
+                    $search = '';
+                }
+            }
         }
-        $id_category->parent_id = $request->input('parent_id');
-        $id_category->name = $request->input('name');
-        if ($id_category->save()) {
-            toastr()->success('Update category successfully!');
+        $id = $request->input('id');
+        $company = company::find($id);
+        if (!$company) {
+            return redirect()->route('admin.company.index')->with('error', 'Company not found.');
+        }
+        $company->active = $request->input('status_to');
+        $company->update_at = Carbon::now();
+        if ($company->save()) {
+            $type_ = $request->input('type_');
+            if ($type_ == 'view') {
+                toastr()->success('Update company successfully!');
+                return response()->json([
+                    'redirect' => route('company.index', compact('data', 'search')),
+                    'message' => 'Update company successfully!'
+                ]);
+            } else {
+                toastr()->success('Update company successfully!');
+                return redirect()->back();
+            }
         } else {
-            toastr()->error('There was an error updating a category!');
-            return back();
-        }
-
-        return redirect()->route('categories.index');
-    }
-
-
-    public function destroy($id)
-    {
-        $category = Category::find($id);
-
-        if (!$category) {
-            toastr()->error('Category not found.');
-            return redirect()->route('categories.index');
-        }
-
-        if ($category->delete()) {
-            toastr()->success('Category deleted successfully!');
-            return redirect()->back();
-        } else {
-            toastr()->error('There was an error deleting the category!');
-            return redirect()->back();
+            toastr()->error('There was an error updating a categories!');
+//            return redirect()->back();
         }
     }
 }

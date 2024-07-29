@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\candidate;
-use App\Models\category;
 use Illuminate\Http\Request;
 use \Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
+
 class CandidateController extends Controller
 {
 
@@ -16,116 +17,136 @@ class CandidateController extends Controller
     public function index(Request $request)
     {
         $data = candidate::query();
-
+        $search = '';
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $limit = $request->input('limit-candidate', 5);
+        $limit = $request->input('limit', 5);
         $data = $data->paginate($limit);
-
-        $candidate = $this->search($type, $keyword);
-        $aa = candidate::where('id_candidate', $keyword)->get();
-//        $candidate = $candidate->get();
-//        if ($candidate->isNotEmpty()) {
-//            $data = $candidate;
-//        }
-
-        return view('admin.candidate.admin_candidate_page', compact('data', 'aa'));
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword, $limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
+        }
+        return view('admin.candidate.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
         $data = candidate::query();
-
-        $keyword = $request->input('keyword', '1');
+        $search = '';
+        $keyword = $request->input('keyword');
         $type = $request->input('type');
         $limit = $request->input('limit', 5);
         $data = $data->paginate($limit);
-
-        $candidate = $this->search($type, $keyword);
-//        $aa = candidate::where('id_candidate', $keyword)->get();
-
-        if ($candidate) {
-            $data = $candidate;
+        if ($keyword != '')
+        {
+            $search = $this->search($type, $keyword, $limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active'){
+                    $search = '';
+                }
+            }
         }
-        return view('admin.candidate.ajax.candidate_table', compact('data'));
+        return view('admin.candidate.ajax.table', compact('data', 'search'));
     }
-
     public function edit($id_candidate)
     {
         $data = candidate::findOrFail($id_candidate);
         $educations = $data->educations;
+        $user = $data->user;
         $experience = $data->experience;
         $network_profile = $data->network_profile;
-        return view('admin.candidate.admin_view_candidate', compact('data', 'educations', 'experience', 'network_profile' ));
+        return view('admin.candidate.view', compact('data', 'educations', 'experience', 'network_profile', 'user' ));
     }
-
-    public function search($type, $keyword)
+    public function search($type, $keyword,$limit)
     {
         if ($type == 'email') {
-            $this->getCandidate =  candidate::where('id_candidate', $keyword)->get();
+            return Candidate::whereHas('users', function ($query) use ($keyword) {
+                $query->where('email', 'like', "%$keyword%");
+            })->get();
+        }elseif ($type == 'active'){
+            return Candidate::where('active', $keyword)->paginate($limit);
         }else{
-            $this->getCandidate = candidate::where(function($query) use ($keyword) {
-                $query->where('first_name', 'like', "%$keyword%")
-                    ->orWhere('last_name', 'like', "%$keyword%")->get();
-            });
+            return Candidate::whereRaw("CONCAT(last_name, ' ', first_name) LIKE ?", ["%$keyword%"])->get();
         }
-        return $this->getCandidate;
     }
-
     public function suggest(Request $request)
     {
         $keyword = $request->input('keyword');
         $type = $request->input('type');
-        $email = $request->input('data_first_suggest', null);
 
-        $query = candidate::query();
+        $query = Candidate::query();
 
-        if ($type === 'email') {
-            if ($keyword) {
-                $query->where('id_candidate', $keyword);
-            }
+        if ($type == 'name') {
+            $query->where(function ($query) use ($keyword) {
+                $query->where('first_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('last_name', 'like', '%' . $keyword . '%');
+            });
+        } elseif ($type == 'email') {
+            $query->whereHas('users', function ($query) use ($keyword) {
+                $query->where('email', 'like', '%' . $keyword . '%');
+            });
         }
-        else if ($type === 'name') {
-            if ($email) {
-                $query->where('email', $email);
-            }
-            if ($keyword) {
-                $query->where('id_candidate', $keyword);
-            }
-        }
-        $suggestions = $query->get(['id_candidate', 'email', 'first_name', 'last_name']);
-        $suggestions = $suggestions->map(function ($item) {
+
+        $data = $query
+            ->join('users', 'candidates.id_user', '=', 'users.id_user')
+            ->select('candidates.id_candidate', 'users.email as data1',
+                \DB::raw("CONCAT(candidates.last_name, ' ', candidates.first_name) as data2"), 'candidates.active as data3')
+            ->get();
+        $data = $data->map(function ($item) {
             return [
-                'id_data' => $item->id_candidate, // Đổi tên trường từ id_candidate thành id
-                'data1' => $item->email,
-                'data2' => $item->last_name . " " . $item->first_name
+                'id_data' => $item->data1,
+                'data1' => $item->data1,
+                'data2' => $item->data2,
+                'data3' => $item->data3
             ];
         });
-//        print_r($suggestions)
-        return response()->json($suggestions);
+        return response()->json($data);
     }
-
-
-
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $request->validate([
-            'parent_id' => 'nullable|integer',
-            'name' => 'required|string|max:255',
-        ]);
-        $id_candidate = candidate::find($id);
-        if (!$id_candidate) {
-            return redirect()->route('categories.index')->with('error', 'candidate not found.');
+        $data = candidate::query();
+        $search = '';
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $limit = $request->input('limit', 5);
+        $data = $data->paginate($limit);
+        if ($keyword != '') {
+            $search = $this->search($type, $keyword, $limit);
+            if ($search->isNotEmpty()) {
+                $data = $search;
+                if ($type == 'active') {
+                    $search = '';
+                }
+            }
         }
-        $id_candidate->parent_id = $request->input('parent_id');
-        $id_candidate->name = $request->input('name');
-        if ($id_candidate->save()) {
-            toastr()->success('Update candidate successfully!');
+        $id = $request->input('id');
+        $candidate_id = candidate::find($id);
+        if (!$candidate_id) {
+            return redirect()->route('admin.candidate.index')->with('error', 'Candidate not found.');
+        }
+        $candidate_id->active = $request->input('status_to');
+        $candidate_id->update_at = Carbon::now();
+        if ($candidate_id->save()) {
+            $type_ = $request->input('type_');
+            if ($type_ == 'view') {
+                toastr()->success('Update candidate successfully!');
+                return response()->json([
+                    'redirect' => route('candidate.index', compact('data', 'search')),
+                    'message' => 'Update candidate successfully!'
+                ]);
+            } else {
+                toastr()->success('Update candidate successfully!');
+                return redirect()->back();
+            }
         } else {
-            toastr()->error('There was an error updating a candidate!');
-            return back();
+            toastr()->error('There was an error updating a categories!');
+//            return back();
         }
-
-        return redirect()->route('categories.index');
     }
-
 }

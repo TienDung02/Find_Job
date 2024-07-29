@@ -28,11 +28,11 @@
                             <h4>
                                 <?php
                                 if ($id_category == 0) {
-                                    echo "<h4>Add category</h4>";
+                                    echo "<h4>Add categories</h4>";
                                 } else {
                                     $category_sql3 = "select * from categories where id_category = $id_category";
                                     $category_ = callsql($category_sql3);
-                                    echo "<h4>Edit category";
+                                    echo "<h4>Edit categories";
                                     echo "</h4>";
                                     $category_ = $category_[0];
                                 }
@@ -42,7 +42,7 @@
                                 <label for="#">Parent category</label>
                                 <select class="form-control" id="exampleFormControlSelect2" name="parent_id">
                                     <?php
-                                    echo "<option value='0'>' Parent category '</option>";
+                                    echo "<option value='0'>' Parent categories '</option>";
                                     $sql_select_parent_id = "select * from categories ";
                                     $show_parent_categories = callsql($sql_select_parent_id);
                                     foreach ($show_parent_categories as $show_parent_category) {
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group d-flex m-auto" style="width:23rem;">
                                 <input type="submit" style="width:10rem;" value="Save"   class="btn me-5 mt-3 rounded-pill">
-                                <input type="reset"  style="width:10rem;" value="CANCEL" class="btn btn-danger mt-3 rounded-pill" onClick="document.location.href='<?php echo FULL_URL; ?>/admin/category/admin-category-page.php?page=1'"  >
+                                <input type="reset"  style="width:10rem;" value="CANCEL" class="btn btn-danger mt-3 rounded-pill" onClick="document.location.href='<?php echo FULL_URL; ?>/admin/categories/admin-categories-page.php?page=1'"  >
                             </div>
                         </div>
                     </div>
