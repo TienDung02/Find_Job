@@ -19,15 +19,13 @@ class CandidateSeeder extends Seeder
 
         for ($i = 0; $i < 50; $i++) {
             $candidates[] = [
-                'id_user' => $faker->numberBetween(1, 50),
-                'avatar' => $faker->imageUrl(100, 100, 'people'),
+                'user_id' => $faker->numberBetween(1, 50),
+                'avatar' => $faker->imageUrl('https://i.pravatar.cc/220'),
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'tel' => $faker->phoneNumber,
                 'about' => $faker->sentence,
                 'active' => $faker->boolean,
-                'create_at' => now(),
-                'update_at' => now(),
             ];
         }
         DB::table('candidates')->insert($candidates);

@@ -23,11 +23,10 @@ class CategoryBlogSeeder extends Seeder
                 'name' => $faker->word,
                 'description' => $faker->sentence,
                 'parent_id' => $faker->optional()->numberBetween(1, 10),
-                'create_at' => now(),
-                'update_at' => now(),
+
             ];
         }
 
-        DB::table('category_blogs')->insert($category_blogs);
+        DB::table('categories_blogs')->insert($category_blogs);
     }
 }

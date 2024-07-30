@@ -486,20 +486,20 @@ input.input-search:not(:placeholder-shown) {
     border: 1px solid #ececec;
     width: 100%;
 }
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-company {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .about-company {*/
 /*    border-radius: 15px;*/
 /*    background-color: #fff;*/
 /*    width: 55%;*/
 /*    padding: 20px;*/
 /*    margin: 10px;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-company .description-company textarea {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .about-company .description-company textarea {*/
 /*    background-color: #fff;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-company .note-editor.note-frame {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .about-company .note-editor.note-frame {*/
 /*    border: 1px solid #e0e0e0;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .about-contact-person {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .about-contact-person {*/
 /*    padding: 20px;*/
 /*    border-radius: 15px;*/
 /*    margin: 1rem 16px;*/
@@ -507,23 +507,23 @@ input.input-search:not(:placeholder-shown) {
 /*    background-color: #fff;*/
 /*    height: auto;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .network-profile {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .network-profile {*/
 /*    height: 240px;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .compnay-form-right {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .compnay-form-right {*/
 /*    width: 45%;*/
 /*    height: auto;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .form-admin-company .compnay-form-right .company-status {*/
+/*#admin_wrapper main .contain .parent-form-backend  .form-backend-company .compnay-form-right .company-status {*/
 /*    padding: 20px;*/
 /*    margin: 10px;*/
 /*    border-radius: 15px;*/
 /*    background-color: #fff;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .file-input-group {*/
+/*#admin_wrapper main .contain .parent-form-backend  .file-input-group {*/
 /*    position: relative;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  .file-input-group .input-group-append {*/
+/*#admin_wrapper main .contain .parent-form-backend  .file-input-group .input-group-append {*/
 /*    position: absolute;*/
 /*    right: 0;*/
 /*}*/
@@ -561,11 +561,11 @@ input.input-search:not(:placeholder-shown) {
     padding-right: 5rem;
 }
 
-/*#admin_wrapper main .contain .parent-form-admin  input[type=text]::-moz-placeholder {*/
+/*#admin_wrapper main .contain .parent-form-backend  input[type=text]::-moz-placeholder {*/
 /*    color: #6b727a;*/
 /*    font-size: 1rem;*/
 /*}*/
-/*#admin_wrapper main .contain .parent-form-admin  input[type=text]::placeholder {*/
+/*#admin_wrapper main .contain .parent-form-backend  input[type=text]::placeholder {*/
 /*    color: #6b727a;*/
 /*    font-size: 1rem;*/
 /*}*/

@@ -16,23 +16,21 @@ class EmployerSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $id_user = DB::table('users')->pluck('id_user');
+        $id_user = DB::table('users')->pluck('id');
 
 
         $employer = [];
 
         for ($i = 0; $i < 50; $i++) {
             $employer[] = [
-                'id_employer' => $faker->numberBetween(1, 50), // Giả định có 50 employers
                 'id_user' => $faker->randomElement($id_user),
-                'avatar' => $faker->imageUrl(100, 100, 'people'),
+                'avatar' => $faker->imageUrl('https://avatar.iran.liara.run/public'),
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'tel' => $faker->phoneNumber,
                 'about' => $faker->sentence,
                 'active' => $faker->boolean,
-                'create_at' => now(),
-                'update_at' => now(),
+
             ];
         }
 

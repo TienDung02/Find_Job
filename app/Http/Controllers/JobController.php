@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\candidate;
-use App\Models\categories;
+use App\Models\category;
 use App\Models\company;
 use App\Models\job;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class JobController extends Controller
             }
         }
 
-        return view('admin.job.index', compact('data', 'search'));
+        return view('backend.job.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
@@ -53,7 +53,7 @@ class JobController extends Controller
                 }
             }
         }
-        return view('admin.job.ajax.table', compact('data', 'search'));
+        return view('backend.job.ajax.table', compact('data', 'search'));
     }
 
     public function create()
@@ -61,7 +61,7 @@ class JobController extends Controller
         $name = '';
         $job_id = '';
         $jobList = $this->show();
-        return view('admin.job.admin_add_job', compact('jobList', 'name', 'job_id'));
+        return view('backend.job.admin_add_job', compact('jobList', 'name', 'job_id'));
     }
 
     public function search($type, $keyword,$limit)
@@ -79,7 +79,7 @@ class JobController extends Controller
     public function edit($id_job)
     {
         $job = job::with('company')->findOrFail($id_job);
-        return view('admin.job.view', compact('job'));
+        return view('backend.job.view', compact('job'));
     }
 
 
@@ -136,7 +136,7 @@ class JobController extends Controller
         $id = $request->input('id');
         $job_id = job::find($id);
         if (!$job_id) {
-            return redirect()->route('admin.job.index')->with('error', 'Job not found.');
+            return redirect()->route('backend.job.index')->with('error', 'Job not found.');
         }
         $job_id->active = $request->input('status_to');
         $job_id->update_at = Carbon::now();
@@ -153,7 +153,7 @@ class JobController extends Controller
                 return redirect()->back();
             }
         } else {
-            toastr()->error('There was an error updating a categories!');
+            toastr()->error('There was an error updating a category!');
 //            return back();
         }
     }
@@ -165,7 +165,7 @@ class JobController extends Controller
 
         if (!$job) {
             toastr()->error('job not found.');
-            return redirect()->route('categories.index');
+            return redirect()->route('category.index');
         }
 
         if ($job->delete()) {

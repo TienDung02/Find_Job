@@ -18,21 +18,21 @@ class JobSeeder extends Seeder
         $faker = Faker::create();
 
         // Lấy dữ liệu từ các bảng liên quan
-        $categories = DB::table('categories')->pluck('id_category');
-        $job_types = DB::table('job_type')->pluck('id_job_type');
-        $job_tags = DB::table('tags')->pluck('tag_id');
-        $location = DB::table('location')->pluck('id_location');
+        $categories = DB::table('categories')->pluck('id');
+        $job_types = DB::table('job_types')->pluck('id');
+        $job_tags = DB::table('tags')->pluck('id');
+        $location = DB::table('locations')->pluck('id');
 
         $jobs = [];
 
         for ($i = 0; $i < 50; $i++) {
             $jobs[] = [
-                'id_employer' => $faker->numberBetween(1, 50), // Giả định có 50 employers
+                'company_id' => $faker->numberBetween(1, 50), // Giả định có 50 employers
                 'title' => $faker->jobTitle,
-                'categories' => $faker->randomElement($categories),
-                'job_type' => $faker->randomElement($job_types),
-                'location' => $faker->randomElement($location),
-                'job_tag' => $faker->randomElement($job_tags),
+                'category_id' => $faker->randomElement($categories),
+                'job_type_id' => $faker->randomElement($job_types),
+                'location_id' => $faker->randomElement($location),
+                'tag_id' => $faker->randomElement($job_tags),
                 'description' => $faker->paragraph,
                 'job_requirements' => $faker->paragraph,
                 'minimum_rate' => $faker->randomFloat(2, 15, 50),
@@ -42,8 +42,7 @@ class JobSeeder extends Seeder
                 'closing_day' => $faker->dateTimeBetween('now', '+1 year'),
                 'apply' => $faker->boolean,
                 'active' => $faker->boolean,
-                'create_at' => now(),
-                'update_at' => now(),
+
             ];
         }
 

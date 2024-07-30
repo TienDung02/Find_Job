@@ -14,14 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\users::factory(10)->create();
+        // \App\Models\user::factory(10)->create();
         $this->call([
-//            CandidateSeeder::class,
-//            Candidate_educationSeeder::class,
-//            Candidate_experienceSeeder::class,
-//            candidate_network_profile::class,
+            CandidateSeeder::class,
+//            CandidateEducationSeeder::class,
+//            CandidateExperienceSeeder::class,
+//            candidateNetworkProfileSeeder::class,
 //            LocationSeeder::class,
-//            JobSeeder::class,
 //            JobSeeder::class,
 //            UserSeeder::class,
 //            EmployerSeeder::class,

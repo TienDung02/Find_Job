@@ -32,7 +32,7 @@ class CandidateController extends Controller
                 }
             }
         }
-        return view('admin.candidate.index', compact('data', 'search'));
+        return view('backend.candidate.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
@@ -52,7 +52,7 @@ class CandidateController extends Controller
                 }
             }
         }
-        return view('admin.candidate.ajax.table', compact('data', 'search'));
+        return view('backend.candidate.ajax.table', compact('data', 'search'));
     }
     public function edit($id_candidate)
     {
@@ -61,12 +61,12 @@ class CandidateController extends Controller
         $user = $data->user;
         $experience = $data->experience;
         $network_profile = $data->network_profile;
-        return view('admin.candidate.view', compact('data', 'educations', 'experience', 'network_profile', 'user' ));
+        return view('backend.candidate.view', compact('data', 'educations', 'experience', 'network_profile', 'user' ));
     }
     public function search($type, $keyword,$limit)
     {
         if ($type == 'email') {
-            return Candidate::whereHas('users', function ($query) use ($keyword) {
+            return Candidate::whereHas('user', function ($query) use ($keyword) {
                 $query->where('email', 'like', "%$keyword%");
             })->get();
         }elseif ($type == 'active'){
@@ -88,14 +88,14 @@ class CandidateController extends Controller
                     ->orWhere('last_name', 'like', '%' . $keyword . '%');
             });
         } elseif ($type == 'email') {
-            $query->whereHas('users', function ($query) use ($keyword) {
+            $query->whereHas('user', function ($query) use ($keyword) {
                 $query->where('email', 'like', '%' . $keyword . '%');
             });
         }
 
         $data = $query
-            ->join('users', 'candidates.id_user', '=', 'users.id_user')
-            ->select('candidates.id_candidate', 'users.email as data1',
+            ->join('user', 'candidates.id_user', '=', 'user.id_user')
+            ->select('candidates.id_candidate', 'user.email as data1',
                 \DB::raw("CONCAT(candidates.last_name, ' ', candidates.first_name) as data2"), 'candidates.active as data3')
             ->get();
         $data = $data->map(function ($item) {
@@ -128,7 +128,7 @@ class CandidateController extends Controller
         $id = $request->input('id');
         $candidate_id = candidate::find($id);
         if (!$candidate_id) {
-            return redirect()->route('admin.candidate.index')->with('error', 'Candidate not found.');
+            return redirect()->route('backend.candidate.index')->with('error', 'Candidate not found.');
         }
         $candidate_id->active = $request->input('status_to');
         $candidate_id->update_at = Carbon::now();
@@ -145,7 +145,7 @@ class CandidateController extends Controller
                 return redirect()->back();
             }
         } else {
-            toastr()->error('There was an error updating a categories!');
+            toastr()->error('There was an error updating a category!');
 //            return back();
         }
     }

@@ -25,11 +25,10 @@ class UserSeeder extends Seeder
                 'password' => md5('123'),
                 'role' => $faker->randomElement([1, 2, 3]),
                 'active' => $faker->boolean,
-                'create_at' => now(),
-                'update_at' => now(),
+
             ];
         }
 
-        DB::table('users')->insert($users);
+        DB::table('user')->insert($users);
     }
 }

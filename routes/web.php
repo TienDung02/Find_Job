@@ -20,29 +20,29 @@ use App\Http\Controllers\BlogController;
 
 
 Route::get('/home', function () {
-    return view('admin.categories.admin_category_page');
+    return view('backend.category.admin_category_page');
 });
 
 
-//Route::prefix('categories')->name('categories.')->controller(CategoryController::class)->group(function () {
+//Route::prefix('category')->name('category.')->controller(CategoryController::class)->group(function () {
 //    Route::get('/suggest', 'suggest')->name('suggest');
 //    Route::get('/paginate-limit', 'getLimit')->name('limit');
 //});
-//Route::resource('categories', CategoryController::class);
+//Route::resource('category', CategoryController::class);
 
 
 
 
 // Route CategoryController
-Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
-Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create'); // Hiển thị form thêm mới
-Route::post('categories', [CategoryController::class, 'store'])->name('categories.store'); // Lưu thêm mới
-//Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show'); // Xem chi tiết
-Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit'); // Hiển thị form sửa
-Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update'); // Cập nhật
-Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy'); // Xóa
-Route::get('categories/suggest', [CategoryController::class, 'suggest'])->name('categories.suggest');
-Route::get('categories/paginate-limit', [CategoryController::class, 'getLimit'])->name('categories.limit');
+Route::get('category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('category/create', [CategoryController::class, 'create'])->name('category.create'); // Hiển thị form thêm mới
+Route::post('category', [CategoryController::class, 'store'])->name('category.store'); // Lưu thêm mới
+//Route::get('category/{category}', [CategoryController::class, 'show'])->name('category.show'); // Xem chi tiết
+Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit'); // Hiển thị form sửa
+Route::put('category/{category}', [CategoryController::class, 'update'])->name('category.update'); // Cập nhật
+Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy'); // Xóa
+Route::get('category/suggest', [CategoryController::class, 'suggest'])->name('category.suggest');
+Route::get('category/paginate-limit', [CategoryController::class, 'getLimit'])->name('category.limit');
 
 
 // Route CandidateController
@@ -82,20 +82,20 @@ Route::get('company/paginate-limit', [CompanyController::class, 'getLimit'])->na
 
 
 
-//Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
-//    Route::get('/users', 'suggest')->name('suggest');
+//Route::prefix('user')->name('user.')->controller(UserController::class)->group(function () {
+//    Route::get('/user', 'suggest')->name('suggest');
 //    Route::get('/paginate-limit', 'getLimit')->name('limit');
 //});
 
 
 // Route UserController
-Route::patch('users/update/{id}', [UserController::class, 'update'])->name('users.update');
-Route::get('users', [UserController::class, 'index'])->name('users.index');
-Route::get('users/{users}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::get('users/suggest', [UserController::class, 'suggest'])->name('users.suggest');
-Route::get('users/paginate-limit', [UserController::class, 'getLimit'])->name('users.limit');
+Route::patch('user/update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::get('user', [UserController::class, 'index'])->name('user.index');
+Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::get('user/suggest', [UserController::class, 'suggest'])->name('user.suggest');
+Route::get('user/paginate-limit', [UserController::class, 'getLimit'])->name('user.limit');
 
-//Route::resource('users', UserController::class);
+//Route::resource('user', UserController::class);
 //
 //Route::prefix('blog')->name('blog.')->controller(BlogController::class)->group(function () {
 //    Route::get('/blog', 'suggest')->name('suggest');

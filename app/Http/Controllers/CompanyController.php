@@ -33,7 +33,7 @@ class CompanyController extends Controller
                 }
             }
         }
-        return view('admin.company.index', compact('data', 'search'));
+        return view('backend.company.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
@@ -55,7 +55,7 @@ class CompanyController extends Controller
             }
         }
 
-        return view('admin.company.ajax.table', compact('data', 'search'));
+        return view('backend.company.ajax.table', compact('data', 'search'));
     }
 
     public function create()
@@ -63,7 +63,7 @@ class CompanyController extends Controller
         $name = '';
         $category_id = '';
         $categoryList = $this->show();
-        return view('admin.categories.add', compact('categoryList', 'name', 'category_id'));
+        return view('backend.category.add', compact('categoryList', 'name', 'category_id'));
     }
 
     public function search($type, $keyword, $limit)
@@ -83,7 +83,7 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = company::with('industry')->findOrFail($id);
-        return view('admin.company.view', compact('company'));
+        return view('backend.company.view', compact('company'));
     }
 
 
@@ -139,7 +139,7 @@ class CompanyController extends Controller
         $id = $request->input('id');
         $company = company::find($id);
         if (!$company) {
-            return redirect()->route('admin.company.index')->with('error', 'Company not found.');
+            return redirect()->route('backend.company.index')->with('error', 'Company not found.');
         }
         $company->active = $request->input('status_to');
         $company->update_at = Carbon::now();
@@ -156,7 +156,7 @@ class CompanyController extends Controller
                 return redirect()->back();
             }
         } else {
-            toastr()->error('There was an error updating a categories!');
+            toastr()->error('There was an error updating a category!');
 //            return redirect()->back();
         }
     }

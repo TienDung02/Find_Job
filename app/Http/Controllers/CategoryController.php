@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\categories;
+use App\Models\category;
 use Illuminate\Http\Request;
 use \Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
@@ -13,12 +13,12 @@ class CategoryController extends Controller
     private $category;
     private $search;
 
-    public function _construct(categories $category){
+    public function _construct(category $category){
         $this->category = $category;
     }
     public function index(Request $request)
     {
-        $data = categories::query();
+        $data = category::query();
         $data->with('parent');
 
         $search = '';
@@ -36,11 +36,11 @@ class CategoryController extends Controller
             }
         }
 
-        return view('admin.categories.index', compact('data', 'search'));
+        return view('backend.category.index', compact('data', 'search'));
     }
 
     public function getLimit (Request $request) {
-        $data = categories::query();
+        $data = category::query();
         $data->with('parent');
 
         $search = '';
@@ -57,7 +57,7 @@ class CategoryController extends Controller
                 $search = '.';
             }
         }
-        return view('admin.categories.ajax.table', compact('data', 'search'));
+        return view('backend.category.ajax.table', compact('data', 'search'));
     }
 
     public function create()
@@ -65,12 +65,12 @@ class CategoryController extends Controller
         $name = '';
         $category_id = '';
         $categoryList = $this->show();
-        return view('admin.categories.add', compact('categoryList', 'name', 'category_id'));
+        return view('backend.category.add', compact('categoryList', 'name', 'category_id'));
     }
 
     public function search($type, $keyword, $limit)
     {
-        $query = categories::query();
+        $query = category::query();
         if ($type === 'parent') {
             $query->where(function($query) use ($keyword) {
                 $query->where('parent_id', $keyword)
@@ -78,17 +78,17 @@ class CategoryController extends Controller
             });
             $results = $query->get();
             if ($results->isEmpty()) {
-                $query = categories::where('id_category', $keyword);
+                $query = category::where('id_category', $keyword);
             }
         } else {
-            $query = categories::where('name', 'like', "%$keyword%");
+            $query = category::where('name', 'like', "%$keyword%");
         }
         return $query->paginate($limit);
     }
 
     public function show($type = 'add', $id=0, $category_id=0, $space='&nbsp;')
     {
-        $data = categories::all();
+        $data = category::all();
         foreach ($data as $value) {
             if ($type == 'add'){
                 if ($value['parent_id'] == $id){
@@ -120,44 +120,44 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $data = categories::query();
+        $data = category::query();
         $limit = $request->input('limit', 5);
         $data = $data->paginate($limit);
-        $insert_category = new categories();
+        $insert_category = new category();
         $insert_category->name = $request->input('name');
         $insert_category->parent_id = $request->input('parent_id');
         $insert_category->create_at = Carbon::now();
         $insert_category->update_at = Carbon::now();
 
-        $categoryExists = categories::where('name', $insert_category->name)
+        $categoryExists = category::where('name', $insert_category->name)
             ->where('parent_id', $insert_category->parent_id)
             ->exists();
         $search = '';
         if (!$categoryExists) {
             if ($insert_category->save()) {
-                toastr()->success('Added categories successfully!');
+                toastr()->success('Added category successfully!');
             } else {
-                toastr()->error('There was an error adding a categories!');
+                toastr()->error('There was an error adding a category!');
                 return back();
             }
         } else {
-            toastr()->error('This categories already exists!');
+            toastr()->error('This category already exists!');
             return back();
         }
-        return view('admin.categories.index', compact('data', 'search'));
+        return view('backend.category.index', compact('data', 'search'));
     }
 
 
 
     public function edit($id_category)
     {
-        $category_id = categories::findOrFail($id_category);
+        $category_id = category::findOrFail($id_category);
         $type = 'edit';
         $id = (int)$category_id->id_category;
         $name = $category_id->name;
         $parent_id = (int)$category_id->parent_id;
         $categoryList = $this->show($type ,0,$parent_id, $space='&nbsp;');
-        return view('admin.categories.add', compact('categoryList', 'name', 'category_id'));
+        return view('backend.category.add', compact('categoryList', 'name', 'category_id'));
     }
 
 
@@ -168,13 +168,13 @@ class CategoryController extends Controller
         $type = $request->input('type');
         $parent_id = $request->input('data_first_suggest', null);
 
-        $query = categories::query();
+        $query = category::query();
         if ($type === 'parent') {
             $query->where('parent_id', 0);
             if ($keyword) {
                 $query->where('name', 'like', "%$keyword%");
             }
-        } else if ($type === 'categories') {
+        } else if ($type === 'category') {
             if ($parent_id) {
                 $query->where('parent_id', $parent_id);
             }
@@ -203,38 +203,38 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|integer',
             'name' => 'required|string|max:255',
         ]);
-        $id_category = categories::find($id);
+        $id_category = category::find($id);
         if (!$id_category) {
-            return redirect()->route('categories.index')->with('error', 'Category not found.');
+            return redirect()->route('category.index')->with('error', 'Category not found.');
         }
         $id_category->parent_id = $request->input('parent_id');
         $id_category->name = $request->input('name');
         $id_category->update_at = Carbon::now();
         if ($id_category->save()) {
-            toastr()->success('Update categories successfully!');
+            toastr()->success('Update category successfully!');
         } else {
-            toastr()->error('There was an error updating a categories!');
+            toastr()->error('There was an error updating a category!');
             return back();
         }
 
-        return redirect()->route('categories.index');
+        return redirect()->route('category.index');
     }
 
 
     public function destroy($id)
     {
-        $category = categories::find($id);
+        $category = category::find($id);
 
         if (!$category) {
             toastr()->error('Category not found.');
-            return redirect()->route('categories.index');
+            return redirect()->route('category.index');
         }
 
         if ($category->delete()) {
             toastr()->success('Category deleted successfully!');
             return redirect()->back();
         } else {
-            toastr()->error('There was an error deleting the categories!');
+            toastr()->error('There was an error deleting the category!');
             return redirect()->back();
         }
     }

@@ -16,7 +16,7 @@ class BlogController extends Controller
     {
         $limit = 5;
         $data = blog::with('category_blog')->paginate($limit);
-        return view('admin.blog.index', compact('data'));
+        return view('backend.blog.index', compact('data'));
     }
 
     public function getLimit (Request $request) {
@@ -36,7 +36,7 @@ class BlogController extends Controller
                 }
             }
         }
-        return view('admin.blog.ajax.table', compact('data', 'search'));
+        return view('backend.blog.ajax.table', compact('data', 'search'));
     }
 
     public function create()
@@ -44,7 +44,7 @@ class BlogController extends Controller
         $name = '';
         $blog_id = '';
         $blogList = $this->show();
-        return view('admin.blog.add', compact('blogList', 'name', 'blog_id'));
+        return view('backend.blog.add', compact('blogList', 'name', 'blog_id'));
     }
 
     public function search($type, $keyword, $limit)
@@ -114,7 +114,7 @@ class BlogController extends Controller
 //            toastr()->error('This blog already exists!');
 //            return back();
 //        }
-//        return view('admin.blog.admin_blog_page', compact('data'));
+//        return view('backend.blog.admin_blog_page', compact('data'));
 //    }
 
 
@@ -122,7 +122,7 @@ class BlogController extends Controller
     public function edit($id_blog)
     {
         $blog = blog::with('category_blog')->findOrFail($id_blog);
-        return view('admin.blog.add', compact('blog', 'id_blog'));
+        return view('backend.blog.add', compact('blog', 'id_blog'));
     }
 
 
@@ -164,7 +164,7 @@ class BlogController extends Controller
         ]);
         $id_blog = blog::find($id);
         if (!$id_blog) {
-            return redirect()->route('categories.index')->with('error', 'blog not found.');
+            return redirect()->route('category.index')->with('error', 'blog not found.');
         }
         $id_blog->parent_id = $request->input('parent_id');
         $id_blog->name = $request->input('name');
@@ -175,7 +175,7 @@ class BlogController extends Controller
             return back();
         }
 
-        return redirect()->route('categories.index');
+        return redirect()->route('category.index');
     }
 
 
@@ -185,7 +185,7 @@ class BlogController extends Controller
 
         if (!$blog) {
             toastr()->error('blog not found.');
-            return redirect()->route('categories.index');
+            return redirect()->route('category.index');
         }
 
         if ($blog->delete()) {
