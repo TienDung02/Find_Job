@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('last_name', 50);
             $table->string('tel', 40);
             $table->text('about');
-            $table->integer('active');
-            $table->date('created_at');
-            $table->date('updated_at');
+            $table->boolean('active');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

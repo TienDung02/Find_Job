@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bookmark', function (Blueprint $table) {
-            $table->integer('id_bookmark', true);
-            $table->integer('id_candidate');
-            $table->integer('id_job');
+        Schema::create('bookmarks', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->integer('candidate_id');
+            $table->integer('job_id');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->integer('id_location', true);
+            $table->integer('id', true);
             $table->string('name', 255);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

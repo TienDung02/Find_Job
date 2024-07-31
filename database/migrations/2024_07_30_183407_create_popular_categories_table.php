@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('popular_categories', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name', 255);
-            $table->date('create_day');
-            $table->date('update_day');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

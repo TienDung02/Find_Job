@@ -60,34 +60,34 @@ class BlogController extends Controller
 
     public function show($type = 'add', $id=0, $blog_id=0, $space='&nbsp;')
     {
-        $data = blog::all();
-        foreach ($data as $value) {
-            if ($type == 'add'){
-                if ($value['parent_id'] == $id){
-                    $this->Getblog .= "<option "  . " value='" . $value['id_blog'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                    $this->show('add',$value['id_blog'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                }
-            }
-            else if ($type == 'edit'){
-                if ($blog_id == 0){
-                    if ($value['parent_id'] == $id){
-                        $this->Getblog .= "<option "  . " value='" . $value['id_blog'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show($type = 'add', $value['id_blog'],$blog_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    }
-                }else{
-                    $selected = ' ';
-                    if ($value['parent_id'] == $id) {
-                        if ($value['id_blog'] == $blog_id) {
-                            $selected = 'selected';
-                        }
-                        $this->Getblog .= "<option "  . " value='" . $value['id_blog'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show('add',$value['id_blog'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    }
-                }
-            }
-        }
-
-        return $this->Getblog;
+//        $data = blog::all();
+//        foreach ($data as $value) {
+//            if ($type == 'add'){
+//                if ($value['parent_id'] == $id){
+//                    $this->Getblog .= "<option "  . " value='" . $value['id_blog'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
+//                    $this->show('add',$value['id_blog'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+//                }
+//            }
+//            else if ($type == 'edit'){
+//                if ($blog_id == 0){
+//                    if ($value['parent_id'] == $id){
+//                        $this->Getblog .= "<option "  . " value='" . $value['id_blog'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
+//                        $this->show($type = 'add', $value['id_blog'],$blog_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+//                    }
+//                }else{
+//                    $selected = ' ';
+//                    if ($value['parent_id'] == $id) {
+//                        if ($value['id_blog'] == $blog_id) {
+//                            $selected = 'selected';
+//                        }
+//                        $this->Getblog .= "<option "  . " value='" . $value['id_blog'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
+//                        $this->show('add',$value['id_blog'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+//                    }
+//                }
+//            }
+//        }
+//
+//        return $this->Getblog;
     }
 
 //    public function store(Request $request)

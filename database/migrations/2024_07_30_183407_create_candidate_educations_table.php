@@ -21,9 +21,8 @@ return new class extends Migration
             $table->date('start_day');
             $table->date('end_day');
             $table->text('note');
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

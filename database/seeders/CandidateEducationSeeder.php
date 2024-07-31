@@ -25,6 +25,9 @@ class CandidateEducationSeeder extends Seeder
                 'start_day' => $faker->date(),
                 'end_day' => $faker->date(),
                 'note' => $faker->sentence,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
         DB::table('candidate_educations')->insert($candidates);

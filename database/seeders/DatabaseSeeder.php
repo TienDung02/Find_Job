@@ -16,16 +16,28 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\user::factory(10)->create();
         $this->call([
-            CandidateSeeder::class,
+//            UserSeeder::class,
+//
+//            CategorySeeder::class,
+
+//            CandidateSeeder::class,
 //            CandidateEducationSeeder::class,
 //            CandidateExperienceSeeder::class,
 //            candidateNetworkProfileSeeder::class,
+
 //            LocationSeeder::class,
-//            JobSeeder::class,
-//            UserSeeder::class,
+//
 //            EmployerSeeder::class,
+//
 //            IndustrySeeder::class,
 //            CompanySeeder::class,
+//
+//            TagSeeder::class,
+//            JobTypeSeeder::class,
+//            JobSeeder::class,
+//            ApplyJobSeeder::class,
+//            BookmarkSeeder::class,
+//
 //            CategoryBlogSeeder::class,
 //            BlogSeeder::class,
         ]);

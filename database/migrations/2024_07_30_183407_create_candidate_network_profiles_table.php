@@ -18,9 +18,8 @@ return new class extends Migration
             $table->integer('candidate_id');
             $table->string('name', 100);
             $table->string('url', 255);
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -17,9 +17,8 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('parent_id');
             $table->string('name', 100);
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

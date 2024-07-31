@@ -25,8 +25,11 @@ class CandidateExperienceSeeder extends Seeder
                 'start_day' => $faker->date(),
                 'end_day' => $faker->date(),
                 'note' => $faker->sentence,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
-        DB::table('candidateExperience')->insert($candidates);
+        DB::table('candidate_experiences')->insert($candidates);
     }
 }

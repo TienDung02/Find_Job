@@ -9,16 +9,9 @@ use Illuminate\Support\Carbon;
 class CategoryController extends Controller
 {
 
-    private $GetCategory;
-    private $category;
-    private $search;
-
-    public function _construct(category $category){
-        $this->category = $category;
-    }
     public function index(Request $request)
     {
-        $data = category::query();
+        $data = Category::query();
         $data->with('parent');
 
         $search = '';
@@ -74,11 +67,11 @@ class CategoryController extends Controller
         if ($type === 'parent') {
             $query->where(function($query) use ($keyword) {
                 $query->where('parent_id', $keyword)
-                    ->orWhere('id_category', $keyword);
+                    ->orWhere('id', $keyword);
             });
             $results = $query->get();
             if ($results->isEmpty()) {
-                $query = category::where('id_category', $keyword);
+                $query = category::where('id', $keyword);
             }
         } else {
             $query = category::where('name', 'like', "%$keyword%");
@@ -88,34 +81,35 @@ class CategoryController extends Controller
 
     public function show($type = 'add', $id=0, $category_id=0, $space='&nbsp;')
     {
+        $GetCategory = '';
         $data = category::all();
         foreach ($data as $value) {
             if ($type == 'add'){
                 if ($value['parent_id'] == $id){
-                    $this->GetCategory .= "<option "  . " value='" . $value['id_category'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                    $this->show('add',$value['id_category'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                    $GetCategory .= "<option "  . " value='" . $value['id'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
+                    $this->show('add',$value['id'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                 }
             }
             else if ($type == 'edit'){
                 if ($category_id == 0){
                     if ($value['parent_id'] == $id){
-                        $this->GetCategory .= "<option "  . " value='" . $value['id_category'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show($type = 'add', $value['id_category'],$category_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        $GetCategory .= "<option "  . " value='" . $value['id'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
+                        $this->show($type = 'add', $value['id'],$category_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     }
                 }else{
                     $selected = ' ';
                     if ($value['parent_id'] == $id) {
-                        if ($value['id_category'] == $category_id) {
+                        if ($value['id'] == $category_id) {
                             $selected = 'selected';
                         }
-                        $this->GetCategory .= "<option "  . " value='" . $value['id_category'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show('add',$value['id_category'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        $GetCategory .= "<option "  . " value='" . $value['id'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
+                        $this->show('add',$value['id'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     }
                 }
             }
         }
 
-        return $this->GetCategory;
+        return $GetCategory;
     }
 
     public function store(Request $request)
@@ -183,10 +177,10 @@ class CategoryController extends Controller
             }
         }
 
-        $suggestions = $query->get(['id_category', 'name']);
+        $suggestions = $query->get(['id', 'name']);
         $suggestions = $suggestions->map(function ($item) {
             return [
-                'id_data' => $item->id_category, // Đổi tên trường từ id_category thành id
+                'id_data' => $item->id, // Đổi tên trường từ id_category thành id
                 'data1' => $item->name,
                 'data2' => $item->name
             ];

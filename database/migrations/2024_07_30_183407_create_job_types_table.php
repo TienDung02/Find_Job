@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('job_types', function (Blueprint $table) {
-            $table->integer('id_job_type', true);
+            $table->integer('id', true);
             $table->string('name', 100);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

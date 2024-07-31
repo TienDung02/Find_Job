@@ -22,8 +22,11 @@ class CandidateNetworkProfileSeeder extends Seeder
                 'candidate_id' => $faker->numberBetween(1, 50),
                 'name' => $faker->name,
                 'url' => $faker->url,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
-        DB::table('candidateNetworkProfile')->insert($candidates);
+        DB::table('candidate_Network_Profiles')->insert($candidates);
     }
 }

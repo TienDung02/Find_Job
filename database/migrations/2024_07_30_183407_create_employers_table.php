@@ -22,9 +22,8 @@ return new class extends Migration
             $table->string('tel', 255);
             $table->text('about');
             $table->integer('active');
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

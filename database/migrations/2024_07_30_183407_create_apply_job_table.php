@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('apply_job', function (Blueprint $table) {
+        Schema::create('apply_jobs', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('job_id');
             $table->integer('candidate_id');
@@ -21,9 +21,8 @@ return new class extends Migration
             $table->string('email', 50);
             $table->text('message');
             $table->string('cv');
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

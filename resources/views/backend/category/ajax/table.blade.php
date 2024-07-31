@@ -23,13 +23,13 @@
                     <td>{{optional($value->parent)->name}}</td>
                     <td>{{$value->name}}</td>
                     <td class="d-flex">
-                        <a href="{{ route('category.edit', $value['id_category']) }}">
+                        <a href="{{ route('category.edit', $value['id']) }}">
                             <button type="submit"  class="btn btn-secondary">Update</button>
                         </a>
-                        <form id='delete-form-{{ $value['id_category'] }}' action="{{ route('category.destroy', $value['id_category']) }}" method="POST">
+                        <form id='delete-form-{{ $value['id'] }}' action="{{ route('category.destroy', $value['id']) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_category'] }}" >Delete</button></a>
+                            <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id'] }}" >Delete</button></a>
                         </form>
                     </td>
                 </tr>
@@ -39,7 +39,7 @@
     </div>
     <div class="card-bottom {{$search ?'d-none': ''}}">
         <div class="paginate">
-            {{ $data->withQueryString()->appends($_GET)->links('component.backend') }}
+            {{ $data->withQueryString()->appends($_GET)->links('.backend.component.admin') }}
         </div>
         <form action="" method="post">
             @csrf

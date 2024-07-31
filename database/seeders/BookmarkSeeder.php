@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
-class BlogSeeder extends Seeder
+class BookmarkSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,21 +15,19 @@ class BlogSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $category_blog = DB::table('categoryBlog')->pluck('category_blog_id');
+        $job_id = DB::table('jobs')->pluck('id');
+        $candidate_id = DB::table('candidates')->pluck('id');
         $blog = [];
 
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $blog[] = [
-                'title' => $faker->catchPhrase,
-                'author' => $faker->name,
-                'category_blog_id' => $faker->randomElement($category_blog),
-                'img' => $faker->imageUrl,
-                'desc' => $faker->paragraph,
+                'candidate_id' => $faker->randomElement($candidate_id),
+                'job_id' => $faker->randomElement($job_id),
                 'created_at' => now(),
                 'updated_at' => now(),
                 'deleted_at' => null
             ];
         }
-        DB::table('blogs')->insert($blog);
+        DB::table('bookmarks')->insert($blog);
     }
 }

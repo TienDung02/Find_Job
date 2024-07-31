@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
-class IndustrySeeder extends Seeder
+class TagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,16 +15,12 @@ class IndustrySeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-
-        $industries = [];
-
-        for ($i = 0; $i < 20; $i++) {
-            $industries[] = [
+        for ($i = 0; $i < 40; $i++) {
+            $category_blogs[] = [
                 'name' => $faker->word,
-                'description' => $faker->paragraph,
+                'popular' => $faker->optional()->numberBetween(1, 20),
             ];
         }
-
-        DB::table('industries')->insert($industries);
+        DB::table('tags')->insert($category_blogs);
     }
 }

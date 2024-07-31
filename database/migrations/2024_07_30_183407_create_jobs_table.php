@@ -30,9 +30,8 @@ return new class extends Migration
             $table->string('closing_day', 40);
             $table->integer('apply');
             $table->boolean('active');
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

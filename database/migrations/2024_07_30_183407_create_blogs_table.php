@@ -20,9 +20,8 @@ return new class extends Migration
             $table->tinyInteger('category_blog_id');
             $table->string('img', 255);
             $table->text('desc');
-            $table->date('created_at');
-            $table->date('updated_at');
-            $table->date('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
