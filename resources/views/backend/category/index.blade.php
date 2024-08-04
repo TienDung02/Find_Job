@@ -17,6 +17,11 @@
                             data-type="category" data-placeholder="Name category" name="state">
                     </select>
                 </div>
+                <div class="form-group" style="width: 100px">
+                    <select class="js-example-basic-single form-control" id="select_active" data-type="level"
+                            data-placeholder="Level" name="state">
+                    </select>
+                </div>
                 <a href="{{route("category.index")}}">
                     <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                 </a>
@@ -45,9 +50,14 @@
                 </thead>
                 <tbody>
                 <span id="get_limit" data-url="{{ route('category.limit') }}"> </span>
+                @php
+                    $shows = [ '5', '10', '15'];
+                    $limit = request()->input('limit', 5);
+                    $page = request()->input('page', 1);
+                @endphp
                 @foreach($data as $key => $value)
                     <tr>
-                        <td>{{$key + 1}}</td>
+                        <td> {{ ($page-1)*$limit+$key+1}}</td>
                         <td>{{optional($value->parent)->name}}</td>
                         <td>{{$value->name}}</td>
                         <td class="d-flex">
@@ -70,10 +80,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-bottom {{$search ?'d-none': ''}}">
+        <div class="card-bottom">
             <div class="paginate" id="pagination-links">
-                {{--                            {{ $data->withQueryString()->appends($_GET)->links() }}--}}
-                {{ $data->withQueryString()->appends($_GET)->links('.backend.component.admin') }}
+                {{ $data->withQueryString()->appends($_GET)->links('.backend.component.paginate') }}
             </div>
 
             <form action="" method="post">
@@ -97,38 +106,6 @@
                     <p>item</p>
                 </div>
             </form>
-        </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="categoryModalLabel">Add Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addCategoryForm">
-                        <div class="form-group">
-                            <label for="parentCategory">Parent Category</label>
-                            <select class="form-control" id="parentCategory" name="parentCategory">
-                                <!-- Options will be populated by JavaScript -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="categoryName">Category Name</label>
-                            <input type="text" class="form-control" id="categoryName" name="categoryName"
-                                   required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>

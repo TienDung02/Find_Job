@@ -25,7 +25,7 @@ class ApplyJobSeeder extends Seeder
                 'candidate_id' => $faker->randomElement($candidate_id),
                 'full_name' => $faker->name,
                 'email' => $faker->email,
-                'message' => $faker->message,
+                'message' => $faker->text,
                 'cv' => $faker->text,
                 'created_at' => now(),
                 'updated_at' => now(),

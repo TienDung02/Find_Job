@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('title');
             $table->string('author', 50);
             $table->tinyInteger('category_blog_id');
-            $table->string('img', 255);
+            $table->string('img', 255)->nullable();
             $table->text('desc');
             $table->timestamps();
             $table->softDeletes();

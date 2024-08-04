@@ -16,20 +16,26 @@
             </tr>
             </thead>
             <tbody>
-            <span id="get_limit" data-url="{{ route('category.limit') }}"> </span>
-            @foreach($data as $key => $value)
+            <span id="get_limit" data-url="{{ route('blog.limit') }}"> </span>
+            <span id="change_active" data-url="{{ route('blog.update') }}"> </span>
+                @php
+                    $shows = [ '5', '10', '15'];
+                    $limit = request()->input('limit', 5);
+                    $page = request()->input('page', 1);
+                @endphp
+                @foreach($data as $key => $value)
                 <tr>
-                    <td> {{$key+1}}</td>
+                    <td> {{ ($page-1)*$limit+$key+1}}</td>
                     <td>{{$value['author']}} </td>
                     <td>{{$value['title']}}</td>
                     <td class="d-flex">
-                        <a href="{{ route('blog.edit', $value['id_blog']) }}">
+                        <a href="{{ route('blog.edit', $value['id']) }}">
                             <button type="submit"  class="btn btn-secondary">Update</button>
                         </a>
-                        <form id='delete-form-{{ $value['id_blog'] }}' action="{{ route('blog.destroy', $value['id_blog']) }}" method="POST">
+                        <form id='delete-form-{{ $value['id'] }}' action="{{ route('blog.destroy', $value['id']) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id_blog'] }}" >Delete</button></a>
+                            <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id'] }}" >Delete</button></a>
                         </form>
                     </td>
                 </tr>
@@ -37,33 +43,19 @@
             </tbody>
         </table>
     </div>
-    <div class="card-bottom {{$search ?'d-none': ''}}">
+    <div class="card-bottom">
         <div class="paginate">
-            {{ $data->withQueryString()->appends($_GET)->links('component.backend') }}
+            {{$data->withQueryString()->appends($_GET)->links('.backend.component.paginate')}}
         </div>
         <form action="" method="post">
             @csrf
             <div class="border-start">
                 <p>Show</p>
                 <select name="limit-category" id="show-limit">
-                    @php
-                        $shows = [ '5', '10', '15'];
-                        if ($limit_category = request()->input('limit-category'))
-                        {
-                            $limit_category = request()->input('limit-category');
-                        }else{
-                            $limit_category = request()->input('limit');
-                        }
-                        if ($limit_category)
-                        {
-                            echo $limit_category;
-                        }else{
-                            echo 'none';
-                        }
-                    @endphp
+
                     @foreach($shows as $show)
 
-                        <option  {{$show==$limit_category?'selected':''}} value="{{$show}}">{{$show}}</option>
+                        <option  {{$show==$limit?'selected':''}} value="{{$show}}">{{$show}}</option>
                     @endforeach
                 </select>
                 <p>item</p>

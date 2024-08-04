@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->text('description');
             $table->integer('parent_id');
+            $table->integer('level');
             $table->timestamps();
             $table->softDeletes();
         });

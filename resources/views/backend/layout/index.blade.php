@@ -90,7 +90,7 @@
                                 <tbody>
                                 @forelse($users_all as $k => $user)
                                     <tr>
-                                        <td class="text-center">{{ (($users->currentPage()-1)*$limit)+$k+1 }}</td>
+                                        <td class="text-center">{{ (($user->currentPage()-1)*$limit)+$k+1 }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>'{{ $user->tel }}</td>

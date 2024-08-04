@@ -104,7 +104,6 @@
                         </div>
                     </div>
                 </div>
-
             @endforeach
         </form>
         <form action="#" class="form-main p-3">
@@ -127,38 +126,38 @@
             @endforeach
         </form>
         <form action="#" class="form-main p-3">
-            <div class="form d-flex me-5">
-                <div class="w-25 m-auto d-flex">
-                    <h5>Active Company</h5>
-                    <span id="change_active" data-url="{{ route('candidate.update') }}"> </span>
-                    <input class=" ms-3 mt-2 me-5 status_active" data-type="job with title "
-                           data-id="{{$data->id_candidate}}"
-                           data-name="{{$data->last_name . ' ' . $data->first_name}}"
-                           {{$data->active==1?'checked':''}}  type="checkbox">
+            <div class="form_add_company flex-wrap mb-3">
+                <div class="form d-flex me-5">
+                    <div class="w-25 m-auto d-flex">
+                        <h5>Active Candidate</h5>
+                        <span id="change_active" data-url="{{ route('candidate.update') }}"> </span>
+                        <input class=" ms-3 mt-2 me-5 status_active" data-type="job with title "
+                               data-id="{{$data->id}}"
+                               data-name="{{$data->last_name . ' ' . $data->first_name}}"
+                               {{$data->active==1?'checked':''}}  type="checkbox">
+                    </div>
                 </div>
-            </div>
+                <div class="divider margin-top-0"></div>
+                <div class=" text-end ">
+                    <div class="text-end">
+                        <div class="form ">
+                            <input type="submit" style="width:10rem;" value="SAVE"
+                                   class="btn me-3 text-light mt-3 rounded-pill fw-bold fs-6 mb-0 toggle_switch"
+                                   data-type="view" data-id="{{$data->id}}" data-name="">
+                            <a href="{{ route('job.index') }}" class="text-decoration-none">
+                                <button type="button" style="width:10rem;padding: 0.75rem;"
+                                        class="btn btn-danger mt-3 rounded-pill fw-bold fs-6 me-3">
+                                    REFUSE
+                                </button>
+                            </a>
 
-
-            <div class="divider margin-top-0"></div>
-            <div class=" text-end ">
-                <div class="text-end">
-                    <div class="form ">
-                        <input type="submit" style="width:10rem;" value="SAVE"
-                               class="btn me-3 text-light mt-3 rounded-pill fw-bold fs-6 mb-0 toggle_switch"
-                               data-type="view" data-id="{{$data->id_candidate}}" data-name="">
-                        <a href="{{ route('job.index') }}" class="text-decoration-none">
-                            <button type="button" style="width:10rem;padding: 0.75rem;"
-                                    class="btn btn-danger mt-3 rounded-pill fw-bold fs-6 me-3">
-                                REFUSE
-                            </button>
-                        </a>
-
-                        <a href="{{ route('job.index') }}">
-                            <button type="button" style="width:10rem;padding: 0.75rem;"
-                                    class="btn btn-secondary mt-3 rounded-pill fw-bold fs-6">
-                                CANCEL
-                            </button>
-                        </a>
+                            <a href="{{ route('job.index') }}">
+                                <button type="button" style="width:10rem;padding: 0.75rem;"
+                                        class="btn btn-secondary mt-3 rounded-pill fw-bold fs-6">
+                                    CANCEL
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

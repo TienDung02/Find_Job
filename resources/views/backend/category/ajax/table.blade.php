@@ -17,9 +17,14 @@
             </thead>
             <tbody>
             <span id="get_limit" data-url="{{ route('category.limit') }}"> </span>
+            @php
+                $shows = [ '5', '10', '15'];
+                $limit = request()->input('limit', 5);
+                $page = request()->input('page', 1);
+            @endphp
             @foreach($data as $key => $value)
                 <tr>
-                    <td>{{$key + 1}}</td>
+                    <td> {{ ($page-1)*$limit+$key+1}}</td>
                     <td>{{optional($value->parent)->name}}</td>
                     <td>{{$value->name}}</td>
                     <td class="d-flex">
@@ -37,33 +42,19 @@
             </tbody>
         </table>
     </div>
-    <div class="card-bottom {{$search ?'d-none': ''}}">
+    <div class="card-bottom ">
         <div class="paginate">
-            {{ $data->withQueryString()->appends($_GET)->links('.backend.component.admin') }}
+            {{ $data->withQueryString()->appends($_GET)->links('.backend.component.paginate') }}
         </div>
         <form action="" method="post">
             @csrf
             <div class="border-start">
                 <p>Show</p>
                 <select name="limit-category" id="show-limit">
-                    @php
-                        $shows = [ '5', '10', '15'];
-                        if ($limit_category = request()->input('limit-category'))
-                        {
-                            $limit_category = request()->input('limit-category');
-                        }else{
-                            $limit_category = request()->input('limit');
-                        }
-                        if ($limit_category)
-                        {
-                            echo $limit_category;
-                        }else{
-                            echo 'none';
-                        }
-                    @endphp
+
                     @foreach($shows as $show)
 
-                        <option  {{$show==$limit_category?'selected':''}} value="{{$show}}">{{$show}}</option>
+                        <option  {{$show==$limit?'selected':''}} value="{{$show}}">{{$show}}</option>
                     @endforeach
                 </select>
                 <p>item</p>

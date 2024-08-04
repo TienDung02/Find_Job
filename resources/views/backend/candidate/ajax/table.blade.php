@@ -20,10 +20,16 @@
             </thead>
             <tbody>
             <span id="get_limit" data-url="{{ route('candidate.limit') }}"> </span>
+
+            <span id="change_active" data-url="{{ route('candidate.update') }}"> </span>
+            @php
+                $shows = [ '5', '10', '15'];
+                $limit = request()->input('limit', 5);
+                $page = request()->input('page', 1);
+            @endphp
             @foreach($data as $key => $value)
-                <span id="change_active" data-url="{{ route('candidate.update') }}"> </span>
                 <tr>
-                    <td>{{$key + 1}}</td>
+                    <td> {{ ($page-1)*$limit+$key+1}}</td>
                     <td>{{$value['last_name'] . ' ' . $value['first_name']}}</td>
                     <td>{{ $value->users->email ?? 'No email available'}}</td>
                     <td><input class="toggle_switch ms-3 mt-3" data-id="{{$value['id']}}" data-name="{{$value['last_name'] . ' ' . $value['first_name']}}" {{$value['active']==1?'checked':''}}  type="checkbox"></td>
@@ -40,7 +46,7 @@
     </div>
     <div class="card-bottom">
         <div class="paginate">
-            {{ $search ? '' : $data->withQueryString()->appends($_GET)->links('.backend.component.admin')}}
+            {{ $data->withQueryString()->appends($_GET)->links('.backend.component.paginate')}}
         </div>
         <form action="" method="post">
             @csrf

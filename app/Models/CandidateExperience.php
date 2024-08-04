@@ -11,7 +11,7 @@ class CandidateExperience extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'id';
-
+    protected $table = 'candidate_experiences';
     protected $fillable = [
         'candidate_id',
         'employer',
@@ -24,7 +24,6 @@ class CandidateExperience extends Model
         'deleted_at',
         'deleted_at'
     ];
-    protected $dates = ['deleted_at'];
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'candidate_id', 'id');

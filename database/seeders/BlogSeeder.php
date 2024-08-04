@@ -15,7 +15,7 @@ class BlogSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $category_blog = DB::table('categoryBlog')->pluck('category_blog_id');
+        $category_blog = DB::table('categories_blogs')->pluck('id');
         $blog = [];
 
         for ($i = 0; $i < 40; $i++) {

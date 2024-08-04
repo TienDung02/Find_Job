@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\backend;
 
-use App\Models\blog;
+use App\Http\Controllers\Controller;
 use App\Models\company;
 use Illuminate\Http\Request;
-use \Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Carbon;
 
 class CompanyController extends Controller
 {
@@ -16,48 +14,30 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
-        $data = company::query();
-        $search = '';
-        $keyword = $request->input('keyword');
-        $type = $request->input('type');
-        $limit = $request->input('limit', 5);
-
-        $data = $data->paginate($limit);
-        if ($keyword != '')
-        {
-            $search = $this->search($type, $keyword,$limit);
-            if ($search->isNotEmpty()) {
-                $data = $search;
-                if ($type == 'active'){
-                    $search = '';
-                }
-            }
-        }
-        return view('backend.company.index', compact('data', 'search'));
+        $data = $this->getTable($request);
+        return view('backend.company.index', compact('data'));
     }
 
     public function getLimit (Request $request) {
+        $data = $this->getTable($request);
+        return view('backend.company.ajax.table', compact('data'));
+    }
+
+    public function getTable ($request) {
         $data = company::query();
-        $search = '';
         $keyword = $request->input('keyword');
         $type = $request->input('type');
         $limit = $request->input('limit', 5);
-
         $data = $data->paginate($limit);
-        if ($keyword != '')
+        if ($keyword != '' && $keyword != null)
         {
             $search = $this->search($type, $keyword,$limit);
             if ($search->isNotEmpty()) {
                 $data = $search;
-                if ($type == 'active'){
-                    $search = '';
-                }
             }
         }
-
-        return view('backend.company.ajax.table', compact('data', 'search'));
+        return $data;
     }
-
     public function create()
     {
         $name = '';
@@ -68,16 +48,16 @@ class CompanyController extends Controller
 
     public function search($type, $keyword, $limit)
     {
-        $query = company::query();
         if ($type == 'employer') {
-            return $query->whereHas('employer', function ($query) use ($keyword) {
+            $query = company::wherehas('employer', function ($query) use ($keyword) {
                 $query->whereRaw("CONCAT(last_name, ' ', first_name) LIKE ?", ["%$keyword%"]);
-            })->get();
+            });
         }elseif ($type == 'active'){
-            return $query->where('active', $keyword)->paginate($limit);
+            $query = company::where('active', $keyword);
         }elseif ($type == 'company'){
-            return $query->where("company_name", 'like' , ["%$keyword%"])->get();
+            $query =  company::where("company_name", 'like' , ["%$keyword%"]);
         }
+        return $query->paginate($limit);
     }
 
     public function edit($id)
@@ -102,8 +82,8 @@ class CompanyController extends Controller
         }
 
         $data = $query
-            ->join('employers', 'companies.id_employer', '=', 'employers.id_employer')
-            ->select('companies.id_company', 'companies.company_name as data2', 'companies.active as data3', \DB::raw("CONCAT(employers.last_name, ' ', employers.first_name) as data1"))
+            ->join('employers', 'companies.employer_id', '=', 'employers.id')
+            ->select('companies.id', 'companies.company_name as data2', 'companies.active as data3', \DB::raw("CONCAT(employers.last_name, ' ', employers.first_name) as data1"))
             ->get();
 
         $data = $data->map(function ($item) {
@@ -121,34 +101,19 @@ class CompanyController extends Controller
 
     public function update(Request $request)
     {
-        $data = company::query();
-        $search = '';
-        $keyword = $request->input('keyword');
-        $type = $request->input('type');
-        $limit = $request->input('limit', 5);
-        $data = $data->paginate($limit);
-        if ($keyword != '') {
-            $search = $this->search($type, $keyword, $limit);
-            if ($search->isNotEmpty()) {
-                $data = $search;
-                if ($type == 'active') {
-                    $search = '';
-                }
-            }
-        }
+        $data = $this->getTable($request);
         $id = $request->input('id');
         $company = company::find($id);
         if (!$company) {
             return redirect()->route('backend.company.index')->with('error', 'Company not found.');
         }
         $company->active = $request->input('status_to');
-        $company->update_at = Carbon::now();
         if ($company->save()) {
             $type_ = $request->input('type_');
             if ($type_ == 'view') {
                 toastr()->success('Update company successfully!');
                 return response()->json([
-                    'redirect' => route('company.index', compact('data', 'search')),
+                    'redirect' => route('company.index', compact('data')),
                     'message' => 'Update company successfully!'
                 ]);
             } else {

@@ -50,12 +50,16 @@
                 <tbody>
                 <span id="get_limit" data-url="{{ route('candidate.limit') }}"> </span>
                 <span id="change_active" data-url="{{ route('candidate.update') }}"> </span>
-
+                @php
+                    $shows = [ '5', '10', '15'];
+                    $limit = request()->input('limit', 5);
+                    $page = request()->input('page', 1);
+                @endphp
                 @foreach($data as $key => $value)
                     <tr>
-                        <td>{{$key + 1}}</td>
-                        <td>{{$value['last_name'] . ' ' . $value['first_name']}}</td>
-                        <td>{{ $value->users->email ?? 'No email available'}}</td>
+                        <td> {{ ($page-1)*$limit+$key+1}}</td>
+                        <td>{{$value['last_name'] . ' ' . $value['first_name'] }} </td>
+                        <td>{{ $value->user->email ?? 'No email available'}}</td>
                         <td><input class="toggle_switch ms-3 mt-3" data-type="candidate with name "
                                    data-id="{{$value['id']}}"
                                    data-name="{{$value['last_name'] . ' ' . $value['first_name']}}"
@@ -74,7 +78,7 @@
 
         <div class="card-bottom">
             <div class="paginate" id="pagination-links">
-                {{ $search ? '':$data->withQueryString()->appends($_GET)->links('.backend.component.admin') }}
+                {{ $data->withQueryString()->appends($_GET)->links('.backend.component.paginate') }}
             </div>
 
             <form action="" method="post">
@@ -82,17 +86,11 @@
                 <div class="border-start">
                     <p>Show</p>
                     <select name="limit" id="show-limit">
-                        @php
-                            $shows = [ '5', '10', '15'];
-                            if ($limit_category = request()->input('limit'))
-                            {
-                                $limit_category = request()->input('limit');
-                            }
-                        @endphp
+
                         @foreach($shows as $show)
 
                             <option
-                                {{$show==$limit_category?'selected':''}} value="{{$show}}">{{$show}}</option>
+                                {{$show==$limit?'selected':''}} value="{{$show}}">{{$show}}</option>
                         @endforeach
                     </select>
                     <p>item</p>

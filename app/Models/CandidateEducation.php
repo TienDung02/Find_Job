@@ -10,7 +10,7 @@ class CandidateEducation extends Model
 {
     use HasFactory, SoftDeletes;
     protected $primaryKey = 'id';
-
+    protected $table = 'candidate_educations';
     protected $fillable = [
         'candidate_id',
         'school_name',

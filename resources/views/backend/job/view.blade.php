@@ -1,9 +1,9 @@
-@include('backend.component.admin_head')
+@include('backend.component.head')
 <body>
 <div id="admin_wrapper">
-    @include('backend.component.admin_header')
+    @include('backend.component.header')
     <main>
-        @include('backend.component.admin_menu_left')
+        @include('backend.component.menu_left')
         <div class="contain">
             <section>
                 <div class="title-table">
@@ -23,7 +23,8 @@
                         <!-- job Type -->
                         <div class="form-admin-insert-data">
                             <label for="#">Job Type</label>
-                            <input type="text" name="first-name" disabled value="{{$job->job_type->name}}">
+
+                            <input type="text" name="first-name" disabled value="{{$job->jobType->name}}">
                         </div>
 
                         <!-- Choose Category -->
@@ -34,7 +35,7 @@
                         <!-- Tags -->
                         <div class="form-admin-insert-data">
                             <label for="#">Job Tag</label>
-                            <input type="text" name="first-name" disabled value="{{$job->job_tag->name}}">
+                            <input type="text" name="first-name" disabled value="{{$job->jobTag ->name}}">
                         </div>
                         <!-- Description -->
                         <div class="form-admin-insert-data">
@@ -73,10 +74,10 @@
                                        value="{{$job->closing_day}}">
                             </div>
                             <div class="w-25 m-auto d-flex">
-                                <h5>Active Company</h5>
+                                <h5>Active Job</h5>
                                 <span id="change_active" data-url="{{ route('job.update') }}"> </span>
-                                <input class=" ms-3 mt-2 me-5 status_active" data-type="job with title "
-                                       data-id="{{$job->job_id}}" data-name="{{$job->title}}"
+                                <input class=" ms-5 mt-1 me-5 status_active" data-type="job with title "
+                                       data-id="{{$job->id}}" data-name="{{$job->title}}"
                                        {{$job->active==1?'checked':''}}  type="checkbox">
                             </div>
                         </div>
@@ -88,7 +89,7 @@
                                 <div class="form ">
                                     <input type="submit" style="width:10rem;" value="SAVE"
                                            class="btn me-3 text-light mt-3 rounded-pill fw-bold fs-6 mb-0 toggle_switch"
-                                           data-type="view" data-id="{{$job->job_id}}" data-name="">
+                                           data-type="view" data-id="{{$job->id}}" data-name="">
                                     <a href="{{ route('job.index') }}" class="text-decoration-none">
                                         <button type="button" style="width:10rem;padding: 0.75rem;"
                                                 class="btn btn-danger mt-3 rounded-pill fw-bold fs-6 me-3">
@@ -111,7 +112,7 @@
         </div>
     </main>
 </div>
-@include('backend.component.admin_script')
+@include('backend.component.script')
 </body>
 
 </html>

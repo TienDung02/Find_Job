@@ -1,64 +1,48 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\backend;
 
+use App\Http\Controllers\Controller;
 use App\Models\category;
 use Illuminate\Http\Request;
-use \Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Carbon;
+
 class CategoryController extends Controller
 {
 
     public function index(Request $request)
     {
-        $data = Category::query();
-        $data->with('parent');
-
-        $search = '';
-        $keyword = $request->input('keyword');
-        $type = $request->input('type');
-        $limit = $request->input('limit', 5);
-
-        $data = $data->paginate($limit);
-        if ($keyword != '')
-        {
-            $search = $this->search($type, $keyword,$limit);
-            if ($search->isNotEmpty()) {
-                $data = $search;
-                $search = '.';
-            }
-        }
-
-        return view('backend.category.index', compact('data', 'search'));
+        $data = $this->getTable($request);
+        return view('backend.category.index', compact('data'));
     }
 
     public function getLimit (Request $request) {
+        $data = $this->getTable($request);
+        return view('backend.category.ajax.table', compact('data'));
+    }
+
+    public function getTable ($request) {
         $data = category::query();
         $data->with('parent');
-
-        $search = '';
         $keyword = $request->input('keyword');
         $type = $request->input('type');
         $limit = $request->input('limit', 5);
-
         $data = $data->paginate($limit);
         if ($keyword != '')
         {
             $search = $this->search($type, $keyword,$limit);
             if ($search->isNotEmpty()) {
                 $data = $search;
-                $search = '.';
             }
         }
-        return view('backend.category.ajax.table', compact('data', 'search'));
+        return $data;
     }
 
     public function create()
     {
         $name = '';
-        $category_id = '';
-        $categoryList = $this->show();
-        return view('backend.category.add', compact('categoryList', 'name', 'category_id'));
+        $id_category = '';
+        $categoryList = category::query()->where('level', '<', 4)->get();
+        return view('backend.category.add', compact('categoryList', 'name', 'id_category'));
     }
 
     public function search($type, $keyword, $limit)
@@ -73,60 +57,48 @@ class CategoryController extends Controller
             if ($results->isEmpty()) {
                 $query = category::where('id', $keyword);
             }
-        } else {
+        } elseif ($type === 'level') {
+            $query = category::where('level', $keyword);
+        }else {
             $query = category::where('name', 'like', "%$keyword%");
         }
         return $query->paginate($limit);
     }
 
-    public function show($type = 'add', $id=0, $category_id=0, $space='&nbsp;')
+    public function store(Request $request)
     {
-        $GetCategory = '';
-        $data = category::all();
-        foreach ($data as $value) {
-            if ($type == 'add'){
-                if ($value['parent_id'] == $id){
-                    $GetCategory .= "<option "  . " value='" . $value['id'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                    $this->show('add',$value['id'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                }
-            }
-            else if ($type == 'edit'){
-                if ($category_id == 0){
-                    if ($value['parent_id'] == $id){
-                        $GetCategory .= "<option "  . " value='" . $value['id'] . "' >" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show($type = 'add', $value['id'],$category_id, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    }
-                }else{
-                    $selected = ' ';
-                    if ($value['parent_id'] == $id) {
-                        if ($value['id'] == $category_id) {
-                            $selected = 'selected';
-                        }
-                        $GetCategory .= "<option "  . " value='" . $value['id'] . "' $selected>" . $space . "-&nbsp;" . $value['name'] . "</option>";
-                        $this->show('add',$value['id'],0, $space. "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+
+        $parentId = $request->input('parent_id');
+        $query = category::query()->where('id', $parentId)->get();
+        $level = 1;
+        foreach ($query as $p){
+            $parentId2 = $p['parent_id'];
+            if ($parentId2 == 0){
+                $level = 2;
+            }elseif ($parentId2 != 0){
+                $query2 = category::query()->where('id', $parentId2)->get();
+                foreach ($query2 as $p2)
+                {
+                    $parentId3 = $p2['parent_id'];
+                    if ($parentId3 != 0){
+                        $level = 4;
+                    }else{
+                        $level = 3;
                     }
                 }
             }
         }
 
-        return $GetCategory;
-    }
 
-    public function store(Request $request)
-    {
-        $data = category::query();
-        $limit = $request->input('limit', 5);
-        $data = $data->paginate($limit);
+        $data = $this->getTable($request);
         $insert_category = new category();
         $insert_category->name = $request->input('name');
-        $insert_category->parent_id = $request->input('parent_id');
-        $insert_category->create_at = Carbon::now();
-        $insert_category->update_at = Carbon::now();
+        $insert_category->parent_id = $parentId;
+        $insert_category->level = $level;
 
         $categoryExists = category::where('name', $insert_category->name)
             ->where('parent_id', $insert_category->parent_id)
             ->exists();
-        $search = '';
         if (!$categoryExists) {
             if ($insert_category->save()) {
                 toastr()->success('Added category successfully!');
@@ -138,20 +110,16 @@ class CategoryController extends Controller
             toastr()->error('This category already exists!');
             return back();
         }
-        return view('backend.category.index', compact('data', 'search'));
+        return view('backend.category.index', compact('data'));
     }
-
-
 
     public function edit($id_category)
     {
         $category_id = category::findOrFail($id_category);
-        $type = 'edit';
-        $id = (int)$category_id->id_category;
         $name = $category_id->name;
         $parent_id = (int)$category_id->parent_id;
-        $categoryList = $this->show($type ,0,$parent_id, $space='&nbsp;');
-        return view('backend.category.add', compact('categoryList', 'name', 'category_id'));
+        $categoryList = category::query()->get();
+        return view('backend.category.add', compact('categoryList', 'name', 'id_category', 'parent_id'));
     }
 
 
@@ -161,30 +129,31 @@ class CategoryController extends Controller
         $keyword = $request->input('keyword');
         $type = $request->input('type');
         $parent_id = $request->input('data_first_suggest', null);
-
         $query = category::query();
         if ($type === 'parent') {
             $query->where('parent_id', 0);
             if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
+                $query->where('name', 'like', "%" . $keyword . "%");
             }
         } else if ($type === 'category') {
             if ($parent_id) {
                 $query->where('parent_id', $parent_id);
             }
             if ($keyword) {
-                $query->where('name', 'like', "%$keyword%");
+                $query->where('name', 'like', "%" . $keyword . "%");
             }
         }
 
-        $suggestions = $query->get(['id', 'name']);
+        $suggestions = $query->select('categories.id', 'categories.name as data1', 'categories.level as data3')->get();
         $suggestions = $suggestions->map(function ($item) {
             return [
-                'id_data' => $item->id, // Đổi tên trường từ id_category thành id
-                'data1' => $item->name,
-                'data2' => $item->name
+                'id_data' => $item->data1,
+                'data1' => $item->data1,
+                'data2' => $item->data1,
+                'data3' => $item->data3
             ];
         });
+
 
         return response()->json($suggestions);
     }
@@ -193,17 +162,34 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'parent_id' => 'nullable|integer',
-            'name' => 'required|string|max:255',
-        ]);
+
+        $parentId = $request->input('parent_id');
+        $query = category::query()->where('id', $parentId)->get();
+        foreach ($query as $p){
+            $parentId2 = $p['parent_id'];
+            if ($parentId2 == 0){
+                $level = 2;
+            }elseif ($parentId2 != 0){
+                $query2 = category::query()->where('id', $parentId2)->get();
+                foreach ($query2 as $p2)
+                {
+                    $parentId3 = $p2['parent_id'];
+                    if ($parentId3 != 0){
+                        $level = 4;
+                    }else{
+                        $level = 3;
+                    }
+                }
+            }
+        }
+
         $id_category = category::find($id);
         if (!$id_category) {
             return redirect()->route('category.index')->with('error', 'Category not found.');
         }
-        $id_category->parent_id = $request->input('parent_id');
+        $id_category->parent_id = $parentId;
+        $id_category->level = $level;
         $id_category->name = $request->input('name');
-        $id_category->update_at = Carbon::now();
         if ($id_category->save()) {
             toastr()->success('Update category successfully!');
         } else {

@@ -50,18 +50,23 @@
                 <tbody>
                 <span id="get_limit" data-url="{{ route('job.limit') }}"> </span>
                 <span id="change_active" data-url="{{ route('job.update') }}"> </span>
+                @php
+                    $shows = [ '5', '10', '15'];
+                    $limit = request()->input('limit', 5);
+                    $page = request()->input('page', 1);
+                @endphp
                 @foreach($data as $key => $value)
                     <tr>
-                        <td> {{$key + 1}}</td>
+                        <td> {{ ($page-1)*$limit+$key+1}}</td>
                         <td>
                             {{ $value->company->company_name ?? 'No company name available' }}
                         </td>
                         <td> {{ $value['title'] }} </td>
                         <td><input class="toggle_switch ms-3 mt-3 status_active" data-type="job with title "
-                                   data-id="{{$value['job_id']}}" data-name="{{$value['title']}}"
+                                   data-id="{{$value['id']}}" data-name="{{$value['title']}}"
                                    {{$value['active']==1?'checked':''}}  type="checkbox"></td>
                         <td>
-                            <a class="" href="{{ route('job.edit', $value['job_id']) }}">
+                            <a class="" href="{{ route('job.edit', $value['id']) }}">
                                 <button type="submit" style="margin-top: -1rem"
                                         class="btn btn-primary text-white">View
                                 </button>
@@ -73,9 +78,9 @@
             </table>
 
         </div>
-        <div class="card-bottom {{$search ?'d-none': ''}}">
+        <div class="card-bottom">
             <div class="paginate" id="pagination-links">
-                {{ $search ?'':$data->withQueryString()->appends($_GET)->links('component.backend')}}
+                {{$data->withQueryString()->appends($_GET)->links('.backend.component.paginate')}}
             </div>
 
             <form action="" method="post">

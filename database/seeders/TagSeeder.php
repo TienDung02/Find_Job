@@ -18,7 +18,7 @@ class TagSeeder extends Seeder
         for ($i = 0; $i < 40; $i++) {
             $category_blogs[] = [
                 'name' => $faker->word,
-                'popular' => $faker->optional()->numberBetween(1, 20),
+                'popular' => $faker->numberBetween(0, 20),
             ];
         }
         DB::table('tags')->insert($category_blogs);

@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 
         protected $primaryKey = 'id';
 
+        protected $table = 'categories_blogs';
+
         protected $fillable = [
             'name',
             'description',

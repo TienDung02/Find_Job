@@ -17,7 +17,7 @@ class CandidateSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             $candidates[] = [
                 'user_id' => $faker->numberBetween(1, 50),
-                'avatar' => $faker->imageUrl('https://avatar.iran.liara.run/public'),
+                'avatar' => 'https://avatar.iran.liara.run/public',
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'tel' => $faker->phoneNumber,

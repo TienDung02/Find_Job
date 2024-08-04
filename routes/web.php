@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\backend\BlogController;
+use App\Http\Controllers\backend\CandidateController;
+use App\Http\Controllers\backend\CategoryController;
+use App\Http\Controllers\backend\CompanyController;
+use App\Http\Controllers\backend\JobController;
+use App\Http\Controllers\backend\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CandidateController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\BlogController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,15 +20,15 @@ use App\Http\Controllers\BlogController;
 */
 
 
-Route::get('/home', function () {
-    return view('backend.dashboard.index');
-});
+//Route::get('/home', function () {
+//    return view('backend.dashboard.index');
+//});
 
 // Route CategoryController
 Route::get('category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
 Route::post('category', [CategoryController::class, 'store'])->name('category.store');
-//Route::get('category/{category}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('category/show', [CategoryController::class, 'show'])->name('category.show');
 Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
 Route::put('category/{category}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
@@ -60,16 +61,18 @@ Route::get('company/paginate-limit', [CompanyController::class, 'getLimit'])->na
 
 
 // Route UserController
-Route::patch('user/update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::put('user/update', [UserController::class, 'update'])->name('user.update');
 Route::get('user', [UserController::class, 'index'])->name('user.index');
 Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::get('user/suggest', [UserController::class, 'suggest'])->name('user.suggest');
 Route::get('user/paginate-limit', [UserController::class, 'getLimit'])->name('user.limit');
 
 // Route BlogController
-Route::patch('blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
+Route::put('blog/update/{id_blog}', [BlogController::class, 'update'])->name('blog.update');
 Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('blog/create', [BlogController::class, 'create'])->name('blog.create');
+Route::post('blog', [BlogController::class, 'store'])->name('blog.store');
+
 Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit');
 Route::get('blog/suggest', [BlogController::class, 'suggest'])->name('blog.suggest');
 Route::get('blog/paginate-limit', [BlogController::class, 'getLimit'])->name('blog.limit');

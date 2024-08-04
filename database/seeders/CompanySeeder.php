@@ -42,7 +42,7 @@ class CompanySeeder extends Seeder
                 'company_size' => $faker->randomElement(['Small', 'Medium', 'Large']),
                 'company_average_salary' => $faker->numberBetween(40000, 120000),
                 'description' => $faker->paragraph,
-                'header_img' => $faker->imageUrl('https://avatar.iran.liara.run/public'),
+                'header_img' => 'https://avatar.iran.liara.run/public',
                 'active' => $faker->boolean,
             ];
         }
