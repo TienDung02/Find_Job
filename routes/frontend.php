@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\frontend\LoginController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,15 +13,34 @@ use App\Http\Controllers\frontend\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('home', [HomeController::class, 'index'])->name('home.index');
 
 
-Route::get('/home', function () {
-    return view('frontend.home.index');
+Route::middleware(['auth'])->group(function () {
+//    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index']);
+//    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
+    Route::post('auth/logout', [LoginController::class, 'logout'])->name('auth.logout');
 });
 
+// Route LoginController
+Route::post('login', [LoginController::class, 'login'])->name('auth.login');
 
-// Route CategoryController
-Route::get('login', [LoginController::class, 'index'])->name('login.index');
+
+
+
+
+
+
+
+
+
+
+
+
+//Route::get('confirm', [LoginController::class, 'confirm'])->name('login.confirm');
+//Route::get('email', [LoginController::class, 'email'])->name('login.email');
+//Route::get('reset', [LoginController::class, 'reset'])->name('login.reset');
+//Route::get('login', [LoginController::class, 'index'])->name('login');
 //Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
 //Route::post('category', [CategoryController::class, 'store'])->name('category.store');
 //Route::get('category/show', [CategoryController::class, 'show'])->name('category.show');

@@ -80,3 +80,7 @@ Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blog.des
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

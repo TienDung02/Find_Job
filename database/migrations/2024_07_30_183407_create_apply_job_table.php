@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('full_name');
             $table->string('email', 50);
             $table->text('message');
-            $table->string('cv');
+            $table->text('cv');
             $table->timestamps();
             $table->softDeletes();
         });

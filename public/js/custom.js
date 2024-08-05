@@ -7,46 +7,46 @@
         /*----------------------------------------------------*/
         /*  Navigation
         /*----------------------------------------------------*/
-        if ($('header').hasClass('full-width')) {
-            $('header').attr('data-full', 'yes');
-        }
-        if ($('header').hasClass('alternative')) {
-            $('header').attr('data-alt', 'yes');
-        }
+        // if ($('header').hasClass('full-width')) {
+        //     $('header').attr('data-full', 'yes');
+        // }
+        // if ($('header').hasClass('alternative')) {
+        //     $('header').attr('data-alt', 'yes');
+        // }
 
-        function menumobile() {
-            var winWidth = $(window).width();
-            if (winWidth < 973) {
-                $('#navigation').removeClass('menu');
-                $('#navigation li').removeClass('dropdown');
-                $('header').removeClass('full-width');
-                $('#navigation').superfish('destroy');
-            } else {
-                $('#navigation').addClass('menu');
-                if ($('header').data('full') === "yes") {
-                    $('header').addClass('full-width')
-                }
-                $('#navigation').superfish({
-                    delay: 300,                               // one second delay on mouseout
-                    animation: {opacity: 'show'},   // fade-in and slide-down animation
-                    speed: 200,                               // animation speed
-                    speedOut: 50                                 // out animation speed
-                });
-            }
-            if (winWidth < 1272) {
-                $('header').addClass('alternative').removeClass('full-width');
-            } else {
-                if ($('header').data('alt') === "yes") {
-                } else {
-                    $('header').removeClass('alternative');
-                }
-            }
-        }
-
-        $(window).resize(function () {
-            menumobile();
-        });
-        menumobile();
+        // function menumobile() {
+        //     var winWidth = $(window).width();
+        //     if (winWidth < 973) {
+        //         $('#navigation').removeClass('menu');
+        //         $('#navigation li').removeClass('dropdown');
+        //         $('header').removeClass('full-width');
+        //         $('#navigation').superfish('destroy');
+        //     } else {
+        //         $('#navigation').addClass('menu');
+        //         if ($('header').data('full') === "yes") {
+        //             $('header').addClass('full-width')
+        //         }
+        //         $('#navigation').superfish({
+        //             delay: 300,
+        //             animation: {opacity: 'show'},
+        //             speed: 200,
+        //             speedOut: 50
+        //         });
+        //     }
+        //     if (winWidth < 1272) {
+        //         $('header').addClass('alternative').removeClass('full-width');
+        //     } else {
+        //         if ($('header').data('alt') === "yes") {
+        //         } else {
+        //             $('header').removeClass('alternative');
+        //         }
+        //     }
+        // }
+        //
+        // $(window).resize(function () {
+        //     menumobile();
+        // });
+        // menumobile();
 
 
         /*----------------------------------------------------*/
@@ -91,28 +91,25 @@
         /*----------------------------------------------------*/
         /*  Stacktable / Responsive Tables Plug-in
         /*----------------------------------------------------*/
-        $('.responsive-table').stacktable();
+        // $('.responsive-table').stacktable();
 
 
         /*----------------------------------------------------*/
-        /*  Back to Top
+        /*  Back to Top & Header
         /*----------------------------------------------------*/
         var pxShow = 400; // height on which the button will show
         var fadeInTime = 1000; // how slow / fast you want the button to show
         var fadeOutTime = 1000; // how slow / fast you want the button to hide
         var scrollSpeed = 400; // how slow / fast you want the button to scroll to top.
 
+
+
         $(window).scroll(function () {
             if ($(window).scrollTop() >= pxShow) {
                 $("#backtotop").fadeIn(fadeInTime).removeClass('d-none');
-                $('header').addClass('header_2');
-                $('.logo2').addClass('d-none').removeClass('d-block');
-                $('.logo1').removeClass('d-none').addClass('d-block');
+
             } else {
                 $("#backtotop").fadeOut(fadeOutTime).addClass('d-none');
-                $('header').removeClass('header_2');
-                $('.logo1').addClass('d-none').removeClass('d-block');
-                $('.logo2').removeClass('d-none').addClass('d-block');
             }
         });
 
@@ -120,6 +117,154 @@
             $('html, body').animate({scrollTop: 0}, scrollSpeed);
             return false;
         });
+
+
+        /*----------------------------------------------------*/
+        /*  Form Login & Register
+        /*----------------------------------------------------*/
+        $(document).on('click', '.login',function() {
+            $(this).addClass('active');
+            $('.register').removeClass('active');
+            $('#tab1').addClass('d-block').removeClass('d-none');
+            $('#tab2').removeClass('d-block').addClass('d-none');
+        });
+        $(document).on('click', '.register',function() {
+            $(this).addClass('active');
+            $('.login').removeClass('active');
+            $('#tab2').addClass('d-block').removeClass('d-none');
+            $('#tab1').removeClass('d-block').addClass('d-none');
+        });
+
+
+        /*----------------------------------------------------*/
+        /*  Header
+        /*----------------------------------------------------*/
+        var url = window.location.href;
+        if (url.includes('login')) {
+            $('header').addClass('header_2');
+            $('.logo1').removeClass('d-none').addClass('d-block');
+            $('.logo2').addClass('d-none').removeClass('d-block');
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= pxShow) {
+                $('header').addClass('header_2');
+                $('.logo2').addClass('d-none').removeClass('d-block');
+                $('.logo1').removeClass('d-none').addClass('d-block');
+
+            } else {
+                if (url.includes('login')) {
+                }else{
+                    $('header').removeClass('header_2');
+                    $('.logo1').addClass('d-none').removeClass('d-block');
+                    $('.logo2').removeClass('d-none').addClass('d-block');
+                }
+            }
+        });
+        /*----------------------------------------------------*/
+        /*  Menu Header Dropdown
+        /*----------------------------------------------------*/
+        $(document).on('click', '.menu-dropdown',function() {
+            if ($('.ul-dropdown').hasClass('d-block')){
+                $('.ul-dropdown').removeClass('d-block');
+            }else {
+                $('.ul-dropdown').addClass('d-block');
+            }
+        });
+
+        /*----------------------------------------------------*/
+        /*  Logout
+        /*----------------------------------------------------*/
+        function confirmActive(status_to, alert, type_, id_) {
+            var urlParams = new URLSearchParams(window.location.search);
+            var keyword = urlParams.get('keyword');
+            var type = urlParams.get('type');
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            // var csrf = $('#csrf').attr('data-csrf');
+            var url = $('#change_active').attr('data-url');
+            var executeAjax = function() {
+                $.ajax({
+                    url: url,
+                    method: 'POST', // Dùng POST để gửi phương thức PATCH
+                    data: {
+                        '_method': 'put', // Chỉ định phương thức PATCH
+                        '_token': csrfToken, // Chuyển CSRF token
+                        'status_to': status_to,
+                        'keyword': keyword,
+                        'type': type,
+                        'type_': type_,
+                        'id': id_
+                    },
+                    success: function(response) {
+                        if (response.redirect) {
+                            window.location.href = response.redirect;
+                        } else {
+                            location.reload();
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('XHR:', xhr);
+                        Swal.fire(
+                            'Error!',
+                            'There was an error updating the status.',
+                            'error'
+                        );
+                    }
+                });
+            };
+
+            if (type_ === 'view') {
+                executeAjax();
+            } else {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: alert,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        executeAjax();
+                    } else if (result.isDismissed) {
+                        $('input[data-name="' + name_ + '"]').prop('checked', status_to === 0);
+                    }
+                });
+            }
+        }
+        $(document).on('click', '#logout-link', function(e) {
+            e.preventDefault();
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            var url = $('#browse-logout').attr('data-browse');
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    console.error('Logout failed');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /*----------------------------------------------------*/
@@ -613,20 +758,20 @@
         /*----------------------------*/
 
         // ----------------------------------------- Alert To Log In -------------------------------------------------//
-        // $('.alert_login').on('click', function () {
-        //     Swal.fire({
-        //         icon: 'question',
-        //         title: 'You need to login first!',
-        //         showDenyButton: true,
-        //         confirmButtonText: 'Go to login',
-        //         denyButtonText: `Not now`,
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             window.location.href = '../index.blade.php';
-        //         } else if (result.isDenied) {
-        //         }
-        //     })
-        // })
+        $('.alert_login').on('click', function () {
+            Swal.fire({
+                icon: 'question',
+                title: 'You need to login first!',
+                showDenyButton: true,
+                confirmButtonText: 'Go to login',
+                denyButtonText: `Not now`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../index.blade.php';
+                } else if (result.isDenied) {
+                }
+            })
+        })
 
         /*----------------------------*/
 

@@ -1,17 +1,11 @@
 @include('frontend.component.head')
 <div class="clearfix"></div>
 
-
-
-@include('frontend.component.header')
-{{--@include('frontend.component.header_2')--}}
-@include('frontend.component.banner')
-
-
-
-
-
-
+@if(auth()->check())
+    @include('frontend.component.header_2')
+@else
+    @include('frontend.component.header')
+@endif
 
 @yield('content')
 

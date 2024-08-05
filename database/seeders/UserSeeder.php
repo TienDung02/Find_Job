@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 class UserSeeder extends Seeder
 {
@@ -18,12 +19,12 @@ class UserSeeder extends Seeder
 
         $users = [];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $users[] = [
                 'user_name' => $faker->userName,
                 'email' => $faker->unique()->safeEmail,
-                'password' => md5('123'),
-                'role' => $faker->randomElement([1, 2, 3]),
+                'password' => Hash::make('123'),
+                'role' => $faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8]),
                 'active' => $faker->boolean,
             ];
         }

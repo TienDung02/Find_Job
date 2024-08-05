@@ -13,10 +13,11 @@ class CandidateSeeder extends Seeder
         $faker = Faker::create();
 
         $candidates = [];
-
-        for ($i = 0; $i < 50; $i++) {
+        $user_id = DB::table('users')->where('role', 2)->pluck('id');
+        $numberOfRecords =count($user_id);
+        for ($i = 0; $i < $numberOfRecords; $i++) {
             $candidates[] = [
-                'user_id' => $faker->numberBetween(1, 50),
+                'user_id' => $user_id[$i],
                 'avatar' => 'https://avatar.iran.liara.run/public',
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,

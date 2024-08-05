@@ -16,14 +16,13 @@ class EmployerSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $user_id = DB::table('users')->pluck('id');
-
-
+        $user_id = DB::table('users')->where('role', 2)->pluck('id');
+        $numberOfRecords =count($user_id);
         $employer = [];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < $numberOfRecords; $i++) {
             $employer[] = [
-                'user_id' => $faker->randomElement($user_id),
+                'user_id' => $user_id[$i],
                 'avatar' => $faker->imageUrl('https://avatar.iran.liara.run/public'),
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
