@@ -1,0 +1,19 @@
+<script src="{{asset("js/jquery-2.1.3.min.js")}}"></script>
+<script src="{{asset("js/custom.js")}}"></script>
+<script src="{{asset("js/jquery.superfish.js")}}"></script>
+<script src="{{asset("js/jquery.themepunch.tools.min.js")}}"></script>
+<script src="{{asset("js/jquery.themepunch.revolution.min.js")}}"></script>
+<script src="{{asset("js/jquery.themepunch.showbizpro.min.js")}}"></script>
+<script src="{{asset("js/jquery.flexslider-min.js")}}"></script>
+<script src="{{asset("js/chosen.jquery.min.js")}}"></script>
+<script src="{{asset("js/jquery.magnific-popup.min.js")}}"></script>
+<script src="{{asset("js/waypoints.min.js")}}"></script>
+<script src="{{asset("js/jquery.counterup.min.js")}}"></script>
+<script src="{{asset("js/jquery.jpanelmenu.js")}}"></script>
+<script src="{{asset("js/stacktable.js")}}"></script>
+<script src="{{asset("js/bootstrap-tagsinput.js")}}"></script>
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.all.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
