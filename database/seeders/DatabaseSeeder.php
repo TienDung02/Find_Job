@@ -38,7 +38,6 @@ class DatabaseSeeder extends Seeder
             ApplyJobSeeder::class,
             BookmarkSeeder::class,
 
-            CategoryBlogSeeder::class,
             BlogSeeder::class,
         ]);
 

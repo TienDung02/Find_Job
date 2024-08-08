@@ -61,7 +61,7 @@
 		-webkit-text-size-adjust: 100%;
 		overflow-x: hidden;
 	}
-	
+
 	/* Boxed Styles */
 	body.boxed {
 		margin: 0 auto;
@@ -85,14 +85,14 @@
 	}
 
 	/* Secondary Font */
-	h1, h2, h3, h4, h5, h6, 
-	.button, 
-	input[type="button"], 
+	h1, h2, h3, h4, h5, h6,
+	.button,
+	input[type="button"],
 	input[type="submit"],
 	button,
 	#navigation, .infobox a,
 	.pagination-container, .upload-btn,
-	.skills span, 
+	.skills span,
 	.app-content .info span,
 	.tabs-nav li a, .reply,
 	.ui-accordion .ui-accordion-header,
@@ -124,6 +124,8 @@
 	.margin-top-60 { margin-top: 60px !important; }
 	.margin-top-65 { margin-top: 65px !important; }
 	.margin-top-70 { margin-top: 70px !important; }
+	.margin-top-80 { margin-top: 80px !important; }
+	.margin-top-90 { margin-top: 90px !important; }
 
 	/* Margin Bottom */
 	.margin-bottom-0  { margin-bottom: 0 !important; }
@@ -144,7 +146,10 @@
 	.margin-bottom-60 { margin-bottom: 60px !important; }
 	.margin-bottom-65 { margin-bottom: 65px !important; }
 	.margin-bottom-70 { margin-bottom: 70px !important; }
-	
+	.margin-bottom-80 { margin-bottom: 80px !important; }
+	.margin-bottom-90 { margin-bottom: 90px !important; }
+
+    .padding-50 { padding: 50px !important;}
 
 /* Basic Alginment
 ================================================== */
@@ -152,7 +157,7 @@
 		height: auto;
 		display: block;
 	}
-	
+
 	img {
 		width: auto;
 		border: 0;
@@ -236,7 +241,7 @@
 
 /* #Forms
 ================================================== */
-	
+
 	.fake-input,
 	input[type="text"],
 	input[type="password"],
@@ -257,6 +262,7 @@
 		font-weight: 500;
 		border: 1px solid #e0e0e0;
 		opacity: 1;
+        border-radius: 5px;
 	}
 
 	select { padding: 0; }
@@ -266,7 +272,7 @@
 	input[type="email"]:focus,
 	input[type="number"]:focus,
 	textarea:focus {
-		color: #808080; 
+		color: #808080;
 		-webkit-transition: all 0.1s ease-in-out;
 		-moz-transition: all 0.1s ease-in-out;
 		-o-transition: all 0.1s ease-in-out;
@@ -300,7 +306,7 @@
 	legend {
 		display: block;
 		font-weight: bold;
-		font-size: 16px; 
+		font-size: 16px;
 		font-weight: normal;
 		margin-bottom: 8px;
 	}
@@ -328,7 +334,7 @@
 		font-size: 14px;
 		color: #444;
 	}
-		
+
 
 
 

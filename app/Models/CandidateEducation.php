@@ -23,7 +23,7 @@ class CandidateEducation extends Model
         'deleted_at'
     ];
 
-//    const UPDATED_AT = 'updated_at';
+    public $timestamps = true;
     protected $dates = ['deleted_at'];
     public function candidate()
     {

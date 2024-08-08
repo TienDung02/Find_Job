@@ -22,6 +22,9 @@ class IndustrySeeder extends Seeder
             $industries[] = [
                 'name' => $faker->word,
                 'description' => $faker->paragraph,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
 

@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
             'deleted_at'
         ];
         protected $dates = ['deleted_at'];
+        public $timestamps = true;
         public function parent()
         {
             return $this->belongsTo(CategoryBlog::class, 'parent_id');

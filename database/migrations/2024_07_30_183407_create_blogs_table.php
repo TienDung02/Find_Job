@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('category_blog_id');
             $table->string('img', 255)->nullable();
             $table->text('desc');
+            $table->text('content');
             $table->timestamps();
             $table->softDeletes();
         });

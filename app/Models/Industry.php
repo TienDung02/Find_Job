@@ -20,6 +20,7 @@ class Industry extends Model
         'deleted_at'
     ];
     protected $dates = ['deleted_at'];
+    public $timestamps = true;
     public function companies()
     {
         return $this->hasMany(Company::class, 'id', 'id_industry');

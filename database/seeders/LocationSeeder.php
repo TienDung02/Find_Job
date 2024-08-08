@@ -20,7 +20,11 @@ class LocationSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             $location[] = [
+//                'name' => $faker->country(),
                 'name' => $faker->city(),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
 

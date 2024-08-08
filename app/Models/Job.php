@@ -35,7 +35,7 @@ class Job extends Model
     ];
 
     protected $dates = ['deleted_at'];
-
+    public $timestamps = true;
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');

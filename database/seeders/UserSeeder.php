@@ -26,6 +26,9 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123'),
                 'role' => $faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8]),
                 'active' => $faker->boolean,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
 

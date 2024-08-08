@@ -19,7 +19,7 @@ $link_limit = 7; // maximum number of links
 
     <ul class="pagination2 pagination-sm m-0  text-center" >
         <li>
-            <a class="page-link {{ ($paginator->currentPage() == 1) ? ' disabled page-item' : '' }}" href="{{ $paginator->url(1)}}" aria-label="Prev">
+            <a class="page-link {{ ($paginator->currentPage() == 1) ? ' disabled page-item' : '' }}" href="{{ $paginator->url($paginator->currentPage()-1)}}" aria-label="Prev">
                 <i class="bi bi-caret-left-fill"></i>
             </a>
         </li>

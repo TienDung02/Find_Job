@@ -14,13 +14,13 @@ class JobTypeSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-        for ($i = 0; $i < 20; $i++) {
-            $category_blogs[] = [
-                'name' => $faker->word,
-            ];
-        }
-
-        DB::table('job_types')->insert($category_blogs);
+        $job_types = [
+            ['name' => 'Full-Time'],
+            ['name' => 'Part-Time'],
+            ['name' => 'Internship'],
+            ['name' => 'Freelance'],
+            ['name' => 'Temporary'],
+        ];
+        DB::table('job_types')->insert($job_types);
     }
 }

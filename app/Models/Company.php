@@ -37,9 +37,14 @@ class Company extends Model
         'deleted_at'
     ];
     protected $dates = ['deleted_at'];
+    public $timestamps = true;
     public function industry()
     {
         return $this->belongsTo(Industry::class, 'industry_id', 'id');
+    }
+    public function location()
+    {
+        return $this->belongsTo(Industry::class, 'headquarters', 'id');
     }
 
     public function employer()

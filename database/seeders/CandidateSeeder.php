@@ -24,7 +24,9 @@ class CandidateSeeder extends Seeder
                 'tel' => $faker->phoneNumber,
                 'about' => $faker->sentence,
                 'active' => $faker->boolean,
-
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
         DB::table('candidates')->insert($candidates);

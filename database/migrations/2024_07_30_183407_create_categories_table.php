@@ -17,7 +17,9 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('parent_id')->default(0);
             $table->string('name', 100);
+            $table->integer('type');
             $table->integer('level');
+            $table->boolean('is_popular');
             $table->timestamps();
             $table->softDeletes();
         });

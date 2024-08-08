@@ -13,6 +13,7 @@ class CandidateNetworkProfile extends Model
 
     protected $fillable = ['candidate_id', 'name', 'url', 'create_at', 'update_at', 'deleted_at'];
     protected $dates = ['deleted_at'];
+    public $timestamps = true;
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'candidate_id', 'id');

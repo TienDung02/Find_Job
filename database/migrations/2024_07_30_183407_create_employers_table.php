@@ -22,6 +22,10 @@ return new class extends Migration
             $table->string('tel', 255);
             $table->text('about');
             $table->integer('active');
+            $table->integer('free_jobs_count');
+            $table->string('job_package')->nullable();
+            $table->dateTime('package_expiration')->nullable();
+            $table->integer('jobs_remaining')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -33,6 +33,7 @@ class JobSeeder extends Seeder
                 'job_type_id' => $faker->randomElement($job_types),
                 'location_id' => $faker->randomElement($location),
                 'tag_id' => $faker->randomElement($job_tags),
+                'spotlight' => null,
                 'description' => $faker->paragraph,
                 'job_requirements' => $faker->paragraph,
                 'minimum_rate' => $faker->randomFloat(2, 15, 50),
@@ -42,7 +43,9 @@ class JobSeeder extends Seeder
                 'closing_day' => $faker->dateTimeBetween('now', '+1 year'),
                 'apply' => $faker->boolean,
                 'active' => $faker->boolean,
-
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
 

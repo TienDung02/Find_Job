@@ -18,6 +18,7 @@ class CompanySeeder extends Seeder
 
         $employer_id = DB::table('employers')->pluck('id');
         $industry_id = DB::table('industries')->pluck('id');
+        $location_id = DB::table('locations')->pluck('id');
 
         $companies = [];
 
@@ -27,10 +28,10 @@ class CompanySeeder extends Seeder
                 'employer_id' => $faker->randomElement($employer_id),
                 'company_name' => $companyName,
                 'company_tagline' => $faker->catchPhrase,
-                'headquarters' => $faker->address,
+                'headquarters' => $faker->randomElement($location_id),
                 'latitude' => $faker->latitude,
                 'longitude' => $faker->longitude,
-                'company_logo' => $faker->imageUrl('https://avatar.iran.liara.run/username?username='. $companyName),
+                'company_logo' => 'https://avatar.iran.liara.run/username?username='. $companyName,
                 'video' => $faker->url,
                 'since' => $faker->year,
                 'company_website' => $faker->url,
@@ -44,6 +45,9 @@ class CompanySeeder extends Seeder
                 'description' => $faker->paragraph,
                 'header_img' => 'https://avatar.iran.liara.run/public',
                 'active' => $faker->boolean,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
 

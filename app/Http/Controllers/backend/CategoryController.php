@@ -147,7 +147,7 @@ class CategoryController extends Controller
         $suggestions = $query->select('categories.id', 'categories.name as data1', 'categories.level as data3')->get();
         $suggestions = $suggestions->map(function ($item) {
             return [
-                'id_data' => $item->data1,
+                'id_data' => $item->id,
                 'data1' => $item->data1,
                 'data2' => $item->data1,
                 'data3' => $item->data3

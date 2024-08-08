@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\frontend\ProfileController;
+use App\Http\Controllers\frontend\ResumeController;
+use App\Http\Controllers\frontend\CategoryController;
+use App\Http\Controllers\frontend\JobController;
+use App\Http\Controllers\frontend\CompanyController;
+use App\Http\Controllers\frontend\ApplicationController;
+use App\Http\Controllers\frontend\BlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,13 +20,36 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('home', [HomeController::class, 'index'])->name('home.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 
 Route::middleware(['auth'])->group(function () {
-//    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index']);
-//    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
-    Route::post('auth/logout', [LoginController::class, 'logout'])->name('auth.logout');
+    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::any('/change-password', [LoginController::class, 'changePassword'])->name('changePassword');
+
+    Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/resume', [ResumeController::class, 'index'])->name('resume.index');
+    Route::get('/resume/manage', [ResumeController::class, 'manage'])->name('resume.manage');
+    Route::get('/resume/add', [ResumeController::class, 'create'])->name('resume.add');
+    Route::get('/resume/browser', [ResumeController::class, 'browser'])->name('resume.browser');
+
+    Route::get('/home/browser-category', [CategoryController::class, 'index'])->name('category.browser');
+
+    Route::get('/home/browser-job', [JobController::class, 'browser'])->name('job.browser');
+    Route::get('/home/alert-job', [JobController::class, 'alert'])->name('job.alert');
+    Route::get('/job/manage', [JobController::class, 'manage'])->name('job.manage');
+    Route::get('/job/add', [JobController::class, 'create'])->name('job.add');
+    Route::get('/job/index/{id}', [JobController::class, 'index'])->name('job.index');
+    Route::get('/job/detail/{id}', [JobController::class, 'detail'])->name('job.detail');
+
+    Route::get('/company/add', [CompanyController::class, 'index'])->name('company.add');
+
+    Route::get('/job-application/manage', [ApplicationController::class, 'index'])->name('application.manage');
+
+    Route::get('/home/blog/index', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/home/blog/detail/{id}', [BlogController::class, 'detail'])->name('blog.detail');
 });
 
 // Route LoginController

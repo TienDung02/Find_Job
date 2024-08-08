@@ -24,6 +24,8 @@ class CandidateExperience extends Model
         'deleted_at',
         'deleted_at'
     ];
+
+    public $timestamps = true;
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'candidate_id', 'id');

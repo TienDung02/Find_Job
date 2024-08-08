@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('job_type_id');
             $table->integer('location_id');
             $table->integer('tag_id');
+            $table->dateTime('spotlight')->nullable();
             $table->text('description');
             $table->text('job_requirements');
             $table->integer('minimum_rate');

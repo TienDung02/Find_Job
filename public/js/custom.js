@@ -7,54 +7,54 @@
         /*----------------------------------------------------*/
         /*  Navigation
         /*----------------------------------------------------*/
-        // if ($('header').hasClass('full-width')) {
-        //     $('header').attr('data-full', 'yes');
-        // }
-        // if ($('header').hasClass('alternative')) {
-        //     $('header').attr('data-alt', 'yes');
-        // }
+        if ($('header').hasClass('full-width')) {
+            $('header').attr('data-full', 'yes');
+        }
+        if ($('header').hasClass('alternative')) {
+            $('header').attr('data-alt', 'yes');
+        }
 
-        // function menumobile() {
-        //     var winWidth = $(window).width();
-        //     if (winWidth < 973) {
-        //         $('#navigation').removeClass('menu');
-        //         $('#navigation li').removeClass('dropdown');
-        //         $('header').removeClass('full-width');
-        //         $('#navigation').superfish('destroy');
-        //     } else {
-        //         $('#navigation').addClass('menu');
-        //         if ($('header').data('full') === "yes") {
-        //             $('header').addClass('full-width')
-        //         }
-        //         $('#navigation').superfish({
-        //             delay: 300,
-        //             animation: {opacity: 'show'},
-        //             speed: 200,
-        //             speedOut: 50
-        //         });
-        //     }
-        //     if (winWidth < 1272) {
-        //         $('header').addClass('alternative').removeClass('full-width');
-        //     } else {
-        //         if ($('header').data('alt') === "yes") {
-        //         } else {
-        //             $('header').removeClass('alternative');
-        //         }
-        //     }
-        // }
-        //
-        // $(window).resize(function () {
-        //     menumobile();
-        // });
-        // menumobile();
+        function menumobile() {
+            var winWidth = $(window).width();
+            if (winWidth < 973) {
+                $('#navigation').removeClass('menu');
+                $('#navigation li').removeClass('dropdown');
+                $('header').removeClass('full-width');
+                $('#navigation').superfish('destroy');
+            } else {
+                $('#navigation').addClass('menu');
+                if ($('header').data('full') === "yes") {
+                    $('header').addClass('full-width')
+                }
+                $('#navigation').superfish({
+                    delay: 300,
+                    animation: {opacity: 'show'},
+                    speed: 200,
+                    speedOut: 50
+                });
+            }
+            if (winWidth < 1272) {
+                $('header').addClass('alternative').removeClass('full-width');
+            } else {
+                if ($('header').data('alt') === "yes") {
+                } else {
+                    $('header').removeClass('alternative');
+                }
+            }
+        }
+
+        $(window).resize(function () {
+            menumobile();
+        });
+        menumobile();
 
 
         /*----------------------------------------------------*/
         /*  Mobile Navigation
         /*----------------------------------------------------*/
-        // var jPanelMenu = $.jPanelMenu({
-        //     menu: '#responsive', animated: false, duration: 200, keyboardShortcuts: false, closeOnContentClick: true
-        // });
+        var jPanelMenu = $.jPanelMenu({
+            menu: '#responsive', animated: false, duration: 200, keyboardShortcuts: false, closeOnContentClick: true
+        });
 
         //
         // desktop devices
@@ -140,19 +140,25 @@
         /*  Header
         /*----------------------------------------------------*/
         var url = window.location.href;
-        if (url.includes('login')) {
+        var path = window.location.pathname;
+
+        if (!path.endsWith('home')) {
             $('header').addClass('header_2');
             $('.logo1').removeClass('d-none').addClass('d-block');
             $('.logo2').addClass('d-none').removeClass('d-block');
+        }
+        if (!path.includes('home') && !path.endsWith('login')) {
+            $('#footer').addClass('d-none');
+            console.log('URL chứa login');
+
         }
         $(window).scroll(function () {
             if ($(window).scrollTop() >= pxShow) {
                 $('header').addClass('header_2');
                 $('.logo2').addClass('d-none').removeClass('d-block');
                 $('.logo1').removeClass('d-none').addClass('d-block');
-
             } else {
-                if (url.includes('login')) {
+                if (!url.endsWith('home')) {
                 }else{
                     $('header').removeClass('header_2');
                     $('.logo1').addClass('d-none').removeClass('d-block');
@@ -168,128 +174,37 @@
                 $('.ul-dropdown').removeClass('d-block');
             }else {
                 $('.ul-dropdown').addClass('d-block');
+                setTimeout(function() {
+                    $('.ul-dropdown').removeClass('d-block');
+                }, 5000);
             }
         });
-
-        /*----------------------------------------------------*/
-        /*  Logout
-        /*----------------------------------------------------*/
-        function confirmActive(status_to, alert, type_, id_) {
-            var urlParams = new URLSearchParams(window.location.search);
-            var keyword = urlParams.get('keyword');
-            var type = urlParams.get('type');
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            // var csrf = $('#csrf').attr('data-csrf');
-            var url = $('#change_active').attr('data-url');
-            var executeAjax = function() {
-                $.ajax({
-                    url: url,
-                    method: 'POST', // Dùng POST để gửi phương thức PATCH
-                    data: {
-                        '_method': 'put', // Chỉ định phương thức PATCH
-                        '_token': csrfToken, // Chuyển CSRF token
-                        'status_to': status_to,
-                        'keyword': keyword,
-                        'type': type,
-                        'type_': type_,
-                        'id': id_
-                    },
-                    success: function(response) {
-                        if (response.redirect) {
-                            window.location.href = response.redirect;
-                        } else {
-                            location.reload();
-                        }
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('XHR:', xhr);
-                        Swal.fire(
-                            'Error!',
-                            'There was an error updating the status.',
-                            'error'
-                        );
-                    }
-                });
-            };
-
-            if (type_ === 'view') {
-                executeAjax();
-            } else {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: alert,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        executeAjax();
-                    } else if (result.isDismissed) {
-                        $('input[data-name="' + name_ + '"]').prop('checked', status_to === 0);
-                    }
-                });
-            }
-        }
-        $(document).on('click', '#logout-link', function(e) {
-            e.preventDefault();
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            var url = $('#browse-logout').attr('data-browse');
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json'
-                },
-            }).then(response => {
-                if (response.ok) {
-                    window.location.href = '/';
-                } else {
-                    console.error('Logout failed');
-                }
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-        });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         /*----------------------------------------------------*/
         /*  Showbiz Carousel
         /*----------------------------------------------------*/
-        // $('#job-spotlight').showbizpro({
-        //     dragAndScroll: "off",
-        //     visibleElementsArray: [1, 1, 1, 1],
-        //     carousel: "off",
-        //     entrySizeOffset: 0,
-        //     allEntryAtOnce: "off",
-        //     rewindFromEnd: "off",
-        //     autoPlay: "off",
-        //     delay: 2000,
-        //     speed: 400,
-        //     easing: 'easeOut'
-        // });
-        //
-        // $('#our-clients').showbizpro({
-        //     dragAndScroll: "off",
-        //     visibleElementsArray: [5, 4, 3, 1],
-        //     carousel: "off",
-        //     entrySizeOffset: 0,
-        //     allEntryAtOnce: "off"
-        // });
+        $('#job-spotlight').showbizpro({
+            dragAndScroll: "off",
+            visibleElementsArray: [1, 1, 1, 1],
+            carousel: "on",
+            entrySizeOffset: 0,
+            allEntryAtOnce: "off",
+            rewindFromEnd: "on",
+            autoPlay: "off",
+            delay: 2000,
+            speed: 400,
+            easing: 'easeOut'
+        });
+
+
+        $('#our-clients').showbizpro({
+            dragAndScroll: "on",
+            visibleElementsArray: [5, 4, 3, 1],
+            carousel: "on",
+            entrySizeOffset: 0,
+            allEntryAtOnce: "off"
+        });
 
 
         /*----------------------------------------------------*/
@@ -330,16 +245,16 @@
         /*  Chosen Plugin
         /*----------------------------------------------------*/
 
-        // var config = {
-        //     '.chosen-select': {disable_search_threshold: 10, width: "100%"},
-        //     '.chosen-select-deselect': {allow_single_deselect: true, width: "100%"},
-        //     '.chosen-select-no-single': {disable_search_threshold: 10, width: "100%"},
-        //     '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
-        //     '.chosen-select-width': {width: "95%"}
-        // };
-        // for (var selector in config) {
-        //     $(selector).chosen(config[selector]);
-        // }
+        var config = {
+            '.chosen-select': {disable_search_threshold: 10, width: "100%"},
+            '.chosen-select-deselect': {allow_single_deselect: true, width: "100%"},
+            '.chosen-select-no-single': {disable_search_threshold: 10, width: "100%"},
+            '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+            '.chosen-select-width': {width: "95%"}
+        };
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
 
 
         /*----------------------------------------------------*/
@@ -604,7 +519,10 @@
         /*----------------------------*/
 
 
-        // ----------------------- Change Type Register -------------------//
+
+        /*----------------------------------------------------*/
+        /*  Change Type Register
+        /*----------------------------------------------------*/
         // $('.candidate_reg').click(function () {
         //     $(this).addClass('active');
         //     $('.employer_reg').removeClass('active');
@@ -616,7 +534,6 @@
         //     $('.candidate_reg').removeClass('active');
         //     $('#reg_type').val('2');
         // });
-        // /*--------------------*/
 
 
         // ----------------------- Input Plugin -------------------//
@@ -626,33 +543,32 @@
         /*----------------------*/
 
 
-        // ----------------------- My Profile Preview Image -------------------//
-        //
-        // $('#fileInput2').on('change', function () {
-        //     let $input;
-        //     $input = $(this);
-        //     if ($input.val().length > 0) {
-        //         let fileReader;
-        //         fileReader = new FileReader();
-        //         fileReader.onload = function (data) {
-        //             $('.image-preview').attr('src', data.target.result);
-        //         }
-        //         fileReader.readAsDataURL($input.prop('files')[0]);
-        //         $('.image-preview').css('display', 'block');
-        //     }
-        // });
-        /*----------------------------*/
+        /*----------------------------------------------------*/
+        /*  My Profile Preview Image
+        /*----------------------------------------------------*/
+        $('#fileInput2').on('change', function () {
+            let $input;
+            $input = $(this);
+            if ($input.val().length > 0) {
+                let fileReader;
+                fileReader = new FileReader();
+                fileReader.onload = function (data) {
+                    $('.image-preview').attr('src', data.target.result);
+                }
+                fileReader.readAsDataURL($input.prop('files')[0]);
+                $('.image-preview').css('display', 'block');
+            }
+        });
 
-
-        // ----------------------- Upload File Get File Name -------------------//
-        //
-        // $('.fileInput2').on('change', function () {
-        //     var parent = $(this).parents('.controlContainer').first();
-        //     var fileName = $(this)[0].files[0].name;
-        //     $(parent).find('.inputFileMaskText2').first().val(fileName);
-        //     // $('.inputFileMaskText2').val(fileName);
-        // });
-        /*----------------------------*/
+        /*----------------------------------------------------*/
+        /*  Upload File Get File Name
+        /*----------------------------------------------------*/
+        $('.fileInput3').on('change', function () {
+            var parent = $(this).parents('.controlContainer').first();
+            var fileName = $(this)[0].files[0].name;
+            $(parent).find('.inputFileMaskText2').first().val(fileName);
+            // $('.inputFileMaskText2').val(fileName);
+        });
 
 
         // ------------------------ Input Date --------------------------------- //
@@ -745,19 +661,20 @@
 
 
 
-        // ---------------------------------------------------------------------------------------------
 
 
-
-        // ------------------------------------ Summernote ---------------------------------------------------//
-
+        /*----------------------------------------------------*/
+        /*  Summernote
+        /*----------------------------------------------------*/
         $.getScript('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js', function ()
         {
             $('#summernote').summernote();
         });
-        /*----------------------------*/
 
-        // ----------------------------------------- Alert To Log In -------------------------------------------------//
+
+        /*----------------------------------------------------*/
+        /*  Alert To Log In
+        /*----------------------------------------------------*/
         $('.alert_login').on('click', function () {
             Swal.fire({
                 icon: 'question',
@@ -773,7 +690,6 @@
             })
         })
 
-        /*----------------------------*/
 
 
         // function alert_after_load(title, icon) {

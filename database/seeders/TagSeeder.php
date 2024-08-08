@@ -19,6 +19,9 @@ class TagSeeder extends Seeder
             $category_blogs[] = [
                 'name' => $faker->word,
                 'popular' => $faker->numberBetween(0, 20),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null
             ];
         }
         DB::table('tags')->insert($category_blogs);

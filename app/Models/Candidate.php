@@ -20,12 +20,9 @@ class Candidate extends Model
         'tel',
         'about',
         'active',
-        'created_at',
-        'updated_at'
-
     ];
     protected $dates = ['deleted_at'];
-//    const UPDATED_AT = 'updated_at';
+    public $timestamps = true;
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

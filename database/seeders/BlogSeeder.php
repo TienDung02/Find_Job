@@ -15,7 +15,7 @@ class BlogSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $category_blog = DB::table('categories_blogs')->pluck('id');
+        $category_blog = DB::table('categories')->where('type' ,2)->pluck('id');
         $blog = [];
 
         for ($i = 0; $i < 40; $i++) {
@@ -25,6 +25,7 @@ class BlogSeeder extends Seeder
                 'category_blog_id' => $faker->randomElement($category_blog),
                 'img' => $faker->imageUrl,
                 'desc' => $faker->paragraph,
+                'content' => $faker->text(500),
                 'created_at' => now(),
                 'updated_at' => now(),
                 'deleted_at' => null
