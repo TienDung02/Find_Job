@@ -25,11 +25,11 @@ $sql_update_profile = "update `$type_user` set avatar = '$target_file', first_na
 
 if ($connect->query($sql_update_profile) === TRUE) {
     $_SESSION['insert_job'] = 1;
-    header("location:index.blade.php");
+    header("location:detail.blade.php");
 } else {
     $_SESSION['insert_job'] = 0;
     echo "Lỗi: " . $sql_update_profile . "<br>" . $conn->error;
-    header("location:index.blade.php");
+    header("location:detail.blade.php");
 }
 
 

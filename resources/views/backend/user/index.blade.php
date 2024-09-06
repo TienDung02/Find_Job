@@ -6,7 +6,7 @@
                 <h4>JOBS</h4>
             </div>
             <div class="section-item-right mb-5">
-                <form id="formSearch" class="border-0" method="GET" action="{{ route('user.suggest') }}">
+                <form id="formSearch" class="border-0" method="GET" action="{{ route('admin.user.suggest') }}">
                     <div class="form-group ">
                         <select class="js-example-basic-single form-control" id="first_suggest" data-type="email"
                                 data-placeholder="Email" name="state">
@@ -22,7 +22,7 @@
                                 data-placeholder="Status" name="state">
                         </select>
                     </div>
-                    <a href="{{route("user.index")}}">
+                    <a href="{{route("admin.user.index")}}">
                         <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                     </a>
                 </form>
@@ -47,8 +47,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <span id="get_limit" data-url="{{ route('user.limit') }}"> </span>
-                        <span id="change_active" data-url="{{ route('user.update') }}"> </span>
+                        <span id="get_limit" data-url="{{ route('admin.user.limit') }}"> </span>
+                        <span id="change_active" data-url="{{ route('admin.user.update') }}"> </span>
                         @php
                             $shows = [ '5', '10', '15'];
                             $limit = request()->input('limit', 5);

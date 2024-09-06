@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\blog;
+use App\Models\Category;
 use App\Models\CategoryBlog;
 use Illuminate\Http\Request;
 
@@ -38,7 +39,7 @@ class BlogController extends Controller
     {
         $name = '';
         $id_blog = '';
-        $CategoryBlog = CategoryBlog::query()->where('level', '<', 4)->get();
+        $CategoryBlog = Category::query()->where('level', '<', 3)->get();
         return view('backend.blog.add', compact('CategoryBlog', 'name', 'id_blog'));
     }
 
@@ -61,6 +62,7 @@ class BlogController extends Controller
         $insert_blog->title = $request->input('title');
         $insert_blog->desc = $request->input('desc');
         $file = $request->file('file');
+        dd($file);
         $path = $file->store('uploads', 'public');
         $url = asset('storage/' . $path);
         $insert_blog->img = $url;

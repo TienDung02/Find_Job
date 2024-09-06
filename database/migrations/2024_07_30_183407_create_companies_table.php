@@ -18,12 +18,11 @@ return new class extends Migration
             $table->integer('employer_id');
             $table->string('company_name', 100);
             $table->string('company_tagline', 100)->nullable();
+            $table->integer('province_id')->nullable();
+            $table->integer('district_id')->nullable();
+            $table->integer('ward_id')->nullable();
             $table->string('headquarters', 100)->nullable();
-            $table->string('latitude', 100)->nullable();
-            $table->string('longitude', 255)->nullable();
             $table->string('company_logo', 255)->nullable();
-            $table->string('video', 255)->nullable();
-            $table->string('since', 255)->nullable();
             $table->string('company_website', 255)->nullable();
             $table->string('email', 255)->nullable();
             $table->string('phone', 20)->nullable();
@@ -31,9 +30,7 @@ return new class extends Migration
             $table->string('facebook', 255)->nullable();
             $table->string('industry_id', 255)->nullable();
             $table->string('company_size', 40)->nullable();
-            $table->string('company_average_salary', 255)->nullable();
             $table->text('description')->nullable();
-            $table->string('header_img', 255)->nullable();
             $table->integer('active');
             $table->timestamps();
             $table->softDeletes();

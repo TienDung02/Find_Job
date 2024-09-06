@@ -20,6 +20,7 @@ class Candidate extends Model
         'tel',
         'about',
         'active',
+        'rating',
     ];
     protected $dates = ['deleted_at'];
     public $timestamps = true;
@@ -27,19 +28,8 @@ class Candidate extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
-    public function educations()
+    public function resume()
     {
-        return $this->hasMany(CandidateEducation::class, 'candidate_id', 'id');
-    }
-
-    public function experiences()
-    {
-        return $this->hasMany(CandidateExperience::class, 'candidate_id', 'id');
-    }
-
-    public function networkProfiles()
-    {
-        return $this->hasMany(CandidateNetworkProfile::class, 'candidate_id', 'id');
+        return $this->hasMany(CandidateResume::class, 'candidate_id', 'id');
     }
 }

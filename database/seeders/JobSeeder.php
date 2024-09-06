@@ -17,34 +17,77 @@ class JobSeeder extends Seeder
 //        $faker = \Faker\Factory::create();
         $faker = Faker::create();
 
-        // Lấy dữ liệu từ các bảng liên quan
         $categories = DB::table('categories')->pluck('id');
         $job_types = DB::table('job_types')->pluck('id');
         $job_tags = DB::table('tags')->pluck('id');
-        $location = DB::table('locations')->pluck('id');
+        $company = DB::table('companies')->pluck('id');
 
         $jobs = [];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 150; $i++) {
+            $company_id = $faker->randomElement($company);
+
+            $headquarters = DB::table('companies')->where('id', $company_id)->value('headquarters');
+
+            $province = DB::table('companies')->where('id', $company_id)->value('province_id');
+            $district = DB::table('companies')->where('id', $company_id)->value('district_id');
+            $ward = DB::table('companies')->where('id', $company_id)->value('ward_id');
+
+            $province_name = DB::table('provinces')->where('id', $province)->value('name');
+            $district_name = DB::table('districts')->where('id', $district)->value('name');
+            $ward_name = DB::table('wards')->where('id', $ward)->value('name');
+
+            $createdAt = DB::table('companies')->where('id', $company_id)->value('created_at');
+            $createdAt = $faker->dateTimeBetween($createdAt, 'now');
+            $closing_day = $faker->dateTimeBetween($createdAt, '+30 days');
+
+            $day = $faker->numberBetween(1, 30);
+            $munber_tag = $faker->numberBetween(1, 5);
+            $selected_tag_ids = $faker->randomElements($job_tags, $munber_tag);
+            $tag_ids_string = implode(', ', $selected_tag_ids);
+
+            $type_salary = $faker->randomElement(['1', '2', '3']);
+            if ($type_salary == 1){
+                $minimum_salary = $faker->numberBetween(3000, 5000);
+                $maximum_salary = $faker->numberBetween(5000, 10000);
+                $salary = null;
+            }elseif ($type_salary == 2){
+                $minimum_salary = null;
+                $maximum_salary = null;
+                $salary = $faker->numberBetween(3000, 10000);
+            }else{
+                $minimum_salary = null;
+                $maximum_salary = null;
+                $salary = null;
+            }
+            if ($i < 15){
+                $spotlight = date('Y-m-d', strtotime('+'.$day.' day'));
+            }else{
+                $spotlight = null;
+            }
             $jobs[] = [
-                'company_id' => $faker->numberBetween(1, 50), // Giả định có 50 employers
+                'company_id' => $company_id,
                 'title' => $faker->jobTitle,
                 'category_id' => $faker->randomElement($categories),
                 'job_type_id' => $faker->randomElement($job_types),
-                'location_id' => $faker->randomElement($location),
-                'tag_id' => $faker->randomElement($job_tags),
-                'spotlight' => null,
+                'province_id' => $province,
+                'district_id' => $district,
+                'ward_id' => $ward,
+                'location' => $province_name . ', ' . $district_name . ', ' . $ward_name . ', ' . $headquarters,
+                'tag_id' => $tag_ids_string,
+                'spotlight' => $spotlight,
                 'description' => $faker->paragraph,
+                'benefit' => $faker->paragraph,
                 'job_requirements' => $faker->paragraph,
-                'minimum_rate' => $faker->randomFloat(2, 15, 50),
-                'maximum_rate' => $faker->randomFloat(2, 50, 100),
-                'minimum_salary' => $faker->numberBetween(30000, 50000),
-                'maximum_salary' => $faker->numberBetween(50000, 100000),
-                'closing_day' => $faker->dateTimeBetween('now', '+1 year'),
-                'apply' => $faker->boolean,
+                'type_salary' => $type_salary,
+                'salary' => $salary,
+                'minimum_salary' => $minimum_salary,
+                'maximum_salary' => $maximum_salary,
+                'closing_day' => $closing_day,
                 'active' => $faker->boolean,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'fill' => $faker->boolean,
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
                 'deleted_at' => null
             ];
         }

@@ -37,12 +37,11 @@
                 <!-- Login -->
                 <div class="tab-content" id="tab1">
                     <h3 class="margin-bottom-10 margin-top-10">Login</h3>
-                    <form method="post" class="login" action="{{route('auth.login')}}">
+                    <form method="post" class="login" action="{{route('auth')}}">
                         @csrf
-
                         <p class="form-row form-row-wide">
                             <label for="username">Email Address:</label>
-{{--                            <input type="text" class="input-text" name="user_name" id="username" value="" />--}}
+                            {{--                            <input type="text" class="input-text" name="user_name" id="username" value="" />--}}
                             <input id="email" type="email" class="form-control input-text @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                             @error('email')
@@ -54,7 +53,7 @@
 
                         <p class="form-row form-row-wide">
                             <label for="password">Password:</label>
-{{--                            <input class="input-text" type="password" name="password" id="password" />--}}
+                            {{--                            <input class="input-text" type="password" name="password" id="password" />--}}
                             <input id="password" type="password" class="form-control input-text @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                             @error('password')
@@ -69,54 +68,54 @@
 
                             <label for="rememberme" class="rememberme">
                                 <input name="rememberme" type="checkbox" id="rememberme" value="forever" {{ old('remember') ? 'checked' : '' }}/> Remember Me</label>
-{{--                            @if (Route::has('password.request'))--}}
-                                <p class="lost_password">
-                                    <a href="" >Lost Your Password?</a>
-                                </p>
-{{--                        @endif--}}
+                        {{--                            @if (Route::has('password.request'))--}}
+                        <p class="lost_password">
+                            <a href="" >Lost Your Password?</a>
+                        </p>
+                        {{--                        @endif--}}
                         </p>
 
                     </form>
                 </div>
 
                 <!-- Register -->
-{{--                <div class="tab-content d-none" id="tab2" >--}}
+                <div class="tab-content d-none" id="tab2" >
 
-{{--                    <h3 class="margin-bottom-10 margin-top-10">Register</h3>--}}
+                    <h3 class="margin-bottom-10 margin-top-10">Register</h3>
 
-{{--                    <form method="post" class="register" action="reg_process.php">--}}
+                    <form method="post" class="register" action="reg_process.php">
 
-{{--                        <p class="form-row d-flex form-row-wide">--}}
-{{--                            <input type="button" value="Candidate" class="type_reg candidate_reg active">--}}
-{{--                            <input type="button" value="Employer" class="type_reg employer_reg">--}}
-{{--                            <input type="hidden"  name="type_register" id="reg_type" value="1" />--}}
-{{--                        </p>--}}
+                        <p class="form-row d-flex form-row-wide">
+                            <input type="button" value="Candidate" class="type_reg candidate_reg active">
+                            <input type="button" value="Employer" class="type_reg employer_reg">
+                            <input type="hidden"  name="type_register" id="reg_type" value="1" />
+                        </p>
 
-{{--                        <p class="form-row form-row-wide">--}}
-{{--                            <label for="reg_email">User name:</label>--}}
-{{--                            <input type="text" class="input-text" name="user_name" id="reg_email" value="" />--}}
+                        <p class="form-row form-row-wide">
+                            <label for="reg_email">User name:</label>
+                            <input type="text" class="input-text" name="user_name" id="reg_email" value="" />
 
-{{--                        </p>--}}
+                        </p>
 
 
-{{--                        <p class="form-row form-row-wide">--}}
-{{--                            <label for="reg_password">Email:</label>--}}
-{{--                            <input type="email" class="input-text" name="email" id="reg_password" />--}}
-{{--                            <input id="email" type="email" class="form-control input-text @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>--}}
+                        <p class="form-row form-row-wide">
+                            <label for="reg_password">Email:</label>
+                            <input type="email" class="input-text" name="email" id="reg_password" />
+                            <input id="email" type="email" class="form-control input-text @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-{{--                            @error('email')--}}
-{{--                            <span class="invalid-feedback" role="alert">--}}
-{{--                                        <strong>{{ $message }}</strong>--}}
-{{--                                    </span>--}}
-{{--                            @enderror--}}
-{{--                        </p>--}}
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </p>
 
-{{--                        <p class="form-row">--}}
-{{--                            <input type="submit" class="button" name="register" value="Register" />--}}
-{{--                        </p>--}}
+                        <p class="form-row">
+                            <input type="submit" class="button" name="register" value="Register" />
+                        </p>
 
-{{--                    </form>--}}
-{{--                </div>--}}
+                    </form>
+                </div>
             </div>
         </div>
     </div>

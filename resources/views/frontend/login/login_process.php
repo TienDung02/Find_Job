@@ -20,16 +20,16 @@ if (!empty($login)) {
                 $url_before_login = $_SESSION['url_before_login'];
                 header("location:".$url_before_login);
             }else{
-                header("location:index.blade.php");
+                header("location:detail.blade.php");
             }
         }
     } else {
         $_SESSION['login_success'] = 0;
-        header("location:index.blade.php");
+        header("location:detail.blade.php");
     }
 } else {
     $_SESSION['login_success'] = 0;
-    header("location:index.blade.php");
+    header("location:detail.blade.php");
 }
 ?>
 

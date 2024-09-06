@@ -16,9 +16,6 @@ return new class extends Migration
         Schema::create('employers', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('user_id');
-            $table->string('avatar', 255);
-            $table->string('first_name', 255);
-            $table->string('last_name', 255);
             $table->string('tel', 255);
             $table->text('about');
             $table->integer('active');

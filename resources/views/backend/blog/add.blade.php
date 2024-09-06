@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="w-50">
-                            <div id="image-preview" class=" text-center mt-5">
+                            <div id="image-preview" class=" text-center mt-5 ">
                                 @if($id_blog != '')
                                     <img src="{{ asset($blog->img) }}" alt="Image Preview">
                                 @else

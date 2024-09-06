@@ -16,52 +16,52 @@
             <!-- Menu -->
             <nav id="navigation" class="menu">
                 <ul id="responsive">
-
-                    <li><a href="#">Pages</a>
-                        <ul>
-                            <li><a href="../job/job-page-alt.php">Job Page Alternative</a></li>
-                            <li><a href="../resumes/index.blade.php">Resume Page</a></li>
-                            <li><a href="../shortcodes.php">Shortcodes</a></li>
-                            <li><a href="../pricing-tables.php">Pricing Tables</a></li>
-                            <li><a href="../contact/contact.php">Contact</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="{{ auth()->user()->role == 2 ? '' : 'd-none' }}"><a href="#">For Candidates</a>
-                        <ul>
-                            <li><a href="{{route('job.browser')}}">Browse Jobs</a></li>
-                            <li><a href="{{route('category.browser')}}">Browse Categories</a></li>
-                            <li><a href="{{route('resume.add')}}">Add Resume</a></li>
-                            <li><a href="{{route('resume.manage')}}">Manage Resumes</a></li>
-                            <li><a href="{{route('job.alert')}}">Job Alerts</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="{{ auth()->user()->role == 3 ? '' : 'd-none' }}"><a href="#">For Employers</a>
-                        <ul>
-                            <li><a href="{{route('job.add')}}">Add Job</a></li>
-                            <li><a href="{{route('job.manage')}}">Manage Jobs</a></li>
-                            <li><a href="{{route('application.manage')}}">Manage Applications</a></li>
-                            <li><a href="{{route('resume.browser')}}">Browse Resumes</a></li>
-                            <li><a href="{{route('company.add')}}">Add Company</a></li>
-                        </ul>
-                    </li>
+                    @if(auth()->user()->role == 2)
+                        <li>
+                            <a class="{{ Str::contains(request()->path(), 'home/browser-job') || Str::contains(request()->path(), 'home/tag-search-job') || Str::contains(request()->path(), 'home/browser-search') ? 'active' : '' }}" href="{{route('job.browser')}}">Browse Jobs</a>
+                        </li>
+                        <li>
+                            <a class="{{ Str::contains(request()->path(), 'home/browser-category') ? 'active' : '' }}" href="{{route('category.browser')}}">Browse Categories</a>
+                        </li>
+                        <li>
+                            <a class="{{ Str::contains(request()->path(), 'resume/add') ? 'active' : '' }}" href="{{route('resume.add')}}">Add Resume</a>
+                        </li>
+                        <li>
+                            <a class="{{ Str::contains(request()->path(), 'manage') ? 'active' : '' }}" href="{{route('resume.manage')}}">Manage Resumes</a>
+                        </li>
+                        <li>
+                            <a class="{{ Str::contains(request()->path(), 'job/alert-job') ? 'active' : '' }}" href="{{route('alert.index')}}">Job Alerts</a>
+                        </li>
+                    @elseif(auth()->user()->role == 3)
+                        <li><a class="cursor-pointer {{Session::get('user_data.free_jobs_count') == 0 ? 'Alert_buy_service_package' : ''}}"
+                                    {{Session::get('user_data.free_jobs_count') == 0 ? '' : 'href='.route('job.add')}}>Add Job</a></li>
+                        <li><a href="{{route('job.manage')}}">Manage Jobs</a></li>
+                        <li><a href="{{route('application.manage')}}">Manage Applications</a></li>
+                        <li><a href="{{route('resume.browser')}}">Browse Resumes</a></li>
+                        <li><a href="{{route('company.add')}}">Company</a></li>
+                    @endif
 
                     <li><a href="{{route('blog.index')}}">Blog</a></li>
                 </ul>
+                <div>
+                <div class="avatar_user position-absolute user-name">
+                    <span>{{Session::get('user_data.name')}}</span>
+                </div>
                 <div class="avatar_user position-absolute">
+
                     <ul id="responsive" class="m-0 w-100 h-100">
                         <li class="h-100 w-100 m-0 menu-dropdown">
-                            <img src="{{$data->avatar}}">
+                            <img src="{{Session::get('user_data.avatar')}}">
                             <ul class="ul-dropdown">
-                                <li><a href="/profile/index">My Profile</a></li>
-                                <li><a href="../category/index.blade.php">Messenger</a></li>
+                                <li><a href="{{route('profile')}}">My Profile</a></li>
+                                <li><a href="{{route('messages.index')}}">Messenger</a></li>
                                 <li>
                                     <a href="/logout" >{{ __('Logout') }}</a>
                                 </li>
                             </ul>
                         </li>
                     </ul>
+                </div>
                 </div>
                 <!-- Navigation -->
 {{--                <div id="mobile-navigation">--}}

@@ -28,5 +28,8 @@ class Employer extends Model
 
     protected $dates = ['deleted_at'];
     public $timestamps = true;
-
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'employer_id', 'id');
+    }
 }

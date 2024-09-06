@@ -35,16 +35,15 @@
                 <div class="d-flex m-auto" style="width: 85%;justify-content: space-between;padding-bottom: 34px">
                     <div class="avatar_profile" style=" width: 30%;position: relative">
                         <h5>Avatar</h5>
-                        <div class="controlContainer "
-                             style="position: absolute;bottom: 0; width: 100%; height: calc(100% - 28px)">
+                        <div class="controlContainer position-absolute bottom-0 w-100">
                             <div class="inputFileHolder h-100">
                                 <a class="w-100 h-100" href="#" title="Browse">
                                 </a>
-                                <input id="fileInput2" name="avatar" class="fileInput w-100 h-100" title="Choose file to upload" value="{{$data->avatar}}"   type="file">
+                                <input id="fileInput2" name="avatar" class="file-img fileInput w-100 h-100" title="Choose file to upload" value="{{$data->avatar}}"   type="file">
                                 <input name="avatar_old" value="{{$data->avatar}}"   type="hidden">
                             </div>
                         </div>
-                        <img class="border image-preview" style="" src="{{asset($data->avatar)}}" alt="">
+                        <img class="border image-preview btn-select-img cursor-pointer" style="" src="{{asset($data->avatar)}}" alt="">
                         <h6>(reasonable size: 300px x 300px)</h6>
 
                     </div>

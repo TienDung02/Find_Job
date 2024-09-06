@@ -12,7 +12,7 @@ class CandidateEducation extends Model
     protected $primaryKey = 'id';
     protected $table = 'candidate_educations';
     protected $fillable = [
-        'candidate_id',
+        'resume_id',
         'school_name',
         'qualification',
         'start_day',

@@ -11,7 +11,7 @@ class CandidateNetworkProfile extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['candidate_id', 'name', 'url', 'create_at', 'update_at', 'deleted_at'];
+    protected $fillable = ['resume_id', 'name', 'url', 'create_at', 'update_at', 'deleted_at'];
     protected $dates = ['deleted_at'];
     public $timestamps = true;
     public function candidate()

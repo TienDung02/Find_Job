@@ -7,7 +7,7 @@
             <h4>BLOG</h4>
         </div>
         <div class="section-item-right">
-            <form id="formSearch" method="GET" action="{{ route('blog.suggest') }}">
+            <form id="formSearch" method="GET" action="{{ route('admin.blog.suggest') }}">
                 <div class="form-group ">
                     <select class="js-example-basic-single form-control" id="first_suggest" data-type="author"
                             data-placeholder="Select author name" name="state">
@@ -18,11 +18,11 @@
                             data-placeholder="Title" name="state">
                     </select>
                 </div>
-                <a href="{{route("blog.index")}}">
+                <a href="{{route("admin.blog.index")}}">
                     <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                 </a>
             </form>
-            <a style="color: #ffffff" href="{{route("blog.create")}}">
+            <a style="color: #ffffff" href="{{route("admin.blog.create")}}">
                 <button class="btn-add">ADD NEW</button>
             </a>
         </div>
@@ -45,7 +45,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <span id="get_limit" data-url="{{ route('blog.limit') }}"> </span>
+                <span id="get_limit" data-url="{{ route('admin.blog.limit') }}"> </span>
                 @php
                     $shows = [ '5', '10', '15'];
                     $limit = request()->input('limit', 5);
@@ -57,11 +57,11 @@
                         <td>{{$value['author']}} </td>
                         <td>{{$value['title']}}</td>
                         <td class="d-flex">
-                            <a href="{{ route('blog.edit', $value['id']) }}">
+                            <a href="{{ route('admin.blog.edit', $value['id']) }}">
                                 <button type="submit" class="btn btn-secondary">Update</button>
                             </a>
                             <form id='delete-form-{{ $value['id'] }}'
-                                  action="{{ route('blog.destroy', $value['id']) }}" method="POST">
+                                  action="{{ route('admin.blog.destroy', $value['id']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <a>

@@ -67,7 +67,7 @@
                 success: function(data) {
                     var html = $(data).children();
                     html.find('div.paginate a').attr('href', function(index, oldHref) {
-                        return oldHref.replace('/paginate-limit', '');
+                        return oldHref.replace('/paginate-limit', '/index');
                     });
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
@@ -93,7 +93,7 @@
                 success: function(data) {
                     var html = $(data).children();
                     html.find('div.paginate a').attr('href', function(index, oldHref) {
-                        return oldHref.replace('/paginate-limit', '');
+                        return oldHref.replace('/paginate-limit', '/index');
                     });
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
@@ -118,7 +118,7 @@
                 success: function(data) {
                     var html = $(data).children();
                     html.find('div.paginate a').attr('href', function(index, oldHref) {
-                        return oldHref.replace('/paginate-limit', '');
+                        return oldHref.replace('/paginate-limit', '/index');
                     });
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
@@ -137,7 +137,6 @@
         //------------------------------ Ajax Get Suggest -----------------------------------------//
         var first_placeholder = $('#first_suggest').attr('data-placeholder');
         var first_type = $('#first_suggest').attr('data-type');
-        // console.log('aaaaaaaaaa');
         $('#first_suggest').select2({
             placeholder: first_placeholder,
             ajax: {
@@ -331,7 +330,7 @@
                 success: function(data) {
                     var html = $(data).children();
                     html.find('div.paginate a').attr('href', function(index, oldHref) {
-                        return oldHref.replace('/paginate-limit', '');
+                        return oldHref.replace('/paginate-limit', '/index');
                     });
                     $('#append_ajax').html(html);
                     var newUrl = new URL(window.location.href);
@@ -394,10 +393,10 @@
             var executeAjax = function() {
                 $.ajax({
                     url: url,
-                    method: 'POST', // Dùng POST để gửi phương thức PATCH
+                    method: 'POST',
                     data: {
-                        '_method': 'put', // Chỉ định phương thức PATCH
-                        '_token': csrfToken, // Chuyển CSRF token
+                        '_method': 'put',
+                        '_token': csrfToken,
                         'status_to': status_to,
                         'keyword': keyword,
                         'type': type,
@@ -475,51 +474,101 @@
             confirmActive(status_to, alert, type_, id_);
         });
 
-        // ---------------------------------------------------------------------------------------------
-
-
-        // ------------------------------------------- Loader Image --------------------------------------------------
+        /*----------------------------------------------------*/
+        /*  Loader Image
+        /*----------------------------------------------------*/
         $('.btn-select-img').on('click', function() {
             $('.file-img').trigger('click');
         });
 
-        $('.file-img').on('change', function() {
-            var file = $(this)[0].files[0];
-            if (file) {
-                $('#file-name').val(file.name);
-                var file = this.files[0],
-                    filename = file.name,
-                    $label = $(this).next('.file-custom'),
-                    $preview = $('#image-preview'),
-                    img = document.createElement("img"),
-                    reader = new FileReader();
+        const allFiles = [];
+        const imagesContainer = document.getElementById('images');
 
-                img.file = file;
+        $('.file-img').on('change', function(event) {
+            console.log('aaaaaaaaaa');
+            const files = event.target.files;
+            for (const file of files) {
+                allFiles.push(file);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+
+                reader.onload = function(e) {
+                    // Append các file vào imagesContainer
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'images[]';
+                    input.value = e.target.result; // Lưu dữ liệu base64 vào input hidden
+                    // imagesContainer.appendChild(input);
+                };
+            }
+
+            var img_file = $(this)[0].files[0];
+            if (img_file) {
+                var $preview = $('#image-preview'),
+                    img = document.createElement("img"),
+                    reader = new FileReader(),
+                    a = document.createElement("a"),
+                    icon = document.createElement("i");
+                // input = document.createElement("input");
+
+                img.file = img_file;
                 img.classList.add("img-responsive");
-                $preview.css('content', '');
-                $preview.html(img);
+                img.classList.add("img-comment");
+                img.classList.add("ms-2");
+
+                icon.classList.add("bi");
+                icon.classList.add("bi-x-lg");
+
+                a.href = "#";
+                a.classList.add("mt-2");
+                a.style.position = "relative";
+                a.style.display = "inline-block";
+                a.appendChild(img);
+                a.appendChild(icon);
+
+                $preview.append(a);
+
                 reader.onload = (function(aImg) {
                     return function(e) {
                         aImg.src = e.target.result;
                     };
                 })(img);
+                reader.readAsDataURL(img_file);
 
-                reader.readAsDataURL(file);
-
-
+                $('.btn-add-img').removeClass('d-none');
+                console.log(allFiles);
             }
         });
-        // ---------------------------------------------------------------------------------------------
 
+        /*----------------------------------------------------*/
+        /*  Delete Image Preview
+        /*----------------------------------------------------*/
+        $(document).on('click', '.bi-x-lg', function(e) {
+            e.preventDefault();
+            var $parentA = $(this).closest('a');
+            var $input = $parentA.next('input[type="hidden"]');
+            $parentA.remove();
+            $input.remove();
+            if ($('#image-preview').find('a').length === 0) {
+                $('.btn-add-img').addClass('d-none');
+            }
+        });
 
-        // ------------------------------------ Summernote ---------------------------------------------------//
+        /*----------------------------------------------------*/
+        /*  Textarea Flexible height
+        /*----------------------------------------------------*/
+        $('#myTextarea').on('input', function () {
+            this.style.height = '58px';
+            this.style.height = Math.min(this.scrollHeight, 160) + 'px';
+        });
 
+        /*----------------------------------------------------*/
+        /*  Summernote
+        /*----------------------------------------------------*/
         $.getScript('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js', function ()
         {
             $('#summernote').summernote();
         });
-        /*----------------------------*/
-
 
 
         // ----------------------------------------- Alert To Log In -------------------------------------------------//
@@ -532,7 +581,7 @@
         //         denyButtonText: `Not now`,
         //     }).then((result) => {
         //         if (result.isConfirmed) {
-        //             window.location.href = '../index.blade.php';
+        //             window.location.href = '../detail.blade.php';
         //         } else if (result.isDenied) {
         //         }
         //     })

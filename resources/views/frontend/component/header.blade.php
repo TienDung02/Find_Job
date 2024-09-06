@@ -11,38 +11,9 @@
             <!-- Menu -->
             <nav id="navigation" class="menu">
                 <ul id="responsive">
-
-                    <li><a href="#">Pages</a>
-                        <ul>
-                            <li><a href="../job/job-page-alt.php">Job Page Alternative</a></li>
-                            <li><a href="../resumes/index.blade.php">Resume Page</a></li>
-                            <li><a href="../shortcodes.php">Shortcodes</a></li>
-                            <li><a href="../pricing-tables.php">Pricing Tables</a></li>
-                            <li><a href="../contact/contact.php">Contact</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#">For Candidates</a>
-                        <ul>
-                            <li><a href="../job/browser.blade.php">Browse Jobs</a></li>
-                            <li><a href="../category/index.blade.php">Browse Categories</a></li>
-                            <li><a href="../resumes/add.blade.php">Add Resume</a></li>
-                            <li><a href="../resumes/manage.blade.php">Manage Resumes</a></li>
-                            <li><a href="../job/alerts.blade.php">Job Alerts</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#">For Employers</a>
-                        <ul>
-                            <li><a href="../job/add.blade.php">Add Job</a></li>
-                            <li><a href="../job/manage.blade.php">Manage Jobs</a></li>
-                            <li><a href="../employer/manage-applications.blade.php">Manage Applications</a></li>
-                            <li><a href="../resumes/browser.blade.php">Browse Resumes</a></li>
-                            <li><a href="../company/add.blade.php">Add Company</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="../blog/index.blade.php">Blog</a></li>
+                    <li><a href="{{route('job.browser')}}">Job Page</a></li>
+                    <li><a href="{{route('blog.index')}}">Blog</a></li>
+                    <li><a href="../blog/index.blade.php">Contact</a></li>
                 </ul>
 
 

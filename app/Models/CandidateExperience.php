@@ -13,7 +13,7 @@ class CandidateExperience extends Model
     protected $primaryKey = 'id';
     protected $table = 'candidate_experiences';
     protected $fillable = [
-        'candidate_id',
+        'resume_id',
         'employer',
         'job_title',
         'start_day',

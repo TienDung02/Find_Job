@@ -5,7 +5,7 @@ php:
     - no_unused_imports
   finder:
     not-name:
-      - index.blade.php
+      - detail.blade.php
       - server.php
 js:
   finder:

@@ -24,12 +24,14 @@
 
                 </div>
             </div>
-
+            @php
+                $data_jobs = $data_jobs ?? null;
+            @endphp
 
             <!-- Content
             ================================================== -->
 
-            <div class="container">
+            <div class="container margin-bottom-90">
 
                 <!-- Table -->
                 <div class="sixteen columns">
@@ -65,18 +67,17 @@
 
 
                 <!-- Applications -->
-                <div class="sixteen columns">
+                <div id="loading" class="sixteen columns">
 
                     <!-- Application #1 -->
+                    @foreach($apply_jobs as $apply_job)
                     <div class="application">
                         <div class="app-content">
 
                             <!-- Name / Avatar -->
                             <div class="info">
-                                <img src="
-
-					" alt="">
-                                <span></span>
+                                <img src="{{asset($apply_job->candidate->avatar)}} " alt="">
+                                <span class="fw-medium">{{$apply_job->candidate->first_name . ' ' . $apply_job->candidate->last_name}}</span>
                                 <ul>
                                     <li><a href="#"><i class="fa fa-file-text"></i> Download CV</a></li>
                                     <li><a href="#"><i class="fa fa-envelope"></i> Contact</a></li>
@@ -84,69 +85,103 @@
                             </div>
                             <!-- Buttons -->
                             <div class="buttons">
-                                <a href="#one-1" class="button gray app-link"><i class="fa fa-pencil"></i> Edit</a>
-                                <a href="#two-1" class="button gray app-link"><i class="fa fa-sticky-note"></i> Add Note</a>
-                                <a href="#three-1" class="button gray app-link"><i class="fa fa-plus-circle"></i> Show Details</a>
+                                <a href="#edit-{{$apply_job->id}}" class="button gray app-link"><i class="fa fa-pencil"></i> Edit</a>
+                                <a href="#add-node-{{$apply_job->id}}" class="button gray app-link"><i class="fa fa-sticky-note"></i> Add Note</a>
+                                <a href="#show-detail-{{$apply_job->id}}" class="button gray app-link"><i class="fa fa-plus-circle"></i> Show Details</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                         <!--  Hidden Tabs -->
                         <div class="app-tabs">
-                            <a href="#" class="close-tab button gray"><i class="fa fa-close"></i></a>
+                            <a href="#" class="close-tab button gray" style="display: none"><i class="fa fa-close"></i></a>
                             <!-- First Tab -->
-                            <div class="app-tab-content" id="one-1">
-                                <div class="select-grid">
-                                    <select data-placeholder="Application Status" class="chosen-select-no-single">
-                                        <option value="">Application Status</option>
-                                        <option value="new">New</option>
-                                        <option value="interviewed">Interviewed</option>
-                                        <option value="offer">Offer extended</option>
-                                        <option value="hired">Hired</option>
-                                        <option value="archived">Archived</option>
-                                    </select>
-                                </div>
-                                <div class="select-grid">
-                                    <input style="padding: 9px 18px;" type="number" min="1" max="5" placeholder="Rating (out of 5)">
-                                </div>
-                                <div class="clearfix"></div>
-                                <a href="#" class="button margin-top-15">Save</a>
-                                <a href="#" class="button gray margin-top-15 delete-application">Delete this application</a>
+                            <div class="app-tab-content closed" style="display: none" id="edit-{{$apply_job->id}}">
+                                <form action="{{route('application.update', $apply_job->id)}}" method="post">
+
+                                    <div class="select-grid">
+                                        <select data-placeholder="Application Status" name="status" class="chosen-select-no-single">
+                                            <option value="">Application Status</option>
+                                            @foreach($application_status as $status)
+                                                <option {{$status->id == $apply_job->applicationStatus->id ? 'selected' : ''}} value="{{$status->id}}">{{$status->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="select-grid">
+                                        <input style="padding: 9px 18px;"  type="number" name="rating" min="1" max="5" placeholder="Rating (out of 5)">
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <input type="hidden" name="type" value="edit">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="submit" class="margin-top-15 button" value="Save">
+                                    <a href="#" data-target="{{route('application.destroy', $apply_job->id)}}" class="button gray margin-top-15 delete-application Alert_delete">Delete this application</a>
+                                </form>
                             </div>
                             <!-- Second Tab -->
-                            <div class="app-tab-content"  id="two-1">
-                                <textarea placeholder="Private note regarding this application"></textarea>
-                                <a href="#" class="button margin-top-15">Add Note</a>
+                            <div class="app-tab-content closed" style="display: none" id="add-node-{{$apply_job->id}}">
+                                <form action="{{route('application.update', $apply_job->id)}}" method="post">
+                                    <textarea name="note" placeholder="Private note regarding this application">{{$apply_job->note}}</textarea>
+                                    <input type="hidden" name="type" value="add-node">
+                                    <input type="submit" class="margin-top-15 button" value="Add Note">
+                                    @csrf
+                                    @method('PUT')
+                                </form>
                             </div>
                             <!-- Third Tab -->
-                            <div class="app-tab-content"  id="three-1">
+                            <div class="app-tab-content closed" style="display: none" id="show-detail-{{$apply_job->id}}">
                                 <i>Full Name:</i>
-                                <span></span>
+                                <span>{{$apply_job->candidate->first_name . ' ' . $apply_job->candidate->last_name}}</span>
 
                                 <i>Email:</i>
-                                <span><a href="mailto:john.doe@example.com"></a></span>
+                                <span><a href="mailto:{{$apply_job->email}}">{{$apply_job->email}}</a></span>
 
                                 <i>Message:</i>
-                                <span></span>
+                                <span>{{$apply_job->message}}</span>
                             </div>
                         </div>
                         <!-- Footer -->
                         <div class="app-footer">
 
                             <div class="rating no-stars">
-                                <div class="star-rating"></div>
-                                <div class="star-bg"></div>
+                                <div class="stars">
+                                    <svg width="100" height="100" viewBox="0 0 940.688 940.688">
+                                        <path d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z" />
+                                    </svg>
+                                    <svg width="100" height="100" viewBox="0 0 940.688 940.688">
+                                        <path d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z" />
+                                    </svg>
+                                    <svg width="100" height="100" viewBox="0 0 940.688 940.688">
+                                        <path d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z" />
+                                    </svg>
+                                    <svg width="100" height="100" viewBox="0 0 940.688 940.688">
+                                        <path d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z" />
+                                    </svg>
+                                    <svg width="100" height="100" viewBox="0 0 940.688 940.688">
+                                        <path d="M885.344,319.071l-258-3.8l-102.7-264.399c-19.8-48.801-88.899-48.801-108.6,0l-102.7,264.399l-258,3.8 c-53.4,3.101-75.1,70.2-33.7,103.9l209.2,181.4l-71.3,247.7c-14,50.899,41.1,92.899,86.5,65.899l224.3-122.7l224.3,122.601 c45.4,27,100.5-15,86.5-65.9l-71.3-247.7l209.2-181.399C960.443,389.172,938.744,322.071,885.344,319.071z" />
+                                    </svg>
+                                    <div class="overlay" style="width: {{(5-$apply_job->candidate->rating)*20}}%"></div>
+                                </div>
                             </div>
 
                             <ul>
-                                <li><i class="fa fa-file-text-o"></i> New</li>
+                                <li>{{$apply_job->updated_at}}</li>
+                                <li>({{getDayDifference($apply_job)}})</li>
                                 <li><i class="fa fa-calendar"></i></li>
                             </ul>
                             <div class="clearfix"></div>
 
                         </div>
                     </div>
-
+                    @endforeach
                 </div>
+                @if($have_more == 1)
+                    <span id="get-url" data-url="{{route('application.loadMoreApplications')}}" data-id="{{$job_id}}"></span>
+                    <div class="w-100 border-bottom margin-bottom-40"><a id="load-more" class="cursor-pointer text-href fw-semibold border-top  pt-2 pb-2 d-flex w-100 justify-content-center" data-next-page="1">Load More </a></div>
+                @else
+                    <div class="w-100 border-bottom margin-bottom-40">
+                        <div class="d-flex border-top pt-2 pb-2 w-100 justify-content-center fw-semibold">No job application</div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

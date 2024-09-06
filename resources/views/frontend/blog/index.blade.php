@@ -27,15 +27,15 @@
             @foreach($data_blogs as $blog)
 			<!-- Post -->
 			<div class="post-container">
-				<div class="post-img"><a href="{{route('blog.detail', $blog->id)}}"><img src="{{asset($blog->img)}}" alt=""></a><div class="hover-icon"></div></div>
+				<div class="post-img"><a class="d-flex justify-content-center" href="{{route('blog.detail', $blog->id)}}"><img src="{{asset($blog->img)}}" alt=""></a><div class="hover-icon"></div></div>
 				<div class="post-content">
 					<a href="#"><h3>{{$blog->title}}</h3></a>
 					<div class="meta-tags">
 						<span>{{getDayDifference($blog)}}</span>
-						<span><a href="#">0 Comments</a></span>
+						<span><a href="#">{{$blog->comments()->count()}} {{$blog->comments()->count() > 1 ? 'comments' : 'comment'}}</a></span>
 					</div>
 					<p>{{truncateText($blog->desc, 200)}}</p>
-					<a class="button" href="detail.blade.php">Read More</a>
+					<a class="button" href="{{route('blog.detail', $blog->id)}}">Read More</a>
 				</div>
 			</div>
             @endforeach

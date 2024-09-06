@@ -6,9 +6,10 @@ use App\Models\Blog;
 use App\Models\Candidate;
 use App\Models\Employer;
 use App\Models\Job;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Carbon;
 class HomeController extends Controller
 {
     /**
@@ -37,9 +38,10 @@ class HomeController extends Controller
                 $data = Employer::where('user_id', $user->id)->firstOrFail();
             }
         }
-        $data_jobs = job::query()->latest()->limit(5)->get();
+        $data_jobs = job::query()->latest()->limit(7)->get();
         $data_blogs = Blog::query()->latest()->limit(3)->get();
-
-        return view('frontend.home.index', compact('data', 'data_jobs', 'data_blogs'));
+        $spotlight = Job::query()->where('spotlight', '>', Carbon::now())->latest()->get();
+        $data_tag = Tag::query()->get();
+        return view('frontend.home.index', compact('data', 'data_jobs', 'data_blogs','spotlight', 'data_tag'));
     }
 }

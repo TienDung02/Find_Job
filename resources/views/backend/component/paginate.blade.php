@@ -5,12 +5,12 @@ $link_limit = 7; // maximum number of links
     <ul class="pagination1 mb-0">
         <li >
             <a id="paginate-pre" class="{{ ($paginator->currentPage() == 1) ? ' disabled page-item' : '' }}" href="{{ $paginator->url(1) }}" aria-label="Prev">
-                <i class="fa fa-arrow-left"></i> First
+                 First
             </a>
         </li>
         <li >
             <a id="paginate-next" class="{{ ($paginator->currentPage() == $paginator->lastPage()) ? ' disabled page-item' : '' }}" href="{{ $paginator->url($paginator->lastPage()) }}" aria-label="Prev">
-                <i class="fa fa-arrow-left"></i> Last
+                Last
             </a>
         </li>
     </ul>

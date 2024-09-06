@@ -21,11 +21,9 @@ class EmployerSeeder extends Seeder
         $employer = [];
 
         for ($i = 0; $i < $numberOfRecords; $i++) {
+            $createdAt = DB::table('users')->where('id', $user_id[$i])->value('created_at');
             $employer[] = [
                 'user_id' => $user_id[$i],
-                'avatar' => 'https://i.pravatar.cc/150',
-                'first_name' => $faker->firstName,
-                'last_name' => $faker->lastName,
                 'tel' => $faker->phoneNumber,
                 'about' => $faker->sentence,
                 'active' => $faker->boolean,
@@ -33,8 +31,8 @@ class EmployerSeeder extends Seeder
                 'job_package' => null,
                 'package_expiration' => null,
                 'jobs_remaining' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
                 'deleted_at' => null
 
             ];

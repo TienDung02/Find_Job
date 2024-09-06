@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('candidate_network_profiles', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('candidate_id');
+            $table->integer('resume_id');
             $table->string('name', 100);
             $table->string('url', 255);
             $table->timestamps();

@@ -34,106 +34,52 @@
 		</form>
 
 		<ul class="resumes-list">
+			@foreach($resumes as $resume)
+				<li>
+					<div class="content ">
+						<img src="{{$resume->photo ? asset($resume->photo) : asset('storage/uploads/user_black.png')}}" alt="">
+						<div class="resumes-list-content">
+							<a href="{{route('resume.detail', $resume->id)}}" class="cursor-pointer text-decoration-underline">
+								<h4 class="Login-to-view">
+									{{$resume->full_name}}
+								</h4>
+							</a>
+							<h5 class="text-decoration-none">{{$resume->professional_title}}</h5>
 
-			<li><a href="index.blade.php">
-				<img src="images/resumes-list-avatar-01.png" alt="">
-				<div class="resumes-list-content">
-					<h4>John Doe <span>UX/UI Graphic Designer</span></h4>
-					<span><i class="fa fa-map-marker"></i> Melbourne</span>
-					<span><i class="fa fa-money"></i> $100 / hour</span>
-					<p>Over 8000 hours on oDesk (only Drupal related). Highly motivated, goal-oriented, hands-on senior software engineer with extensive technical skills and over 15 years of experience in software development</p>
+							<div class="mt-3">
+								<span><i class="fa fa-map-marker"></i>{{$resume->province_id ? $resume->province->name : ''}}</span>
+								@if($resume->type_salary == 1)
+									<span><i class="fa fa-money"></i>&nbsp;{{$resume->minimum_salary . '$  ' }} <i class="bi bi-arrow-right"></i> {{$resume->maximum_salary . '$'}}</span>
+								@elseif($resume->type_salary == 2)
+									<span><i class="fa fa-money"></i>&nbsp;{{$resume->salary . '$' }}</span>
+								@else
+									<span><i class="fa fa-money"></i>&nbsp;Deal</span>
+								@endif
+							</div>
+							<div class="skills">
+								@php
+									$array_tag_id = explode(', ', $resume->tag_id);
+								@endphp
+								@foreach($data_tag as $tag)
+									@if (in_array($tag->id, $array_tag_id))
+										<span class='job-tag border-radius-5'>{{$tag->name}}</span>
+									@endif
+								@endforeach
+							</div>
+							<div class="clearfix"></div>
 
-					<div class="skills">
-						<span>JavaScript</span>
-						<span>PHP</span>
-						<span>WordPress</span>
+						</div>
 					</div>
 					<div class="clearfix"></div>
-
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
-
-			<li><a href="index.blade.php">
-				<img src="images/avatar-placeholder.png" alt="">
-				<div class="resumes-list-content">
-					<h4>Tom Smith <span>iOS Mobile Developer</span></h4>
-					<span><i class="fa fa-map-marker"></i> Sydney</span>
-					<span><i class="fa fa-money"></i> $35 / hour</span>
-					<p>Over 8000 hours on oDesk (only Drupal related). Highly motivated, goal-oriented, hands-on senior software engineer with extensive technical skills and over 15 years of experience in software development</p>
-
-					<div class="skills">
-						<span>iOS Development</span>
-						<span>iOS App Development</span>
-						<span>Objective-C</span>
-					</div>
-					<div class="clearfix"></div>
-
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
-
-			<li><a href="index.blade.php">
-				<img src="images/resumes-list-avatar-02.png" alt="">
-				<div class="resumes-list-content">
-					<h4>Kathy Berry <span>SEO / SEM Strategist</span></h4>
-					<span><i class="fa fa-map-marker"></i> London</span>
-					<span><i class="fa fa-money"></i> $75 / hour</span>
-					<p>Over 8000 hours on oDesk (only Drupal related). Highly motivated, goal-oriented, hands-on senior software engineer with extensive technical skills and over 15 years of experience in software development</p>
-
-					<div class="skills">
-						<span>Strategic planning</span>
-						<span>Business Analysis</span>
-					</div>
-					<div class="clearfix"></div>
-
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
-
-			<li><a href="index.blade.php">
-				<img src="images/resumes-list-avatar-03.png" alt="">
-				<div class="resumes-list-content">
-					<h4>Martin Kowalski <span>Content Writer and Copywriter</span></h4>
-					<span><i class="fa fa-map-marker"></i> Warsaw</span>
-					<span><i class="fa fa-money"></i> $15 / hour</span>
-					<p>Over 8000 hours on oDesk (only Drupal related). Highly motivated, goal-oriented, hands-on senior software engineer with extensive technical skills and over 15 years of experience in software development</p>
-
-					<div class="skills">
-						<span>Copywriting</span>
-						<span>Content Writing</span>
-						<span>Blog Writing</span>
-					</div>
-					<div class="clearfix"></div>
-
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
-
+				</li>
+			@endforeach
 		</ul>
 		<div class="clearfix"></div>
 
-		<div class="pagination-container">
-			<nav class="pagination">
-				<ul>
-					<li><a href="#" class="current-page">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li class="blank">...</li>
-					<li><a href="#">8</a></li>
-				</ul>
-			</nav>
-
-			<nav class="pagination-next-prev">
-				<ul>
-					<li><a href="#" class="prev">Previous</a></li>
-					<li><a href="#" class="next">Next</a></li>
-				</ul>
-			</nav>
+		<div class="pagination-container mb-5">
+			<div class="paginate " id="pagination-links">
+				{{$resumes->withQueryString()->appends($_GET)->links('.frontend.component.paginate')}}
+			</div>
 		</div>
 
 	</div>

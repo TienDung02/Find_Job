@@ -19,6 +19,10 @@ class Blog extends Model
     public $timestamps = true;
     public function category_blog()
     {
-        return $this->belongsTo(CategoryBlog::class, 'category_blog_id', 'id');
+        return $this->belongsTo(Category::class, 'category_blog_id', 'id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(BlogComment::class, 'blog_id');
     }
 }

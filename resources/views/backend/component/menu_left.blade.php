@@ -2,25 +2,28 @@
     <div class="menu_left  ">
         <ul>
             <li class="">
-                <a><i class="bi bi-speedometer2"></i>Dashboard</a>
+                <a class="fw-semibold"><i class="bi bi-speedometer2"></i>Dashboard</a>
             </li>
-            <li class="{{Str::is('category.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("category.index")}}"><i class="bi bi-card-list"></i>Category</a>
+            <li class="{{ Str::is('admin.messages.*', request()->route()->getName()) ? 'menu_active' : '' }}">
+                <a class="fw-semibold" href="{{route("admin.messages.index")}}"><i class="bi bi-chat-dots"></i>Messages</a>
             </li>
-            <li class="{{Str::is('candidate.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("candidate.index")}}"><i class="bi bi-person-video2"></i>Candidate</a>
+            <li class="{{ Str::is('admin.category.*', request()->route()->getName()) ? 'menu_active' : '' }}">
+                <a class="fw-semibold" href="{{route("admin.category.index")}}"><i class="bi bi-card-list"></i>Category</a>
             </li>
-            <li class="{{Str::is('job.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("job.index")}}"><i class="bi bi-briefcase"></i>Recent Jobs</a>
+            <li class="{{Str::is('admin.candidate.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.candidate.index")}}"><i class="bi bi-person-video2"></i>Candidate</a>
             </li>
-            <li class="{{Str::is('company.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("company.index")}}"><i class="bi bi-building"></i>Company</a>
+            <li class="{{Str::is('admin.job.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.job.index")}}"><i class="bi bi-briefcase"></i>Recent Jobs</a>
             </li>
-            <li class="{{Str::is('user.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("user.index")}}"><i class="bi bi-person-circle"></i>User</a>
+            <li class="{{Str::is('admin.company.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.company.index")}}"><i class="bi bi-building"></i>Company</a>
             </li>
-            <li class="{{Str::is('blog.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("blog.index")}}"><i class="bi bi-pen"></i>Blog</a>
+            <li class="{{Str::is('admin.user.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.user.index")}}"><i class="bi bi-person-circle"></i>User</a>
+            </li>
+            <li class="{{Str::is('admin.blog.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.blog.index")}}"><i class="bi bi-pen"></i>Blog</a>
             </li>
         </ul>
     </div>
@@ -29,25 +32,28 @@
     <div class="menu_left  ">
         <ul>
             <li class="">
-                <a><i class="bi bi-speedometer2"></i></a>
+                <a class="fw-semibold"><i class="bi bi-speedometer2"></i></a>
             </li>
-            <li class="{{Str::is('category.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("category.index")}} "><i class="bi bi-card-list"></i></a>
+            <li class="{{Str::is('admin.category.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.messages.index")}} "><i class="bi bi-chat-dots"></i></a>
             </li>
-            <li class="{{Str::is('candidate.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("candidate.index")}}"><i class="bi bi-person-video2"></i></a>
+            <li class="{{Str::is('admin.category.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.category.index")}} "><i class="bi bi-card-list"></i></a>
             </li>
-            <li class="{{Str::is('job.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("job.index")}}"><i class="bi bi-briefcase"></i></a>
+            <li class="{{Str::is('admin.candidate.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.candidate.index")}}"><i class="bi bi-person-video2"></i></a>
             </li>
-            <li class="{{Str::is('company.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("company.index")}}"><i class="bi bi-building"></i></a>
+            <li class="{{Str::is('admin.job.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.job.index")}}"><i class="bi bi-briefcase"></i></a>
             </li>
-            <li class="{{Str::is('user.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("user.index")}}"><i class="bi bi-person-circle"></i></a>
+            <li class="{{Str::is('admin.company.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.company.index")}}"><i class="bi bi-building"></i></a>
             </li>
-            <li class="{{Str::is('blog.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a href="{{route("blog.index")}}"><i class="bi bi-pen"></i></a>
+            <li class="{{Str::is('admin.user.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.user.index")}}"><i class="bi bi-person-circle"></i></a>
+            </li>
+            <li class="{{Str::is('admin.blog.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.blog.index")}}"><i class="bi bi-pen"></i></a>
             </li>
         </ul>
     </div>

@@ -5,11 +5,11 @@
 
 <!-- Titlebar
 ================================================== -->
-<div id="titlebar">
+<div id="titlebar" class="background-job no-repe">
 	<div class="container">
 		<div class="ten columns">
-			<span>We found 1,412 jobs matching:</span>
-			<h2>Web, Software & IT</h2>
+			<span class="text-white">We found {{$count_job}} jobs matching:</span>
+				<h2 class="text-primary-emphasis fw-semibold">Web, Software & IT</h2>
 		</div>
 
 	</div>
@@ -20,34 +20,62 @@
 <div class="container main-application">
 	<!-- Recent Jobs -->
 	<div class="eleven columns">
-	<div class="padding-right">
+	<div id="main-list" class="padding-right">
 
-		<form action="#" method="get" class="list-search">
+		<form action="{{ route('job.meili') }}" method="get" class="list-search">
 			<button><i class="fa fa-search"></i></button>
-			<input type="text" placeholder="job title, keywords or company name" value=""/>
+			<input type="search" id="query" name="query" placeholder="job title, keywords or company name" value=""/>
 			<div class="clearfix"></div>
 		</form>
 
         <ul class="job-list">
+            @if(isset($results) && $results->isNotEmpty())
+                @php
+                    $data_jobs = $results
+                @endphp
+            @endif
             @foreach($data_jobs as $job)
-                <li class=" position-relative ">
-                    <a href="detail.blade.php?id=" class="d-flex align-items-center {{$job->jobType->name}}">
-                        <img  src="{{asset($job->company->company_logo)}}">
-                        <div class="job-list-content ms-5">
-                            <h4>
-                                {{$job->title}}
-                            </h4>
-                            <div class="job-icons ">
-                                <span><i class="fa fa-briefcase"></i>{{$job->company->company_name}}</span>
-                                <span><i class="fa fa-map-marker"></i>{{$job->location->name}}</span>
-                                <span><i class="fa fa-money"></i>{{$job->minimum_salary . '$  ' }} <i class="bi bi-arrow-right"></i> {{$job->minimum_salary . '$'}}</span>
-                            </div>
-                            <span class="mt-2"><i class="bi bi-calendar2-week"></i> {{getDayDifference($job)}} </span>
-                        </div>
-                        <span class="p-2 border text-white position-absolute end-0 me-5 {{$job->jobType->name}}">{{$job->jobType->name}}</span>
-                    </a>
-                    <div class="clearfix"></div>
-                </li>
+				<li class=" position-relative ">
+					<div class="content d-flex align-items-center {{$job->jobType->name}}">
+						<img  src="{{asset($job->company->company_logo)}}">
+						<div class="job-list-content ms-5">
+							<a href="{{route('job.detail', $job->id)}}" class="cursor-pointer text-decoration-underline">
+								<h4 class="Login-to-view">
+									{{$job->title}}
+								</h4>
+							</a>
+							<div class="job-icons ">
+								<span><i class="fa fa-briefcase"></i> {{$job->company->company_name}}</span>
+								<span><i class="fa fa-map-marker"></i> {{$job->company->province->name}}</span>
+								@if(auth()->check())
+									@if($job->type_salary == 1)
+										<span><i class="fa fa-money"></i>&nbsp;{{$job->minimum_salary . '$  ' }} <i class="bi bi-arrow-right"></i> {{$job->maximum_salary . '$'}}</span>
+									@elseif($job->type_salary == 2)
+										<span><i class="fa fa-money"></i>&nbsp;{{$job->salary . '$' }}</span>
+									@else
+										<span><i class="fa fa-money"></i>&nbsp;Deal</span>
+									@endif
+								@elseif(!auth()->check())
+									<span><a href="{{route('auth.login')}}" class="border-0 cursor-pointer text-decoration-underline Login-to-view"><i class="fa fa-money"></i>Login to view salary</a></span>
+								@endif
+
+							</div>
+							<span class="mt-2"><i class="bi bi-calendar2-week"></i> {{getDayDifference($job)}} </span>
+							@php
+								$array_tag_id = explode(', ', $job->tag_id);
+							@endphp
+							@foreach($data_tag as $tag)
+								@if (in_array($tag->id, $array_tag_id))
+									<a href="{{route('job.tag_search', $tag->id)}}" >
+										<span class='job-tag rounded-pill'>{{$tag->name}}</span>
+									</a>
+								@endif
+							@endforeach
+						</div>
+						<span class="p-2 border text-white position-absolute end-0 me-5 {{$job->jobType->name}}">{{$job->jobType->name}}</span>
+					</div>
+					<div class="clearfix"></div>
+				</li>
             @endforeach
         </ul>
 		<div class="clearfix"></div>
@@ -69,13 +97,12 @@
 		<div class="widget">
 			<h4>Sort by</h4>
 
+            <span id="url-select-search" data-url="{{route('job.select_search')}}"></span>
 			<!-- Select -->
-			<select data-placeholder="Choose Category" class="chosen-select-no-single">
+			<select data-placeholder="Choose Category" class="chosen-select-no-single" id="select-search-job">
 				<option selected="selected" value="recent">Newest</option>
 				<option value="oldest">Oldest</option>
 				<option value="expiry">Expiring Soon</option>
-				<option value="ratehigh">Hourly Rate – Highest First</option>
-				<option value="ratelow">Hourly Rate – Lowest First</option>
 			</select>
 
 		</div>
@@ -83,85 +110,55 @@
 		<!-- Location -->
 		<div class="widget">
 			<h4>Location</h4>
+			<span id="formSearch" data-url-suggest="{{ route('job.suggest') }}" data-url-checkbox="{{route('job.checkbox_search')}}"></span>
+			<span id="get_table" data-url="{{ route('job.select2_search') }}"></span>
 			<form action="#" method="get">
-				<input type="text" placeholder="State / Province" value=""/>
-				<input type="text" placeholder="City" value=""/>
-
-				<input type="text" class="miles" placeholder="Miles" value=""/>
-				<label for="zip-code" class="from">from</label>
-				<input type="text" id="zip-code" class="zip-code" placeholder="Zip-Code" value=""/><br>
-
-				<button class="button">Filter</button>
+				<div class="form-group select2-company mb-4">
+					<select class="js-example-basic-single form-control" id="first_suggest" data-type="province" data-placeholder="Province" name="province">
+					</select>
+				</div>
+				<div class="form-group select2-company">
+					<select class="js-example-basic-single form-control" id="second_suggest" data-type="district" data-placeholder="District" name="district">
+					</select>
+				</div>
 			</form>
 		</div>
 
-		<!-- Job Type -->
-		<div class="widget">
-			<h4>Job Type</h4>
+        <!-- Job Type -->
+        <div class="widget">
+            <h4>Job Type</h4>
 
 			<ul class="checkboxes">
 				<li>
-					<input id="check-1" type="checkbox" name="check" value="check-1" checked>
+					<input id="check-1" type="checkbox" name="check" value="0" checked>
 					<label for="check-1">Any Type</label>
 				</li>
 				<li>
-					<input id="check-2" type="checkbox" name="check" value="check-2">
-					<label for="check-2">Full-Time <span>(312)</span></label>
+					<input id="check-2" type="checkbox" name="check" value="1">
+					<label for="check-2">Full-Time <span>({{$jobTypes[1]}})</span></label>
 				</li>
 				<li>
-					<input id="check-3" type="checkbox" name="check" value="check-3">
-					<label for="check-3">Part-Time <span>(269)</span></label>
+					<input id="check-3" type="checkbox" name="check" value="2">
+					<label for="check-3">Part-Time <span>({{$jobTypes[2]}})</span></label>
 				</li>
 				<li>
-					<input id="check-4" type="checkbox" name="check" value="check-4">
-					<label for="check-4">Internship <span>(46)</span></label>
+					<input id="check-4" type="checkbox" name="check" value="3">
+					<label for="check-4">Internship <span>({{$jobTypes[3]}})</span></label>
 				</li>
 				<li>
-					<input id="check-5" type="checkbox" name="check" value="check-5">
-					<label for="check-5">Freelance <span>(119)</span></label>
+					<input id="check-5" type="checkbox" name="check" value="4">
+					<label for="check-5">Freelance <span>({{$jobTypes[4]}})</span></label>
+				</li>
+				<li>
+					<input id="check-6" type="checkbox" name="check" value="5">
+					<label for="check-6">Temporary <span>({{$jobTypes[5]}})</span></label>
 				</li>
 			</ul>
 
-		</div>
-
-		<!-- Rate/Hr -->
-		<div class="widget">
-			<h4>Rate / Hr</h4>
-
-			<ul class="checkboxes">
-				<li>
-					<input id="check-6" type="checkbox" name="check" value="check-6" checked>
-					<label for="check-6">Any Rate</label>
-				</li>
-				<li>
-					<input id="check-7" type="checkbox" name="check" value="check-7">
-					<label for="check-7">$0 - $25 <span>(231)</span></label>
-				</li>
-				<li>
-					<input id="check-8" type="checkbox" name="check" value="check-8">
-					<label for="check-8">$25 - $50 <span>(297)</span></label>
-				</li>
-				<li>
-					<input id="check-9" type="checkbox" name="check" value="check-9">
-					<label for="check-9">$50 - $100 <span>(78)</span></label>
-				</li>
-				<li>
-					<input id="check-10" type="checkbox" name="check" value="check-10">
-					<label for="check-10">$100 - $200 <span>(98)</span></label>
-				</li>
-				<li>
-					<input id="check-11" type="checkbox" name="check" value="check-11">
-					<label for="check-11">$200+ <span>(21)</span></label>
-				</li>
-			</ul>
 
 		</div>
-
-
 
 	</div>
-	<!-- Widgets / End -->
-
 
 </div>
 @stop

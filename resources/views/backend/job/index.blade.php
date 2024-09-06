@@ -6,7 +6,7 @@
             <h4>JOBS</h4>
         </div>
         <div class="section-item-right mb-5">
-            <form id="formSearch" class="border-0" method="GET" action="{{ route('job.suggest') }}">
+            <form id="formSearch" class="border-0" method="GET" action="{{ route('admin.job.suggest') }}">
                 <div class="form-group ">
                     <select class="js-example-basic-single form-control" id="first_suggest" data-type="company"
                             data-placeholder="Select company name" name="state">
@@ -22,7 +22,7 @@
                             data-placeholder="Status" name="state">
                     </select>
                 </div>
-                <a href="{{route("job.index")}}">
+                <a href="{{route("admin.job.index")}}">
                     <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                 </a>
             </form>
@@ -48,8 +48,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <span id="get_limit" data-url="{{ route('job.limit') }}"> </span>
-                <span id="change_active" data-url="{{ route('job.update') }}"> </span>
+                <span id="get_limit" data-url="{{ route('admin.job.limit') }}"> </span>
+                <span id="change_active" data-url="{{ route('admin.job.update') }}"> </span>
                 @php
                     $shows = [ '5', '10', '15'];
                     $limit = request()->input('limit', 5);
@@ -66,7 +66,7 @@
                                    data-id="{{$value['id']}}" data-name="{{$value['title']}}"
                                    {{$value['active']==1?'checked':''}}  type="checkbox"></td>
                         <td>
-                            <a class="" href="{{ route('job.edit', $value['id']) }}">
+                            <a class="" href="{{ route('admin.job.edit', $value['id']) }}">
                                 <button type="submit" style="margin-top: -1rem"
                                         class="btn btn-primary text-white">View
                                 </button>

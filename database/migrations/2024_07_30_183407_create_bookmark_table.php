@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('candidate_id');
-            $table->integer('job_id');
+            $table->integer('user_id');
+            $table->integer('job_id')->nullable();
+            $table->integer('resume_id')->nullable();
+            $table->integer('type_bookmark');
             $table->timestamps();
             $table->softDeletes();
         });

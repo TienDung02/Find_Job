@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use App\Models\Employer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -54,6 +55,9 @@ class ProfileController extends Controller
             $data->tel = $request->input('tel');
             $data->about = $request->input('desc');
             if ($data->save()) {
+                $userData = Session::get('user_data', []);
+                $userData['avatar'] = $url;
+                Session::put('user_data', $userData);
                 toastr()->success('Update profile successfully!');
             } else {
                 toastr()->error('There was an error updating your profile!');

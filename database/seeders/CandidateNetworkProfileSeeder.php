@@ -16,16 +16,21 @@ class CandidateNetworkProfileSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         $candidates = [];
-
-        for ($i = 0; $i < 50; $i++) {
-            $candidates[] = [
-                'candidate_id' => $faker->numberBetween(1, 50),
-                'name' => $faker->name,
-                'url' => $faker->url,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'deleted_at' => null
-            ];
+        $candidate_resume = DB::table('candidate_resumes')->pluck('id');
+        $numberOfRecords =count($candidate_resume);
+        for ($i = 0; $i < $numberOfRecords; $i++) {
+            $createdAt = DB::table('candidate_resumes')->where('id', $candidate_resume[$i])->value('created_at');
+            $randomNumber = $faker->numberBetween(1, 3);
+            for ($n = 0; $n < $randomNumber ; $n++){
+                $candidates[] = [
+                    'resume_id' => $faker->numberBetween(1, 50),
+                    'name' => $faker->domainName,
+                    'url' => $faker->url,
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt,
+                    'deleted_at' => null
+                ];
+            }
         }
         DB::table('candidate_Network_Profiles')->insert($candidates);
     }

@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('candidate_educations', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('candidate_id');
+            $table->integer('resume_id');
             $table->string('school_name', 50);
             $table->string('qualification', 50);
-            $table->date('start_day');
-            $table->date('end_day');
-            $table->text('note');
+            $table->date('start_day')->nullable();
+            $table->date('end_day')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

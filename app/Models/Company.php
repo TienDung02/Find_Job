@@ -15,12 +15,11 @@ class Company extends Model
         'employer_id',
         'company_name',
         'company_tagline',
+        'province_id',
+        'district_id',
+        'ward_id',
         'headquarters',
-        'latitude',
-        'longitude',
         'company_logo',
-        'video',
-        'since',
         'company_website',
         'email',
         'phone',
@@ -28,9 +27,7 @@ class Company extends Model
         'facebook',
         'industry_id',
         'company_size',
-        'company_average_salary',
         'description',
-        'header_img',
         'active',
         'create_at',
         'update_at',
@@ -42,13 +39,21 @@ class Company extends Model
     {
         return $this->belongsTo(Industry::class, 'industry_id', 'id');
     }
-    public function location()
+    public function province()
     {
-        return $this->belongsTo(Industry::class, 'headquarters', 'id');
+        return $this->belongsTo(Province::class, 'province_id', 'id');
     }
 
     public function employer()
     {
         return $this->belongsTo(Employer::class, 'employer_id', 'id');
+    }
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id');
+    }
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class, 'ward_id', 'id');
     }
 }

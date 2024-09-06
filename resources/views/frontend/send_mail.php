@@ -28,7 +28,7 @@ if(isset($_POST['register']) && $_POST['user_email'] != '' && $_POST['user_name'
     $sql = "SELECT * FROM users where user_email = '$user_email'";
     $register = mysqli_query($conn, $sql);
     if(mysqli_num_rows($register) > 0) {
-        header('location:../index.blade.php?tontai=1');
+        header('location:../detail.blade.php?tontai=1');
         exit;
     }else {
         $user_password = rand(99999, 999999999);
@@ -67,11 +67,11 @@ if(isset($_POST['register']) && $_POST['user_email'] != '' && $_POST['user_name'
         $sql = "INSERT INTO users (name, user_email, user_password, candidate, employer,is_update , created_at, updated_at) values ('$user_name', '$user_email', '$pass', '$candidate', '$employer', '$is_update', NOW(), NOW())";
         mysqli_query($conn, $sql);
 
-        header('location:../index.blade.php?thanhcong=1');
+        header('location:../detail.blade.php?thanhcong=1');
     }
     // print_r($login_register);die;
 }else {
-    header('location:../index.blade.php?err=1');
+    header('location:../detail.blade.php?err=1');
 }
 
 

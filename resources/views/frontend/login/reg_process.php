@@ -22,7 +22,7 @@ $select = mysqli_query($connect, "SELECT `email` FROM `user` WHERE `email` = '".
 if(mysqli_num_rows($select)) {
     $_SESSION['reg'] = 2;
 //    echo "111111111";die;
-    header("location:index.blade.php");
+    header("location:detail.blade.php");
 }else{
     $mail = new PHPMailer(true);
 
@@ -70,14 +70,14 @@ if(mysqli_num_rows($select)) {
         }
         if ($connect->query($sql_insert_profile) === TRUE){
             $_SESSION['reg'] = 1;
-            header("location:index.blade.php");
+            header("location:detail.blade.php");
         }else{
             $_SESSION['reg'] = 0;
-            header("location:index.blade.php");
+            header("location:detail.blade.php");
         }
     } else {
         $_SESSION['reg'] = 0;
-        header("location:index.blade.php");
+        header("location:detail.blade.php");
     }
 }
 //Create an instance; passing `true` enables exceptions

@@ -18,35 +18,41 @@ class CompanySeeder extends Seeder
 
         $employer_id = DB::table('employers')->pluck('id');
         $industry_id = DB::table('industries')->pluck('id');
-        $location_id = DB::table('locations')->pluck('id');
-
+        $province_id = DB::table('provinces')->pluck('id');
+        $numberOfRecords =count($employer_id);
         $companies = [];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < $numberOfRecords; $i++) {
             $companyName = $faker->company;
+
+            $province = $faker->randomElement($province_id);
+
+            $district = $faker->randomElement(DB::table('districts')->where('province_id', $province)->pluck('id'));
+
+            $wards = $faker->randomElement(DB::table('wards')->where('district_id', $district)->pluck('id'));
+
+            $createdAt = DB::table('employers')->where('id', $employer_id[$i])->value('created_at');
+            $createdAt = $faker->dateTimeBetween($createdAt, 'now');
             $companies[] = [
-                'employer_id' => $faker->randomElement($employer_id),
+                'employer_id' => $employer_id[$i],
                 'company_name' => $companyName,
                 'company_tagline' => $faker->catchPhrase,
-                'headquarters' => $faker->randomElement($location_id),
-                'latitude' => $faker->latitude,
-                'longitude' => $faker->longitude,
+                'province_id' => $province,
+                'district_id' => $district,
+                'ward_id' => $wards,
+                'headquarters' => $faker->address,
                 'company_logo' => 'https://avatar.iran.liara.run/username?username='. $companyName,
-                'video' => $faker->url,
-                'since' => $faker->year,
                 'company_website' => $faker->url,
                 'email' => $faker->unique()->companyEmail,
                 'phone' => $faker->phoneNumber,
                 'twitter' => $faker->url,
                 'facebook' => $faker->url,
                 'industry_id' => $faker->randomElement($industry_id),
-                'company_size' => $faker->randomElement(['Small', 'Medium', 'Large']),
-                'company_average_salary' => $faker->numberBetween(40000, 120000),
+                'company_size' => $faker->randomElement(['01 - 05', '05 - 15', '15 - 30', '30 - 50', '50+']),
                 'description' => $faker->paragraph,
-                'header_img' => 'https://avatar.iran.liara.run/public',
                 'active' => $faker->boolean,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
                 'deleted_at' => null
             ];
         }

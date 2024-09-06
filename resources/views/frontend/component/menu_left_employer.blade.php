@@ -2,17 +2,17 @@
     <div class="menu_left">
         <ul class="nav-link menu_profile">
             <h4>Main</h4>
-            <li class="">
-                <a href="">Messenger &nbsp; <span>2</span></a>
+            <li class="{{ Str::contains(request()->path(), 'messages') ? 'active' : '' }}">
+                <a href="{{route('messages.index')}}">Messages &nbsp; <span>2</span></a>
             </li>
             <li class="">
                 <a href="">Bookmarks</a>
             </li>
             <h4>Employer</h4>
-            <li class=" ">
+            <li class="{{ Str::contains(request()->path(), 'job/add') ? 'active' : '' }}">
                 <a href="{{route('job.add')}}">Add Jobs</a>
             </li>
-            <li class="">
+            <li class="{{ Str::contains(request()->path(), 'job/manage') ? 'active' : '' }}">
                 <a href="{{route('job.manage')}}">Manage Jobs</a>
             </li>
             <li class="{{ Str::contains(request()->path(), 'application') ? 'active' : '' }}">
@@ -22,7 +22,7 @@
                 <a href="{{route('resume.browser')}}">Browse Resumes</a>
             </li>
             <li class="{{ Str::contains(request()->path(), 'company') ? 'active' : '' }}">
-                <a href="{{route('company.add')}}">Add Company</a>
+                <a href="{{route('company.add')}}">Company</a>
             </li>
             <h4>Account</h4>
             <li class="{{ Str::contains(request()->path(), 'profile') ? 'active' : '' }}">

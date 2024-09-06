@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <span id="get_limit" data-url="{{ route('category.limit') }}"> </span>
+            <span id="get_limit" data-url="{{ route('admin.category.limit') }}"> </span>
             @php
                 $shows = [ '5', '10', '15'];
                 $limit = request()->input('limit', 5);
@@ -28,10 +28,10 @@
                     <td>{{optional($value->parent)->name}}</td>
                     <td>{{$value->name}}</td>
                     <td class="d-flex">
-                        <a href="{{ route('category.edit', $value['id']) }}">
+                        <a href="{{ route('admin.category.edit', $value['id']) }}">
                             <button type="submit"  class="btn btn-secondary">Update</button>
                         </a>
-                        <form id='delete-form-{{ $value['id'] }}' action="{{ route('category.destroy', $value['id']) }}" method="POST">
+                        <form id='delete-form-{{ $value['id'] }}' action="{{ route('admin.category.destroy', $value['id']) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <a><button type="button" class="btn btn-danger btn-delete" data-id="{{ $value['id'] }}" >Delete</button></a>

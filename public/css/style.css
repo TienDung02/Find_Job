@@ -856,8 +856,8 @@ input[type="submit"] {
 	padding: 9px 18px;
 }
 input[type="date"]{
-	border: 1px solid #e0e0e0;
-	color: #a2a2a2;
+	border: 1px solid #ababab;
+	color: #484848;
 }
 
 
@@ -866,13 +866,13 @@ input[type="date"]{
 ---------------------------------------------------------------------- */
 
 table.manage-table {
-	width: 100%;
-	border-collapse: collapse;
+    width: 1800px;
+    border-collapse: collapse;
 	border-spacing: 0;
 }
 
 table.manage-table th {
-	background-color: #f6f6f6;
+	background-color: #cfcfcf;
 	text-align: left;
 	padding: 18px 20px 18px 40px;
 	color: #333;
@@ -883,9 +883,10 @@ table.manage-table th {
 	z-index: 9;
 	line-height: 22px;
 	margin-left: 33px !important;
+    border-right: 1px solid #FFFFFF;
 }
 
-table.manage-table th i { position: absolute; left: 17px; top: 21px; }
+table.manage-table th i { position: absolute; left: 17px; top: 21px; overflow-x: auto}
 
 table.manage-table a.button {
 	padding: 7px 14px;
@@ -906,9 +907,7 @@ table.manage-table td:first-child { padding-left: 35px; line-height: 25px; }
 table.manage-table tr td {
 	padding: 40px 20px;
 	vertical-align: middle;
-	border: 1px solid #e0e0e0;
-	border-left: none;
-	border-right: none;
+	border-bottom: 1px solid #e0e0e0;
 }
 
 table.manage-table tr:hover td {
@@ -927,6 +926,10 @@ table td.title a {
 }
 
 table td.title a:hover { color: #505050; }
+
+table.manage-table tr:last-child{
+    border-right: 5px !important;
+}
 
 span.pending {
 	color: #53b427;
@@ -1448,7 +1451,10 @@ button.mfp-arrow {
 	margin: 40px auto;
 	position: relative;
 	box-sizing:border-box;
+    border-radius: 5px;
+
 }
+
 
 #small-dialog h3 {
 	margin-bottom: 20px;
@@ -2794,13 +2800,12 @@ img.mfp-img {
 
 }
 
-.resumes-list li a,
-.job-list li a {
+.resumes-list li div.content ,
+.job-list li div.content  {
 	color: #808080;
 	width: 100%;
 	height: 100%;
 	display: inline-block;
-    border-left: 4px solid #000000;
 }
 
 .resumes-list li:last-child,
@@ -2823,8 +2828,7 @@ img.mfp-img {
 
 .resumes-list li.highlighted a:before,
 .resumes-list li a:before,
-.job-list li.highlighted a:before,
-.job-list li a:before {
+.job-list li.highlighted a:before{
 	content: "";
 	width: 100%;
 	height: 100%;
@@ -2881,14 +2885,19 @@ img.mfp-img {
 	margin-right: 4px;
 }
 
+
+.job-spotlight p{
+    max-height: 120px;
+}
+
 .resume-titlebar span a:hover i {
 	color: #505050;
 }
 
 .resume-titlebar span,
 .job-spotlight span,
-.job-list li a span,
-.resumes-list li a span {
+.job-list li div.content span,
+.resumes-list li div.content span {
 	margin-right: 17px;
 	display: inline-block;
     font-size: 14px;
@@ -3048,17 +3057,7 @@ img.mfp-img {
 
 #titlebar.photo-bg h2 span { top: -7px; }
 
-span.Full-Time { background-color: #186fc9; }
-span.Part-Time { background-color: #f1630d; }
-span.Freelance { background-color: #53b427; }
-span.Internship { background-color: #e1d123; }
-span.Temporary { background-color: #e12335; }
 
-.job-list .Full-Time { border-left: 4px solid #186fc9}
-.job-list .Part-Time { border-left: 4px solid #f1630d}
-.job-list .Freelance { border-left: 4px solid #53b427}
-.job-list .Internship { border-left: 4px solid #e1d123}
-.job-list .Temporary {  border-left: 4px solid #e12335}
 
 /* ---------------------------------- */
 /* Job Spotlight
@@ -3068,6 +3067,8 @@ span.Temporary { background-color: #e12335; }
 	background-color: #fbfbfb;
 	border: 1px solid #e0e0e0;
 	padding: 32px 35px 28px 35px;
+    max-height: 550px;
+    width: 355px;
 }
 
 li .job-spotlight { line-height: 27px; }
@@ -3229,12 +3230,12 @@ li .job-spotlight p { line-height: 27px; }
 .inputFileHolder > .btn{
 	height: 57px;
 	width: 4.5rem;
-	font-size: 2.5rem;
+	font-size: 2rem;
 }
 
 .inputFileHolder > .btn > i {
-	font-size: 2.5rem;
-
+	font-size: 2rem;
+	color: #FFFFFF;
 }
 
 controlContainer > .btn {
@@ -3314,7 +3315,7 @@ controlContainer > .btn {
 	border-top-right-radius: 4px;
 	border-bottom-right-radius: 4px;
 	border-bottom-left-radius: 0;
-	background-color: #d6d6d6;
+	background-color: #2db2ea;
 	border: 1px solid #d6d6d6;
 	padding: 5px 12px;
 }
@@ -3765,9 +3766,13 @@ html[xmlns] .flexslider .slides {
     text-decoration: none;
     align-items: center;
     border: 1px solid #b3b3b3;
-    margin-right: 2rem;
+    /*margin-right: 2rem;*/
     font-weight: 500;
     border-radius: 5px;
+}
+
+.pagination1 .page-item{
+	margin-right: 2rem;
 }
 
 .pagination1 a:hover{
@@ -3790,18 +3795,39 @@ html[xmlns] .flexslider .slides {
     color: #ffffff !important;
 }
 
+.user-name{
+    right: 75px !important;
+    width: auto !important;
+    display: flex;
+    align-items: center;
+}
+
+.user-name span{
+    color: #ececec;
+}
+
+.header_2 .user-name span{
+    color: #000000;
+}
+
+.icon-textarea{
+   font-size: 2rem;
+    margin-left: 1rem;
+}
+
+.hover-button{
+    cursor: pointer;
+}
+
+.icon-textarea a:hover > i{
+    color: #2db2ea;
+}
+
 .paginate{
     width: auto;
     position: static !important;
-    margin-left: 2rem;
     height: 60px;
 }
-
-.pagination1 {
-    border-right: 1px solid #dee2e6;
-}
-
-
 
 .paginate ul{
     display: flex;
@@ -3954,6 +3980,9 @@ html[xmlns] .flexslider .slides {
 	position: relative;
 	width: 100%;
 	z-index: 2;
+    height: 900px;
+    margin-top: 1.5rem;
+    overflow-y: auto;
 }
 
 .showbiz .overflowholder ul {
@@ -4320,7 +4349,7 @@ a.post-img:hover:before {
 	width: 100%;
 	height: 100%;
 	display: inline-block;
-	background-color: rgba(34,34,34,0.15);
+	/*background-color: rgba(34,34,34,0.15);*/
 	position: absolute;
 	visibility: hidden;
 	opacity: 0;
@@ -4639,9 +4668,9 @@ a.post-img:hover:before {
 	display: block;
 	overflow: hidden;
 	padding: 0 0 0 18px;
-	height: 47px;
-	line-height: 47px;
-	border: 1px solid #e0e0e0;
+	height: 57px;
+	line-height: 57px;
+	border: 1px solid #ababab;
 	background-color: #fcfcfc;
 	color: #808080;
 	text-decoration: none;
@@ -4657,7 +4686,7 @@ a.post-img:hover:before {
 	margin-right: 26px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: #808080;
+	color: #484848;
 }
 
 .chosen-container-single .chosen-single-with-deselect span { margin-right: 38px; }
@@ -4813,9 +4842,9 @@ a.post-img:hover:before {
 	display: block;
 	overflow: hidden;
 	padding: 0 0 0 18px;
-	height: 47px;
-	line-height: 47px;
-	border: 1px solid #e0e0e0;
+	height: 57px;
+	line-height: 57px;
+	border: 1px solid #ababab;
 	background-color: #fcfcfc;
 	text-decoration: none;
 	white-space: nowrap;
@@ -4837,11 +4866,11 @@ a.post-img:hover:before {
 .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
 	margin: 0;
 	padding: 0;
-	height: 47px;
+	height: 57px;
 	outline: 0;
 	border: 0 !important;
 	background: transparent !important;
-	color: #808080;
+	color: #484848;
 	line-height: normal;
 	font-weight: 500;
 }
@@ -4852,9 +4881,10 @@ a.post-img:hover:before {
 	padding: 0 22px 0 8px;
 	max-width: 100%;
 	background-color: #505050;
-	line-height: 27px;
+	line-height: 37px;
 	color: #fff;
 	cursor: default;
+    border-radius: 5px;
 	font-weight: 500;
 }
 
@@ -4862,7 +4892,7 @@ a.post-img:hover:before {
 
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
 	position: absolute;
-	top: -2px;
+	top: 0;
 	right: 7px;
 	display: block;
 }
@@ -6015,8 +6045,12 @@ label.upload-btn input[type="file"] { display: none; }
 .upload-info { margin: 20px 0 10px 0; }
 
 .small-dialog-content button.send {
-	width: 100%;
 	margin-top: 25px;
+    resize: both;
+    height: 150px;
+    background: lightblue;
+    overflow: auto;
+    position: relative;
 }
 
 .small-dialog-content .divider {
@@ -7259,8 +7293,352 @@ input.toggle_switch[type="checkbox"]:checked {
     height: 47px;
 }
 
+.btn-browser{
+    height: 48px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.img-comment{
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+}
+
+.btn-add-img{
+    display: flex;
+    font-size: 4rem;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #bfbfbf;
+}
+
+#image-preview .bi-x-lg{
+    background: #efefef;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 24px;
+    height: 24px;
+    font-size: 1.5rem;
+    color: #3c3c3c;
+    border-radius: 25%;
+}
+
+#image-preview .bi-x-lg:hover{
+    background: #efefef;
+    color: #2db2ea;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.text-href{
+    color: #2db2ea;
+}
+.text-href:hover{
+    text-decoration: underline;
+}
+
+#load-reply, .empty-reply{
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 16px;
+    color: #2db2ea;
+}
+#load-reply:hover{
+    color: #065fd4;
+    background: #b2e3ff;
+}
+.empty-reply:hover{
+    color: #065fd4;
+    background: #b2e3ff;
+}
+#load-reply, .empty-reply i{
+    font-size: 1.25rem;
+}
+.rotate-caret::before {
+    transform: rotate(180deg) !important;
+}
+.modal-backdrop{
+    display: none  !important;
+}
+
+.select2{
+	width: 100% !important;
+}
+
+.select2-company .select2-container span{
+    height: 57px !important;
+	right: 13px !important;
+}
+.select2-selection__placeholder{
+    display: flex;
+    height: 57px;
+    align-items: center;
+}
+.select2-container--default .select2-selection--single{
+    border: 1px solid #ababab;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    display: flex;
+    align-items: center;
+	padding: 14px 18px;
+}
+.note-editing-area{
+    min-height: 100px;
+}
+
+.job-closingDay input{
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    margin-bottom: 18px;
+    color: #888;
+    font-family: 'Lato', 'sans-serif';
+    font-size: 16px;
+    font-weight: 300;
+    &:focus, &:hover{
+        outline: none;
+        + label{
+            color: #2db2ea;
+            cursor: text;
+        }
+    }
+}
+
+.job-closingDay label{
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 60%;
+    color: #999;
+    font-size: 16px;
+    display: inline-block;
+    padding: 4px 10px;
+    font-weight: 400;
+    background-color: #fff;
+    &.active{
+        top: -16px;
+        color: #555;
+        background-color: rgba(255,255,255,1);
+        width: auto;
+    }
+}
+
+.view-company{
+    display: none;
+    padding: 10px 15px;
+    background-color: #2db2ea;
+    color: #FFFFFF;
+}
+.company-info:hover .view-company{
+    display: block;
+    padding: 5px 15px;
+    background-color: #2db2ea;
+    border-radius: 5px;
+}
+.view-company:hover{
+    background-color: #282828 !important;
+}
+.job-tag{
+    margin-top: 10px;
+    padding: 0px 15px;
+    background-color: #2db2ea !important;
+    color: #FFFFFF !important;
+    border-radius: 12px
+}
+
+.job-tag:hover{
+	border: 1px solid #282828;
+}
+
+.Login-to-view{
+    color: #808080;
+    text-decoration: underline;
+}
+.Login-to-view:hover{
+    color: #2db2ea !important;
+}
+
+.stars {
+	position: relative;
+	white-space: nowrap;
+}
+.stars svg {
+	width: 20px;
+	height: 16px;
+}
+
+.overlay {
+	background: #fff;
+	height: 100%;
+	overflow: hidden;
+	mix-blend-mode: color;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+svg {
+	fill: gold;
+}
+
+.form-inset-box-shadow{
+    box-shadow: 0px 0 18px 0 rgba(0, 0, 0, 0.12);
+}
+.background-job{
+    background-image: url("/storage/uploads/careers.jpg");;
+}
+header .active{
+	background-color: #2db2ea;
+	color: #FFFFFF !important;
+}
 
 
+/*-----------------------------------------------------------------*/
+/* Messages
+/*-----------------------------------------------------------------*/
+
+.messages-container{
+    margin: 0;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.messages-headline{
+    font-size: 16px;
+    margin: 0;
+    padding: 22px 30px;
+    color: #333;
+    background-color: #fff;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+}
+
+.messages-inbox{
+    max-width: 360px;
+    border-right: 1px solid #eaeaea;
+}
+.messages-container-inner .messages-inbox ul{
+    max-height: 100%;
+    overflow-y: auto;
+    width: 360px;
+}
+.message-content .message-content-block{
+    overflow-y: auto;
+}
+.messages-container-inner .messages-inbox ul::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 4px #888;
+    background-color: #ffffff;
+}
+.messages-container-inner .messages-inbox ul::-webkit-scrollbar{
+    width: 5px;
+    background-color: #ffffff;
+}
+.messages-container-inner .messages-inbox ul::-webkit-scrollbar-thumb{
+    background-color: #888;
+    border: 1px solid #ababab;
+}
+.message-content .message-content-block::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 4px #888;
+    background-color: #ffffff;
+}
+.message-content .message-content-block::-webkit-scrollbar{
+    width: 5px;
+    background-color: #ffffff;
+}
+.message-content .message-content-block::-webkit-scrollbar-thumb{
+    background-color: #888;
+    border: 1px solid #ababab;
+}
 
 
+.messages-container-inner .messages-inbox ul li a {
+    padding: 25px;
+    border-bottom: 1px solid #eaeaea;
+}
 
+.messages-container-inner .message-by-headline h5{
+    font-size: 14px;
+    max-width: 160px;
+    line-height: 23px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 7px 0;
+    padding: 0;
+}
+.messages-container-inner .message-by-headline span {
+    font-size: 13px;
+    top: 25px;
+    right: 25px;
+}
+.messages-container-inner .messages-inbox .message-by p {
+    height: 26px;
+    max-width: 205px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 14px;
+    color: #4a4a4a;
+}
+.message-by .short-messages span {
+    text-align: center;
+    height: 20px;
+    width: 20px;
+    border-radius: 50px;
+    line-height: 20px;
+    font-size: 12px;
+    color: #fff;
+    font-style: normal;
+    margin-left: 3px;
+}
+.message-bubble {
+    display: block;
+    position: relative;
+    margin-bottom: 25px;
+}
+.message-bubble .message-avatar {
+}
+.message-bubble .message-text {
+    background-color: #f3f3f3;
+    border-radius: 4px;
+    padding: 10px;
+    position: relative;
+}
+.message-bubble .message-text p {
+    color: #404040;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    line-height: 25px;
+}
+.message-bubble.me .message-text {
+    color: #4587a9;
+    background: #E9F7FE;
+}
+.message-content textarea{
+    max-height: 150px;
+    height: 58px;
+}
+.message-content textarea::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 4px #888;
+    background-color: #ffffff;
+}
+.message-content textarea::-webkit-scrollbar{
+    width: 5px;
+    background-color: #ffffff;
+}
+.message-content textarea::-webkit-scrollbar-thumb{
+    background-color: #888;
+    border: 1px solid #ababab;
+}
+.active-message{
+	background-color: #2db2ea52;
+}

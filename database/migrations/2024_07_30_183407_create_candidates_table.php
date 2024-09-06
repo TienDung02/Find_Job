@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('user_id');
-            $table->string('avatar', 100);
-            $table->string('first_name', 50);
-            $table->string('last_name', 50);
+
             $table->string('tel', 40);
             $table->text('about');
             $table->boolean('active');
+            $table->decimal('rating', 4, 3);
             $table->timestamps();
             $table->softDeletes();
         });

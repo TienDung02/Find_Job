@@ -13,9 +13,6 @@
 			<h2>All Categories</h2>
 		</div>
 
-		<div class="six columns">
-			<a href="../job/add.blade.php" class="button">Post a Job, It’s Free!</a>
-		</div>
 
 	</div>
 </div>

@@ -16,16 +16,19 @@ class CandidateSeeder extends Seeder
         $user_id = DB::table('users')->where('role', 2)->pluck('id');
         $numberOfRecords =count($user_id);
         for ($i = 0; $i < $numberOfRecords; $i++) {
+            $createdAt = DB::table('users')->where('id', $user_id[$i])->value('created_at');
+
+            $rating = $faker->randomFloat(1, 1, 5);
+
             $candidates[] = [
                 'user_id' => $user_id[$i],
-                'avatar' => 'https://avatar.iran.liara.run/public',
-                'first_name' => $faker->firstName,
-                'last_name' => $faker->lastName,
+
                 'tel' => $faker->phoneNumber,
                 'about' => $faker->sentence,
                 'active' => $faker->boolean,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'rating' => $rating,
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
                 'deleted_at' => null
             ];
         }

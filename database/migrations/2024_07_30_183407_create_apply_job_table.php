@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('apply_jobs', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('job_id');
-            $table->integer('candidate_id');
-            $table->text('full_name');
-            $table->string('email', 50);
-            $table->text('message');
-            $table->text('cv');
+            $table->integer('company_id');
+            $table->integer('user_id');
+            $table->text('full_name')->nullable();
+            $table->string('email', 50)->nullable();
+            $table->text('message')->nullable();
+            $table->text('cv')->nullable();
+            $table->text('status_id')->nullable();
+            $table->text('note')->nullable();
+            $table->decimal('rating', 4, 3)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

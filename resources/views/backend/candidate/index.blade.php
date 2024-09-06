@@ -6,7 +6,7 @@
             <h4>CANDIDATES</h4>
         </div>
         <div class="section-item-right ">
-            <form id="formSearch" class="border-0" method="GET" action="{{ route('candidate.suggest') }}">
+            <form id="formSearch" class="border-0" method="GET" action="{{ route('admin.candidate.suggest') }}">
                 <div class="form-group ">
                     <select class="js-example-basic-single form-control" id="first_suggest" data-type="email"
                             data-placeholder="Email" name="state">
@@ -22,7 +22,7 @@
                             data-placeholder="Status" name="state">
                     </select>
                 </div>
-                <a href="{{route("candidate.index")}}">
+                <a href="{{route("admin.candidate.index")}}">
                     <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                 </a>
             </form>
@@ -48,8 +48,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <span id="get_limit" data-url="{{ route('candidate.limit') }}"> </span>
-                <span id="change_active" data-url="{{ route('candidate.update') }}"> </span>
+                <span id="get_limit" data-url="{{ route('admin.candidate.limit') }}"> </span>
+                <span id="change_active" data-url="{{ route('admin.candidate.update') }}"> </span>
                 @php
                     $shows = [ '5', '10', '15'];
                     $limit = request()->input('limit', 5);
@@ -65,7 +65,7 @@
                                    data-name="{{$value['last_name'] . ' ' . $value['first_name']}}"
                                    {{$value['active']==1?'checked':''}}  type="checkbox"></td>
                         <td class="d-flex">
-                            <a href="{{ route('candidate.edit', $value['id']) }}">
+                            <a href="{{ route('admin.candidate.edit', $value['id']) }}">
                                 <button type="submit" class="btn btn-primary">View</button>
                             </a>
                         </td>

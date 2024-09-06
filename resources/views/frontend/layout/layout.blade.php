@@ -25,6 +25,29 @@
 <!-- Scripts
 ================================================== -->
 @include('.frontend.component.script')
+@if (isset(session('alert_')['alert_type']))
+    <script>
+        alert_after_load('{{session('alert_')['alert_title']}}', '{{session('alert_')['alert_type']}}', '{{session('alert_')['alert_text']}}', '{{session('alert_')['alert_reload']}}')
+        @php
+            $userData = Illuminate\Support\Facades\Session::get('alert_', []);
+            unset($userData['alert_title']);
+            unset($userData['alert_type']);
+            unset($userData['alert_text']);
+            Illuminate\Support\Facades\Session::put('alert_', $userData);
+        @endphp
+    </script>
+@endif
+@if (isset(session('alert_2')['alert_type']))
+    <script>
+        alert_after_load_2('{{session('alert_2')['alert_title']}}', '{{session('alert_2')['alert_type']}}', '{{session('alert_2')['alert_reload']}}')
+        @php
+            $userData = Illuminate\Support\Facades\Session::get('alert_2', []);
+            unset($userData['alert_title']);
+            unset($userData['alert_type']);
+            Illuminate\Support\Facades\Session::put('alert_2', $userData);
+        @endphp
+    </script>
+@endif
 </body>
 </html>
 

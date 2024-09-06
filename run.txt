@@ -1,0 +1,12 @@
+php artisan db:wipe
+php artisan migrate
+php artisan db:seed
+
+php artisan scout:import "App\Models\Job"
+
+
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+php artisan clear-compiled
