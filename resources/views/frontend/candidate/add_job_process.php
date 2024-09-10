@@ -15,7 +15,7 @@
     $location = $_POST['location'];
     $title = $_POST['job_title'];
     $type = $_POST['job_type'];
-    $categories = $_POST['category'];
+    $categories = $_POST['industry'];
     $desc = $_POST['description'];
     $job_requirements = $_POST['job_requirements'];
 
@@ -49,7 +49,7 @@
         }
     }
 
-    $sql_insert_job = "INSERT INTO job (`id`, `id_employer`, `title`, `category`, `job_type`, `location`, `job_tag`, `description`, `job_requirements` ,`minimum_rate`, `maximum_rate`, `minimum_salary`, `maximum_salary`, `closing_day`, `active`, `create_day`, `update_day`)
+    $sql_insert_job = "INSERT INTO job (`id`, `id_employer`, `title`, `industry`, `job_type`, `location`, `job_tag`, `description`, `job_requirements` ,`minimum_rate`, `maximum_rate`, `minimum_salary`, `maximum_salary`, `closing_day`, `active`, `create_day`, `update_day`)
                         VALUES ('', '$id_employer', '$title', '$job_categories', '$type', '$location', '$job_tags', '$desc', '$job_requirements','$minimum_rate', '$maximum_rate', '$minimum_salary', '$maximum_salary', '$closing_date', 0, '$postday', '$updateday')";
 //    echo $sql_insert_job;die;
     if ($connect->query($sql_insert_job) === TRUE) {

@@ -25,5 +25,9 @@ class Industry extends Model
     {
         return $this->hasMany(Company::class, 'id', 'id_industry');
     }
+    public function jobs()
+    {
+        return $this->hasManyThrough(Job::class, Company::class, 'industry_id', 'company_id', 'id', 'id');
+    }
 }
 

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('industries', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name', 255);
+            $table->string('icon', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

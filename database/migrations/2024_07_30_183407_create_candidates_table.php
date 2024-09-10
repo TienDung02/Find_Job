@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('user_id');
 
-            $table->string('tel', 40);
-            $table->text('about');
+            $table->string('tel', 40)->nullable();
+            $table->text('about')->nullable();
             $table->boolean('active');
             $table->decimal('rating', 4, 3);
             $table->timestamps();

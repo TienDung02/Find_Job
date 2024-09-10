@@ -13,7 +13,7 @@ if (!empty($login)) {
         $_SESSION['login_success'] = 1;
         if ($login['role'] == 3){
             $_SESSION['login']['role'] == 3;
-            header("location:admin/category/admin-category-page.php?page=1");
+            header("location:admin/industry/admin-industry-page.php?page=1");
         }else{
 
             if (isset($_SESSION['url_before_login']) && $_SESSION['url_before_login'] != ''){

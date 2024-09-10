@@ -5,12 +5,13 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\frontend\ProfileController;
 use App\Http\Controllers\frontend\ResumeController;
-use App\Http\Controllers\frontend\CategoryController;
+use App\Http\Controllers\frontend\IndustryController;
 use App\Http\Controllers\frontend\JobController;
 use App\Http\Controllers\frontend\CompanyController;
 use App\Http\Controllers\frontend\ApplicationController;
 use App\Http\Controllers\frontend\BlogController;
-use App\Http\Controllers\frontend\BookmarkController;
+use App\Http\Controllers\frontend\BookmarkCandidateController;
+use App\Http\Controllers\frontend\BookmarkEmployerController;
 use App\Http\Controllers\frontend\JobAlertController;
 use App\Http\Controllers\frontend\MessagesController;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/resume/delete-edu/{id}', [ResumeController::class, 'destroy_edu'])->name('resume.delete_edu');
     Route::delete('/resume/delete-exp/{id}', [ResumeController::class, 'destroy_exp'])->name('resume.delete_exp');
 
-    Route::get('/home/browser-category', [CategoryController::class, 'index'])->name('category.browser');
+    Route::get('/home/browser-industry', [IndustryController::class, 'index'])->name('industry.browser');
 
 
     Route::get('/job/alert-job', [JobAlertController::class, 'index'])->name('alert.index');
@@ -98,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/company/suggest', [CompanyController::class, 'suggest'])->name('company.suggest');
     Route::post('/company/store', [CompanyController::class, 'store'])->name('company.store');
     Route::put('/company/update/{id}', [CompanyController::class, 'update'])->name('company.update');
+    Route::get('/company/detail/{id}', [CompanyController::class, 'detail'])->name('company.detail');
 
     Route::get('/job-application/manage/{id?}', [ApplicationController::class, 'index'])->name('application.manage');
     Route::put('/job-application/update-apply/{id}', [ApplicationController::class, 'update'])->name('application.update');
@@ -111,8 +113,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/blog/load-more', [BlogController::class, 'loadMoreComments'])->name('blog.load_more_comment');
     Route::get('/home/blog/reply', [BlogController::class, 'replyComments'])->name('blog.reply_comment');
 
-//    Route::get('/home/resume/browser-resume', [JobController::class, 'browser'])->name('job.browser');
+    Route::get('/bookmark_candidate', [BookmarkCandidateController::class, 'index'])->name('bookmark_candidate.index');
+    Route::get('/bookmark_candidate/suggest', [BookmarkCandidateController::class, 'suggest'])->name('bookmark_candidate.suggest');
+    Route::get('/bookmark_candidate/select-search', [BookmarkCandidateController::class, 'select_search'])->name('bookmark_candidate.select_search');
+    Route::get('/bookmark_candidate/select2-search', [BookmarkCandidateController::class, 'select2_search'])->name('bookmark_candidate.select2_search');
+    Route::get('/bookmark_candidate/checkbox-search', [BookmarkCandidateController::class, 'checkbox_search'])->name('bookmark_candidate.checkbox_search');
+    Route::get('/bookmark_candidate/tag-search/{id}', [BookmarkCandidateController::class, 'tag_search'])->name('bookmark_candidate.tag_search');
+    Route::get('/bookmark_candidate/browser-search', BookmarkCandidateController::class)->name('bookmark_candidate.meili');
 
+    Route::get('/bookmark_employer', [BookmarkEmployerController::class, 'index'])->name('bookmark_employer.index');
+    Route::get('/bookmark_employer/suggest', [BookmarkEmployerController::class, 'suggest'])->name('bookmark_employer.suggest');
+    Route::get('/bookmark_employer/select-search', [BookmarkEmployerController::class, 'select_search'])->name('bookmark_employer.select_search');
+    Route::get('/bookmark_employer/select2-search', [BookmarkEmployerController::class, 'select2_search'])->name('bookmark_employer.select2_search');
+    Route::get('/bookmark_employer/checkbox-search', [BookmarkEmployerController::class, 'checkbox_search'])->name('bookmark_employer.checkbox_search');
+    Route::get('/bookmark_employer/tag-search/{id}', [BookmarkEmployerController::class, 'tag_search'])->name('bookmark_employer.tag_search');
+    Route::get('/bookmark_employer/browser-search', BookmarkEmployerController::class)->name('bookmark_employer.meili');
+
+    Route::get('/messages', [MessagesController::class, 'index'])->name('messages.index');
+    Route::get('/messages/change', [MessagesController::class, 'change_messages'])->name('messages.change');
 });
 
 // Route LoginController
@@ -124,7 +142,7 @@ Route::post('reg', [LoginController::class, 'store'])->name('auth.register');
 
 Route::get('/home/job/detail/{id}', [JobController::class, 'detail'])->name('job.detail');
 
-Route::get('/home/browser-job', [JobController::class, 'browser'])->name('job.browser');
+Route::get('/home/browser-job/{id?}', [JobController::class, 'browser'])->name('job.browser');
 Route::get('/job/suggest', [JobController::class, 'suggest'])->name('job.suggest');
 Route::get('/home/select-search-jobs', [JobController::class, 'select_search'])->name('job.select_search');
 Route::get('/home/select2-search-job', [JobController::class, 'select2_search'])->name('job.select2_search');
@@ -134,7 +152,7 @@ Route::get('/home/tag-search-job/{id}', [JobController::class, 'tag_search'])->n
 Route::get('/home/browser-search', JobController::class)->name('job.meili');
 
 
-Route::get('/messages', [MessagesController::class, 'index'])->name('messages.index');
+
 
 
 

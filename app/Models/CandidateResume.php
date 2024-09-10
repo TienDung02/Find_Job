@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Laravel\Scout\Searchable;
 class CandidateResume extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $primaryKey = 'id';
 
@@ -56,5 +56,26 @@ class CandidateResume extends Model
     public function ward()
     {
         return $this->belongsTo(Ward::class, 'ward_id', 'id');
+    }
+    public function jobTag()
+    {
+        $tagIds = explode(', ', $this->tag_id);
+
+        return Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
+    }
+    public function searchable()
+    {
+    }
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        $array['tag_names'] = $this->jobTag();
+        $array['id'] = $this->id;
+        $array['province'] = $this->province->name;
+        $array['district'] = $this->district->name;
+        $array['ward'] = $this->ward->name;
+
+        return $array;
     }
 }

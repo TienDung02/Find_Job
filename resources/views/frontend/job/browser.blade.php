@@ -21,7 +21,6 @@
 	<!-- Recent Jobs -->
 	<div class="eleven columns">
 	<div id="main-list" class="padding-right">
-
 		<form action="{{ route('job.meili') }}" method="get" class="list-search">
 			<button><i class="fa fa-search"></i></button>
 			<input type="search" id="query" name="query" placeholder="job title, keywords or company name" value=""/>

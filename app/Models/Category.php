@@ -27,7 +27,7 @@ class Category extends Model
 
 //    public function children()
 //    {
-//        return $this->hasMany(category::class, 'parent_id');
+//        return $this->hasMany(industry::class, 'parent_id');
 //    }
     public function jobs()
     {

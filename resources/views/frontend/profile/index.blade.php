@@ -39,22 +39,22 @@
                             <div class="inputFileHolder h-100">
                                 <a class="w-100 h-100" href="#" title="Browse">
                                 </a>
-                                <input id="fileInput2" name="avatar" class="file-img fileInput w-100 h-100" title="Choose file to upload" value="{{$data->avatar}}"   type="file">
-                                <input name="avatar_old" value="{{$data->avatar}}"   type="hidden">
+                                <input id="fileInput2" name="avatar" class="file-img fileInput w-100 h-100" title="Choose file to upload" value="{{$user->avatar}}"   type="file">
+                                <input name="avatar_old" value="{{$user->avatar}}"   type="hidden">
                             </div>
                         </div>
-                        <img class="border image-preview btn-select-img cursor-pointer" style="" src="{{asset($data->avatar)}}" alt="">
+                        <img class="border image-preview btn-select-img cursor-pointer" style="" src="{{asset($user->avatar)}}" alt="">
                         <h6>(reasonable size: 300px x 300px)</h6>
 
                     </div>
                     <div class="" style="width: 60%">
                         <div class="form w-100">
                             <h5>First Name</h5>
-                            <input class="search-field" type="text" name="first_name" placeholder="" value="{{$data->first_name}}" required/>
+                            <input class="search-field" type="text" name="first_name" placeholder="" value="{{$user->first_name}}" required/>
                         </div>
                         <div class="form w-100">
                             <h5>Last Name</h5>
-                            <input class="search-field" type="text" name="last_name" placeholder=""  value="{{$data->last_name}}" required/>
+                            <input class="search-field" type="text" name="last_name" placeholder=""  value="{{$user->last_name}}" required/>
                         </div>
                         <div class="form w-100">
                             <h5>Phone</h5>
@@ -65,7 +65,7 @@
 
                 <div class="form">
                     <h5>E-mail</h5>
-                    <input class="search-field" type="text" readonly placeholder="" value="{{auth()->user()->email}}" required/>
+                    <input class="search-field" type="text" readonly placeholder="" value="{{$user->email}}" required/>
                 </div>
                 <div class="form">
                     <h5>About me</h5>

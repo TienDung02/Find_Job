@@ -23,7 +23,11 @@ class BlogSeeder extends Seeder
                 'title' => $faker->catchPhrase,
                 'author' => $faker->name,
                 'category_blog_id' => $faker->randomElement($category_blog),
-                'img' => $faker->imageUrl,
+                'img' => $faker->randomElement([
+                    '/storage/uploads/blog/blog-post-01.jpg',
+                    '/storage/uploads/blog/blog-post-02.jpg',
+                    '/storage/uploads/blog/blog-post-03.jpg',
+                ]),
                 'desc' => $faker->paragraph,
                 'content' => $faker->text(500),
                 'created_at' => now(),

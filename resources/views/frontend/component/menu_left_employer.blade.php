@@ -5,8 +5,8 @@
             <li class="{{ Str::contains(request()->path(), 'messages') ? 'active' : '' }}">
                 <a href="{{route('messages.index')}}">Messages &nbsp; <span>2</span></a>
             </li>
-            <li class="">
-                <a href="">Bookmarks</a>
+            <li class="{{ Str::contains(request()->path(), 'bookmark') ? 'active' : '' }}">
+                <a href="{{route('bookmark_employer.index')}}">Bookmarks</a>
             </li>
             <h4>Employer</h4>
             <li class="{{ Str::contains(request()->path(), 'job/add') ? 'active' : '' }}">

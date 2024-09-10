@@ -7,7 +7,7 @@
 <div id="titlebar">
     <div class="container">
         <div class="ten columns">
-            <span><a href="browser.blade.php">{{$data_jobs->category->name}}</a></span>
+            <span><a href="">{{$data_jobs->category->name}}</a></span>
             <h2>{{$data_jobs->title}}<span  class="ms-3 rounded-2 {{$data_jobs->jobType->name}}">{{$data_jobs->jobType->name}}</span></h2>
         </div>
         @if(isset($check_bookmark) && $check_bookmark == 2)
@@ -33,14 +33,14 @@
 
             <!-- Company Info -->
             <div class="company-info position-relative">
-                <a href=""><img src="{{asset($data_jobs->company->company_logo)}}" alt=""></a>
+                <a href="{{route('company.detail', $data_jobs->company->id)}}"><img src="{{asset($data_jobs->company->company_logo)}}" alt=""></a>
                 <div class="content mt-2">
-                    <a href=""><h4>{{$data_jobs->company->company_name}}</h4>
+                    <a href="{{route('company.detail', $data_jobs->company->id)}}"><h4>{{$data_jobs->company->company_name}}</h4>
                     <h5>{{$data_jobs->company->company_tagline}}</h5></a>
                     <span><a href="{{$data_jobs->company->company_website}}"><i class="fa fa-link"></i> Website </a></span>
                     <span><a href="{{$data_jobs->company->twitter}}"><i class="fa fa-link"></i>Twitter </a></span>
                 </div>
-                <div class="position-absolute top-0 end-0 view-company"><a href="" class="text-white">View Company &nbsp;<i class="bi bi-box-arrow-up-right"></i></a></div>
+                <div class="position-absolute top-0 end-0 view-company"><a href="{{route('company.detail', $data_jobs->company->id)}}" class="text-white">View Company &nbsp;<i class="bi bi-box-arrow-up-right"></i></a></div>
                 <div class="clearfix"></div>
             </div>
             <div class="form">

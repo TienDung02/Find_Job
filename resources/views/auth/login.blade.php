@@ -83,25 +83,24 @@
 
                     <h3 class="margin-bottom-10 margin-top-10">Register</h3>
 
-                    <form method="post" class="register" action="reg_process.php">
-
+                    <form method="post" class="register" action="{{route('auth.register')}}">
+                        @csrf
                         <p class="form-row d-flex form-row-wide">
                             <input type="button" value="Candidate" class="type_reg candidate_reg active">
                             <input type="button" value="Employer" class="type_reg employer_reg">
-                            <input type="hidden"  name="type_register" id="reg_type" value="1" />
+                            <input type="hidden"  name="type_register" id="reg_type" value="2" />
                         </p>
 
                         <p class="form-row form-row-wide">
-                            <label for="reg_email">User name:</label>
-                            <input type="text" class="input-text" name="user_name" id="reg_email" value="" />
-
+                            <label for="reg_email">First name:</label>
+                            <input type="text" class="input-text mb-3" name="first_name" value="" placeholder="First name" required/>
+                            <label for="reg_email">Last name:</label>
+                            <input type="text" class="input-text" name="last_name" value="" placeholder="Last name" required/>
                         </p>
-
 
                         <p class="form-row form-row-wide">
                             <label for="reg_password">Email:</label>
-                            <input type="email" class="input-text" name="email" id="reg_password" />
-                            <input id="email" type="email" class="form-control input-text @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            <input type="email" class="input-text" name="email" id="reg_password" placeholder="Email" required/>
 
                             @error('email')
                             <span class="invalid-feedback" role="alert">

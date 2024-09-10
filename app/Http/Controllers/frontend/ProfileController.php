@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Models\Employer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -23,48 +24,51 @@ class ProfileController extends Controller
                 $data = Employer::where('user_id', $user->id)->firstOrFail();
             }
         }
-        return view('frontend.profile.index', compact('data'));
+        return view('frontend.profile.index', compact('data', 'user'));
     }
     public function update(Request $request)
     {
 
-        $user = Auth::user();
-        $data = null;
+        $id_user = Session::get('user_data.id');
+        $user = User::query()->find($id_user);
         if ($user->role == 2) {
             $data = Candidate::where('user_id', $user->id)->firstOrFail();
         } elseif ($user->role == 3) {
             $data = Employer::where('user_id', $user->id)->firstOrFail();
         }
-        if ($data) {
-            $data->avatar = $request->input('avatar');
-            if ($request->hasFile('avatar')) {
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $old_avatar = $user->avatar;
+        $path = $old_avatar;
 
-                if ($data->avatar) {
-                    Storage::disk('public')->delete($data->avatar);
-                }
-                $file = $request->file('avatar');
-                $path = $file->store('uploads', 'public');
-                $url = asset('storage/' . $path);
-                $data->avatar = $url;
-                $user->save();
-            }else{
-                $data->avatar = $request->input('avatar_old');
+        $file = $request->file('avatar');
+        if ($file){
+
+            $path = '/storage/'.$file->store('uploads/avatar_user', 'public');
+            if ($old_avatar != '/storage/uploads/avatar_user/user.png'){
+                $filePath = public_path($old_avatar);
+                unlink($filePath);
             }
-            $data->first_name = $request->input('first_name');
-            $data->last_name = $request->input('last_name');
-            $data->tel = $request->input('tel');
-            $data->about = $request->input('desc');
-            if ($data->save()) {
-                $userData = Session::get('user_data', []);
-                $userData['avatar'] = $url;
-                Session::put('user_data', $userData);
-                toastr()->success('Update profile successfully!');
-            } else {
-                toastr()->error('There was an error updating your profile!');
-                return back();
+            $user->avatar = $path;
+        }
+        if ($user->save()){
+            if ($data) {
+
+                $data->tel = $request->input('tel');
+                $data->about = $request->input('desc');
+                if ($data->save()) {
+                    $userData = Session::get('user_data', []);
+                    $userData['avatar'] = $path;
+                    Session::put('user_data', $userData);
+                    toastr()->success('Update profile successfully!');
+                } else {
+                    toastr()->error('There was an error updating your profile!');
+                    return back();
+                }
             }
         }
-        return view('frontend.profile.index', compact('data'));
+
+        return redirect()->route('profile');
     }
 
 }

@@ -25,4 +25,9 @@ class ChatList extends Model
     {
         return $this->belongsTo(User::class, 'user_2', 'id');
     }
+    public function chatContentsUnread()
+    {
+        return $this->hasMany(ContentChat::class, 'chat_id', 'id')
+            ->where('status_receiver', 'Unread');
+    }
 }

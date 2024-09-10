@@ -5,8 +5,8 @@
             <li class="{{ Str::contains(request()->path(), 'messages') ? 'active' : '' }}">
                 <a href="{{route('messages.index')}}">Messages &nbsp; <span>2</span></a>
             </li>
-            <li class="">
-                <a href="">Bookmarks</a>
+            <li class="{{ Str::contains(request()->path(), 'bookmark') ? 'active' : '' }}">
+                <a href="{{route('bookmark_candidate.index')}}">Bookmarks</a>
             </li>
             <li class="{{ Str::contains(request()->path(), 'job/alert-job') ? 'active' : '' }}">
                 <a href="{{route('alert.index')}}">Job Alerts &nbsp; <span>2</span></a>
@@ -16,7 +16,7 @@
                 <a href="{{route('job.browser')}}">Browse Jobs</a>
             </li>
             <li>
-                <a href="{{route('category.browser')}}">Browse Categories</a>
+                <a href="{{route('industry.browser')}}">Browse Industries</a>
             </li>
                 <h4>Candidate</h4>
             <li class="{{ Str::contains(request()->path(), 'resume/add') || Str::contains(request()->path(), 'resume/edit') ? 'active' : '' }}">

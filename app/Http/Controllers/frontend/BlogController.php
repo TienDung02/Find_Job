@@ -20,19 +20,6 @@ class BlogController extends Controller
         $data_blogs = blog::query()->latest()->paginate(3);
         return view('frontend.blog.index', compact( 'data_blogs'));
     }
-//    public function manage(Request $request)
-//    {
-//        $user = Auth::user();
-//        $data = null;
-//        if ($user) {
-//            if ($user->role == 2) {
-//                $data = Candidate::where('user_id', $user->id)->firstOrFail();
-//            } elseif ($user->role == 3) {
-//                $data = Employer::where('user_id', $user->id)->firstOrFail();
-//            }
-//        }
-//        return view('frontend.resumes.manage', compact('data'));
-//    }
     public function detail(Request $request, $id)
     {
         $blog = blog::query()->findOrFail($id);

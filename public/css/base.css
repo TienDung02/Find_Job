@@ -301,6 +301,9 @@
 
     .border-radius-5{ border-radius: 5px !important; }
 
+    /*==================================================*/
+    /* Job Types
+    /*==================================================*/
     span.Full-Time { background-color: #186fc9 !important; }
     span.Part-Time { background-color: #f1630d !important; }
     span.Freelance { background-color: #53b427 !important; }
@@ -312,6 +315,16 @@
     .job-list .Freelance { border-left: 4px solid #53b427 !important;}
     .job-list .Internship { border-left: 4px solid #e1d123 !important;}
     .job-list .Temporary {  border-left: 4px solid #e12335 !important;}
+
+
+
+    /*==================================================*/
+    /* Messages
+    /*==================================================*/
+    span.Sent     { background-color: #3c3c3c !important;}
+    span.Seen     { background-color: #2db2ea !important;}
+    span.Unread   { background-color: #e12335 !important;}
+
 
 
 /* Basic Alginment

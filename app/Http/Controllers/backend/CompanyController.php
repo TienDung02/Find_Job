@@ -43,7 +43,7 @@ class CompanyController extends Controller
         $name = '';
         $category_id = '';
         $categoryList = $this->show();
-        return view('backend.category.add', compact('categoryList', 'name', 'category_id'));
+        return view('backend.industry.add', compact('categoryList', 'name', 'category_id'));
     }
 
     public function search($type, $keyword, $limit)
@@ -121,7 +121,7 @@ class CompanyController extends Controller
                 return redirect()->back();
             }
         } else {
-            toastr()->error('There was an error updating a category!');
+            toastr()->error('There was an error updating a industry!');
 //            return redirect()->back();
         }
     }

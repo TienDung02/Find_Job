@@ -4,15 +4,16 @@
 
             <div class="search-container">
 
-                <!-- Form -->
                 <h2>Find job</h2>
-                <input type="text" class="ico-01" placeholder="job title, keywords or company name" value=""/>
-                <input type="text" class="ico-02" placeholder="city, province or region" value=""/>
-                <button><i class="fa fa-search"></i></button>
+
+                <form action="{{ route('job.meili') }}" method="get">
+                    <input type="text" class="width-90" name="query" placeholder="city, province or region" value=""/>
+                    <button><i class="fa fa-search"></i></button>
+                </form>
 
                 <!-- Browse Jobs -->
                 <div class="browse-jobs">
-                    Browse job offers by <a href="../category/index.blade.php"> category</a> or <a href="#">location</a>
+                    Browse job offers by <a href="../industry/index.blade.php"> category</a> or <a href="#">location</a>
                 </div>
 
                 <!-- Announce -->

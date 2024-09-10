@@ -15,7 +15,7 @@
 
     <div class="parent-form-admin">
         <form
-            action="{{ $id_category != '' ? route('category.update', $id_category) : route('category.store') }}"
+            action="{{ $id_category != '' ? route('industry.update', $id_category) : route('industry.store') }}"
             method="POST" class="form-main">
             @csrf
             @if($id_category != '')
@@ -26,7 +26,7 @@
                     <h4>
 {{--                        @php print_r($categoryList); @endphp--}}
                     </h4>
-                    <span id="show_category" data-url="{{ route('category.show') }}"> </span>
+                    <span id="show_category" data-url="{{ route('industry.show') }}"> </span>
                     <div class="form-admin-insert-data form-admin-category" id="">
                         <label for="#">Parent category</label>
                         <select class="form-control select_category" id="exampleFormControlSelect2" name="parent_id">
@@ -56,7 +56,7 @@
                     <div class="form-group d-flex m-auto" style="width:23rem;">
                         <input  type="submit" style="width:10rem;" value="SAVE"
                                class="btn me-5 mt-3 text-white fw-bold fs-6">
-                        <a href="{{ route('category.index') }}">
+                        <a href="{{ route('industry.index') }}">
                             <button type="button" style="width:10rem;padding: 0.75rem;"
                                     class="btn btn-secondary mt-3  fw-bold fs-6">
                                 CANCEL

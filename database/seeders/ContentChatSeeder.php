@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\ChatList;
+use App\Models\ContentChat;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
@@ -18,13 +20,12 @@ class ContentChatSeeder extends Seeder
         $id_chats = DB::table('chat_lists')->pluck('id');
         $content = [];
 
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 3000; $i++) {
             $chat_id  = $faker->randomElement($id_chats);
             $id_senders = DB::table('chat_lists')
                 ->where('id', $chat_id)
                 ->select(DB::raw('CASE WHEN FLOOR(RAND() * 2) = 0 THEN user_1 ELSE user_2 END AS random_user'))
                 ->pluck('random_user');
-
 
             $sender_id  = $faker->randomElement($id_senders);
 
@@ -32,50 +33,72 @@ class ContentChatSeeder extends Seeder
 
             $createdAt = $faker->dateTimeBetween($createdAt, 'now');
 
-            $status_sender = $faker->randomElement(['Fail', 'Deleted', 'Unsend', 'Sent', 'Received', 'Seen', 'Not Read Yet']);
+            $status_sender = 'Sent';
 
-            if ($status_sender == 'Fail' || $status_sender == 'Delete' || $status_sender == 'Sent' || $status_sender == 'Not Read Yet'){
-                $status_receiver = '';
-            }elseif ($status_sender == 'Received'){
-                $status_receiver = $faker->randomElement(['', 'Seen', 'Not Read Yet']);
-            }elseif ($status_sender == 'Seen'){
-                $status_receiver = 'Seen';
-            }elseif ($status_sender == 'Unsend'){
-                $status_receiver = 'Unsend';
+            $content_chat = $faker->text(100);
+
+            $status_receiver = $faker->randomElement(['Seen', 'Unread']);
+
+            $chat = ChatList::query()->find($chat_id);
+            if ($chat->last_messages_sender == $sender_id){
+                if ($status_receiver == 'Unread'){
+                    $chat->messages_unread ++;
+                }else{
+                    $chat_bf = ContentChat::query()->where('chat_id', $chat_id)->where('status_receiver', 'Unread')->get();
+                    foreach ($chat_bf as $content_chat_bf){
+                        $content_chat_bf->status_receiver = 'Seen';
+                        $content_chat_bf->save();
+                    }
+                }
             }
+            $chat->last_messages = $content_chat;
+            $chat->last_messages_sender = $sender_id;
 
-            $content[] = [
+            if ($chat->user_1 == $sender_id){
+                $chat->status_user_1 = $status_sender;
+                $chat->status_user_2 = $status_receiver;
+                if ($chat->status_user_2 == 'Seen'){
+                    $chat->messages_unread = 0;
+                }else{
+                    $chat->messages_unread++;
+                }
+            }else{
+                $chat->status_user_2 = $status_sender;
+                $chat->status_user_1 = $status_receiver;
+                if ($chat->status_user_1 == 'Seen'){
+                    $chat->messages_unread = 0;
+                }else{
+                    $chat->messages_unread++;
+                }
+            }
+            if ($chat->save()){
+                $content[] = [
                     'chat_id' => $chat_id,
                     'sender_id' => $sender_id,
-                    'content' => $faker->text(100),
+                    'content' => $content_chat,
                     'img_1' => 'https://img.freepik.com/free-vector/realistic-neon-lights-background_23-2148907367.jpg',
-                    'img_2' => '',
-                    'img_3' => '',
-                    'img_4' => '',
-                    'img_5' => '',
-                    'img_6' => '',
-                    'img_7' => '',
-                    'img_8' => '',
-                    'img_9' => '',
-                    'img_10' => '',
-                    'img_11' => '',
-                    'img_12' => '',
-                    'img_13' => '',
-                    'img_14' => '',
-                    'img_15' => '',
-                    'img_16' => '',
-                    'img_17' => '',
-                    'img_18' => '',
-                    'img_19' => '',
-                    'img_20' => '',
                     'status_sender' => $status_sender,
                     'status_receiver' => $status_receiver,
                     'created_at' => $createdAt,
                     'updated_at' => $createdAt,
                     'deleted_at' => null
                 ];
+                if(count($content) == 100){
+                    // insert
+                    DB::table('content_chats')->insert($content);
+                    $content = [];
+                }
+            }
         }
 
-        DB::table('content_chats')->insert($content);
+        if(!empty($content)){
+            DB::table('content_chats')->insert($content);
+        }
+        // get chat list
+
+        // foreach => get & update last messsage
+
     }
+
+
 }

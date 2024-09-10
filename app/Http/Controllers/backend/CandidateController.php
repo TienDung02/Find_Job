@@ -117,7 +117,7 @@ class CandidateController extends Controller
                 return redirect()->back();
             }
         } else {
-            toastr()->error('There was an error updating a category!');
+            toastr()->error('There was an error updating a industry!');
 //            return back();
         }
     }

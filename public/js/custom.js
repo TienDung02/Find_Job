@@ -597,18 +597,15 @@
         /*  Change Type Register
         /*----------------------------------------------------*/
         $('.candidate_reg').click(function () {
-            console.log('aaaaaaaaaa');
             $(this).addClass('active');
             $('.employer_reg').removeClass('active');
-            $('#reg_type').val('1');
+            $('#reg_type').val('2');
         });
 
         $('.employer_reg').click(function () {
-            console.log('bbbbbbbbb');
-
             $(this).addClass('active');
             $('.candidate_reg').removeClass('active');
-            $('#reg_type').val('2');
+            $('#reg_type').val('3');
         });
 
 
@@ -986,7 +983,7 @@
         /*----------------------------------------------------*/
         /*  Ajax Select2
         /*----------------------------------------------------*/
-        $(document).on('change', '#select-search-job', function() {
+        $(document).on('change', '#select-search', function() {
             var value = $(this).val();
             $.ajax({
                 url: $('#url-select-search').attr('data-url'),
@@ -1010,7 +1007,6 @@
             var value = $(this).val();
             var data_type = $(this).attr('data-type');
             var url = $('#get_table').attr('data-url');
-            console.log(data_type)
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -1299,7 +1295,41 @@
             $('input[name="check"]').prop('checked', false);
             $('input[name="check"][value="' + jobType + '"]').prop('checked', true);
         }
+        /*----------------------------------------------------*/
+        /*  Ajax Change Messages
+        /*----------------------------------------------------*/
+        $(document).on('click', '.change-messages', function() {
+            var id = $(this).attr('data-messages-id');
+            var element = $(this);
+            $.ajax({
+                url: $('#get-url').attr('data-url-change-messages'),
+                type: 'GET',
+                data: {
+                    'id': id
+                },
+                success: function(data) {
+                    var html = $(data).children();
+                    $('#messages').html(html);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
 
+            $('.messages-container-inner .messages-inbox ul li a').removeClass('active-message');
+            element.addClass('active-message');
+            var main_mesages = $('.message-content-block');
+
+            setTimeout(function() {
+                main_mesages.scrollTop(main_mesages.prop("scrollHeight"));
+                element.find('span.rounded-circle').remove();
+                element.find('p.fw-semibold').removeClass('fw-semibold');
+            }, 500);
+        });
+        var main_mesages = $('.message-content-block');
+        setTimeout(function() {
+            main_mesages.scrollTop(main_mesages.prop("scrollHeight"));
+        }, 500);
 
 
 

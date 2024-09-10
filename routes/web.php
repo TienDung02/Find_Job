@@ -27,16 +27,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
 
-// Route CategoryController
-    Route::get('category', [CategoryController::class, 'index'])->name('admin.category.index');
-    Route::get('category/create', [CategoryController::class, 'create'])->name('admin.category.create');
-    Route::post('category', [CategoryController::class, 'store'])->name('admin.category.store');
-    Route::get('category/show', [CategoryController::class, 'show'])->name('admin.category.show');
-    Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
-    Route::put('category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
-    Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
-    Route::get('category/suggest', [CategoryController::class, 'suggest'])->name('admin.category.suggest');
-    Route::get('category/paginate-limit', [CategoryController::class, 'getLimit'])->name('admin.category.limit');
+// Route IndustryController
+    Route::get('industry', [CategoryController::class, 'index'])->name('admin.industry.index');
+    Route::get('industry/create', [CategoryController::class, 'create'])->name('admin.industry.create');
+    Route::post('industry', [CategoryController::class, 'store'])->name('admin.industry.store');
+    Route::get('industry/show', [CategoryController::class, 'show'])->name('admin.industry.show');
+    Route::get('industry/{industry}/edit', [CategoryController::class, 'edit'])->name('admin.industry.edit');
+    Route::put('industry/{industry}', [CategoryController::class, 'update'])->name('admin.industry.update');
+    Route::delete('industry/{industry}', [CategoryController::class, 'destroy'])->name('admin.industry.destroy');
+    Route::get('industry/suggest', [CategoryController::class, 'suggest'])->name('admin.industry.suggest');
+    Route::get('industry/paginate-limit', [CategoryController::class, 'getLimit'])->name('admin.industry.limit');
 
 
 // Route CandidateController

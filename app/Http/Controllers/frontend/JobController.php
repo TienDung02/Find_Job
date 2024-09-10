@@ -24,7 +24,7 @@ use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 class JobController extends Controller
 {
-    public function browser(Request $request)
+    public function browser(Request $request, $id = null)
     {
         $data_tag = Tag::query()->get();
         $count_job = Job::query()->count();
@@ -40,6 +40,9 @@ class JobController extends Controller
             4 => $freelance,
             5 => $tempo,
         ];
+        if ($id){
+            $request->id = $id;
+        }
         $data_jobs = $this->getTable($request);
         $data_province = Province::query()->get();
         $data_district = District::query()->get();
@@ -190,7 +193,7 @@ class JobController extends Controller
         $insert_job->location = $location;
         $insert_job->job_type_id = $request->input('job_type');
 
-        $category = $request->input('category');
+        $category = $request->input('industry');
         $category = implode(', ', $category);
 
         $tag = $request->input('tag');
@@ -262,7 +265,7 @@ class JobController extends Controller
         $update_job = Job::query()->findOrFail($id);
         $update_job->title = $request->input('job_title');
         $update_job->job_type_id = $request->input('job_type');
-        $category = $request->input('category');
+        $category = $request->input('industry');
         $category = implode(', ', $category);
 
         $tag = $request->input('tag');
@@ -395,7 +398,8 @@ class JobController extends Controller
             4 => $freelance,
             5 => $tempo,
         ];
-        return view('frontend.job.browser', compact( 'data_jobs', 'data_tag', 'jobTypes', 'count_job'));
+        $data_tags = Tag::query()->get();
+        return view('frontend.job.browser', compact( 'data_jobs', 'data_tag', 'jobTypes', 'count_job', 'data_tags'));
     }
     public function select_search(Request $request){
         $data_tag = Tag::query()->get();
@@ -418,6 +422,10 @@ class JobController extends Controller
                 }else{
                     $data_jobs = Job::query()->where('job_type_id', $request->job_type)->paginate(7);
                 }
+                return $data_jobs;
+            }elseif (isset($request->id) && $request->id != ''){
+                $company_ids = Company::query()->where('industry_id', $request->id)->pluck('id');
+                $data_jobs = Job::query()->whereIn('company_id', $company_ids)->paginate(7);
                 return $data_jobs;
             }else{
                 if ($request->value == "oldest"){

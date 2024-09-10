@@ -44,4 +44,8 @@ class ContentChat extends Model
     {
         return $this->belongsTo(ChatList::class, 'chat_id', 'id');
     }
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id', 'id');
+    }
 }

@@ -7,8 +7,8 @@
             <li class="{{ Str::is('admin.messages.*', request()->route()->getName()) ? 'menu_active' : '' }}">
                 <a class="fw-semibold" href="{{route("admin.messages.index")}}"><i class="bi bi-chat-dots"></i>Messages</a>
             </li>
-            <li class="{{ Str::is('admin.category.*', request()->route()->getName()) ? 'menu_active' : '' }}">
-                <a class="fw-semibold" href="{{route("admin.category.index")}}"><i class="bi bi-card-list"></i>Category</a>
+            <li class="{{ Str::is('admin.industry.*', request()->route()->getName()) ? 'menu_active' : '' }}">
+                <a class="fw-semibold" href="{{route("admin.industry.index")}}"><i class="bi bi-card-list"></i>Category</a>
             </li>
             <li class="{{Str::is('admin.candidate.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a class="fw-semibold" href="{{route("admin.candidate.index")}}"><i class="bi bi-person-video2"></i>Candidate</a>
@@ -34,11 +34,11 @@
             <li class="">
                 <a class="fw-semibold"><i class="bi bi-speedometer2"></i></a>
             </li>
-            <li class="{{Str::is('admin.category.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+            <li class="{{Str::is('admin.industry.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a class="fw-semibold" href="{{route("admin.messages.index")}} "><i class="bi bi-chat-dots"></i></a>
             </li>
-            <li class="{{Str::is('admin.category.*', request()->route()->getName()) ? 'menu_active' : ''}}">
-                <a class="fw-semibold" href="{{route("admin.category.index")}} "><i class="bi bi-card-list"></i></a>
+            <li class="{{Str::is('admin.industry.*', request()->route()->getName()) ? 'menu_active' : ''}}">
+                <a class="fw-semibold" href="{{route("admin.industry.index")}} "><i class="bi bi-card-list"></i></a>
             </li>
             <li class="{{Str::is('admin.candidate.*', request()->route()->getName()) ? 'menu_active' : ''}}">
                 <a class="fw-semibold" href="{{route("admin.candidate.index")}}"><i class="bi bi-person-video2"></i></a>

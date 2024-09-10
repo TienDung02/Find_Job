@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
+use App\Models\Bookmark;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\District;
 use App\Models\Employer;
 use App\Models\Industry;
+use App\Models\Job;
 use App\Models\Province;
+use App\Models\Tag;
 use App\Models\Ward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -168,4 +171,20 @@ class CompanyController extends Controller
 
     }
 
+    public function detail(Request $request, $id){
+//        $data = checkUser();
+        $company = Company::query()->findOrFail($id);
+        $check_bookmark = 2;
+        $data_jobs = Job::query()->where('company_id', $id)->latest()->paginate(5);
+        $data_tags = Tag::query()->get();
+//        if (Auth::check()) {
+//            $check_bookmark = Bookmark::query()->where('job_id', $id)->where('user_id', \auth()->user()->id)->first();
+//            if ($check_bookmark){
+//                $check_bookmark = 1;
+//            }else{
+//                $check_bookmark = 2;
+//            }
+//        }
+        return view('frontend.company.detail', compact('company', 'check_bookmark', 'data_jobs', 'data_tags'));
+    }
 }

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('employers', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('user_id');
-            $table->string('tel', 255);
-            $table->text('about');
+            $table->string('tel', 255)->nullable();
+            $table->text('about')->nullable();
             $table->integer('active');
             $table->integer('free_jobs_count');
             $table->string('job_package')->nullable();

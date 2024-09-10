@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('user_2');
             $table->text('last_messages');
             $table->integer('last_messages_sender');
+            $table->integer('messages_unread')->nullable();
             $table->string('status_user_1')->nullable();
             $table->string('status_user_2')->nullable();
             $table->timestamps();

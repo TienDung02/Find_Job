@@ -7,71 +7,23 @@
 <!-- Categories -->
 <div class="container">
     <div class="sixteen columns">
-        <h3 class="margin-bottom-25">Popular Categories</h3>
+        <h3 class="margin-bottom-25">Popular Industries</h3>
 
         <ul id="popular-categories">
+            @foreach($data_industries as $industry)
             <li class="w-25 mb-4">
-                <a>
-                    <i class="bi bi-graph-up"></i>
-                    <h4 class="mb-2">Accouting / Finance</h4>
-                    <span>(32)</span>
+                <a href="{{route('job.browser', $industry->id)}}">
+                    {!! $industry->icon !!}
+                    <h5 class="mb-2">{{$industry->name}}</h5>
+                    <span>({{ $industry->jobs_count }})</span>
                 </a>
             </li>
-            <li class="w-25">
-                <a>
-                    <i class="bi bi-truck"></i>
-                    <h4 class="mb-2">Automotive Jobs</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
-            <li class="w-25">
-                <a>
-                    <i class="bi bi-tools"></i>
-                    <h4 class="mb-2">Construction / Facilities</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
-            <li class="w-25">
-                <a>
-                    <i class="bi bi-mortarboard"></i>
-                    <h4 class="mb-2">Education / Training</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
-
-            <li class="w-25 ">
-                <a>
-                    <i class="bi bi-activity"></i>
-                    <h4 class="mb-2">Healthcare</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
-            <li class="w-25">
-                <a>
-                    <i class="bi bi-question-lg"></i>
-                    <h4 class="mb-2">Restarant / Food Service</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
-            <li class="w-25">
-                <a>
-                    <i class="bi bi-globe"></i>
-                    <h4 class="mb-2">Transportation / Logistics</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
-            <li class="w-25">
-                <a>
-                    <i class="bi bi-laptop"></i>
-                    <h4 class="mb-2">Telecommunication</h4>
-                    <span>(32)</span>
-                </a>
-            </li>
+            @endforeach
 
         </ul>
         <div class="clearfix"></div>
         <div class="margin-top-30"></div>
-        <a href="{{route('category.browser')}}" class="button centered">Browse All Categories</a>
+        <a href="{{route('industry.browser')}}" class="button centered">Browse All Industries</a>
         <div class="margin-bottom-50"></div>
     </div>
 </div>
@@ -180,8 +132,6 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-
-
     </div>
 </div>
 

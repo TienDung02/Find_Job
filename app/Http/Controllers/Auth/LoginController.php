@@ -79,7 +79,7 @@ class LoginController extends Controller
             if ($data) {
                 Session::put('user_data', [
                     'id' => \auth()->user()->id,
-                    'avatar' => $data->user->avatar ?? '',
+                    'avatar' => $user->avatar ?? '',
                     'name' => $user->first_name . ' ' . $user->last_name ?? '',
                     'email' => \auth()->user()->email ?? '',
                     'free_jobs_count' => $jobs_count
@@ -151,10 +151,12 @@ class LoginController extends Controller
 //        return 123;
         $insert_user = new User();
         $insert_user->role = $request->input('type_register');
-        $insert_user->user_name = $request->input('user_name');
+        $insert_user->first_name = $request->input('first_name');
+        $insert_user->last_name = $request->input('last_name');
         $insert_user->email = $request->input('email');
         $insert_user->password = Hash::make('123');
         $insert_user->active = 0;
+        $insert_user->avatar = '/storage/uploads/avatar_user/user.png';
 
         $userExists = User::where('email', $insert_user->email)->exists();
         if (!$userExists) {
@@ -164,15 +166,15 @@ class LoginController extends Controller
                     $new_user->rating = '0';
                 }elseif($insert_user->role == 3){
                     $new_user = new Employer();
+                    $new_user->free_jobs_count = 3;
                 }
+
                 $user_ = User::query()->where('email', $insert_user->email)->first();
                 $user_id = $user_->id;
                 $new_user->user_id = $user_id;
-                $new_user->avatar = '/storage/uploads/user.png';
-                $new_user->first_name = '';
-                $new_user->last_name = '';
-                $new_user->tel = '';
-                $new_user->about = '';
+                $new_user->active = 1;
+                $new_user->tel = null;
+                $new_user->about = null;
                 if ($new_user->save()) {
                     $token = Str::random(32);
                     $activationUrl = route('activate.account', $token);
@@ -197,11 +199,11 @@ class LoginController extends Controller
                     return redirect()->route('auth.login');
                 }
             } else {
-                session()->flash('error', 'There was an error adding a category!');
+                session()->flash('error', 'There was an error adding a industry!');
 //                return back();
             }
         } else {
-            session()->flash('error', 'This category already exists!');
+            session()->flash('error', 'This email already exists!');
 //            return back();
         }
         return redirect()->route('auth.login');

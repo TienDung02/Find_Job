@@ -56,7 +56,7 @@ class UserController extends Controller
 //        $name = $category_id->name;
 //        $parent_id = (int)$category_id->parent_id;
 //        $categoryList = $this->show($type ,0,$parent_id, $space='&nbsp;');
-////        return view('backend.category.admin_add_category', compact('categoryList', 'name', 'category_id'));
+////        return view('backend.industry.admin_add_category', compact('categoryList', 'name', 'category_id'));
 //    }
 
     public function suggest(Request $request)

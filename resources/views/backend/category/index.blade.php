@@ -6,7 +6,7 @@
             <h4>LIST CATEGORIES</h4>
         </div>
         <div class="section-item-right">
-            <form id="formSearch" method="GET" action="{{ route('admin.category.suggest') }}">
+            <form id="formSearch" method="GET" action="{{ route('admin.industry.suggest') }}">
                 <div class="form-group ">
                     <select class="js-example-basic-single form-control" id="first_suggest" data-type="parent"
                             data-placeholder="Select parent name" name="state">
@@ -22,11 +22,11 @@
                             data-placeholder="Level" name="state">
                     </select>
                 </div>
-                <a href="{{route("admin.category.index")}}">
+                <a href="{{route("admin.industry.index")}}">
                     <button type="button" id="clearCategory" class="btn-add">CLEAR</button>
                 </a>
             </form>
-            <a style="color: #ffffff" href="{{route("admin.category.create")}}">
+            <a style="color: #ffffff" href="{{route("admin.industry.create")}}">
                 <button class="btn-add">ADD NEW</button>
             </a>
         </div>
@@ -49,7 +49,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <span id="get_limit" data-url="{{ route('admin.category.limit') }}"> </span>
+                <span id="get_limit" data-url="{{ route('admin.industry.limit') }}"> </span>
                 @php
                     $shows = [ '5', '10', '15'];
                     $limit = request()->input('limit', 5);
@@ -61,11 +61,11 @@
                         <td>{{optional($value->parent)->name}}</td>
                         <td>{{$value->name}}</td>
                         <td class="d-flex">
-                            <a href="{{ route('admin.category.edit', $value['id']) }}">
+                            <a href="{{ route('admin.industry.edit', $value['id']) }}">
                                 <button type="submit" class="btn btn-secondary">Update</button>
                             </a>
                             <form id='delete-form-{{ $value['id'] }}'
-                                  action="{{ route('admin.category.destroy', $value['id']) }}" method="POST">
+                                  action="{{ route('admin.industry.destroy', $value['id']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <a>

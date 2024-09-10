@@ -26,7 +26,7 @@ const EmojiPicker = function(options) {
 
         const isNodeList = (nodes) => {
             var stringRepr = Object.prototype.toString.call(nodes);
-        
+
             return typeof nodes === 'object' &&
                 /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
                 (typeof nodes.length === 'number') &&
@@ -97,7 +97,7 @@ const EmojiPicker = function(options) {
             removeAttr(param) {
                 this.el().forEach(el => el.removeAttribute(param))
             },
-            
+
             addClass(param) {
                 this.el().forEach(el => el.classList.add(param))
             },
@@ -105,7 +105,7 @@ const EmojiPicker = function(options) {
             removeClass(param) {
                 this.el().forEach(el => el.classList.remove(param))
             },
-            
+
             slug(str) {
                 return str
                     .toLowerCase()
@@ -7661,7 +7661,7 @@ const EmojiPicker = function(options) {
                         margin: 0;
                         padding: 0;
                         overflow-y: ${this.options.tabbed ? "hidden" : "visible"};
-                        
+
                         overflow-x: hidden;
                         height: ${pickerHeight - (this.options.disableSearch ? 41 : 77) + (this.options.disableNav ? 41 : 0)}px;
                         position: fixed;
@@ -7707,7 +7707,7 @@ const EmojiPicker = function(options) {
                         border-radius: 3px;
                         transition: all .3s ease;
                     }
-                    
+
                     .fg-emoji-list li a:hover {
                         background-color: var(--icon-hover);
                     }
@@ -7835,7 +7835,7 @@ const EmojiPicker = function(options) {
 
         rePositioning: (picker) => {
             picker.getBoundingClientRect().right > window.screen.availWidth ? picker.style.left = window.screen.availWidth - picker.offsetWidth + 'px' : false;
-            
+
             if (window.innerHeight > pickerHeight) {
                 picker.getBoundingClientRect().bottom > window.innerHeight ? picker.style.top = window.innerHeight - picker.offsetHeight + 'px' : false;
             }
@@ -7856,7 +7856,7 @@ const EmojiPicker = function(options) {
                     if (emojiObj.hasOwnProperty.call(emojiObj, key)) {
                         const categoryObj = emojiObj[key];
 
-                        
+
                         categoriesHTML += `<li ${this.options.tabbed ? `onclick=openTab("${key}")` : ""}>
                             <a title="${key}" href="#${key}">${categoryFlags[key]}</a>
                         </li>`;
@@ -7890,7 +7890,7 @@ const EmojiPicker = function(options) {
 
                     <div class="fg-emoji-picker-search">
                         <input type="text" placeholder="Search" autofocus />
-                        
+
                         <span class="fg-emoji-picker-search-icon">${icons.search}</sapn>
                     </div>
 
@@ -7955,7 +7955,7 @@ const EmojiPicker = function(options) {
         insert: e => {
 
             e.preventDefault();
-            
+
             const emoji = e.target.innerText.trim();
             const myField = document.querySelectorAll(this.insertInto);
             const myValue = emoji;
@@ -7971,9 +7971,9 @@ const EmojiPicker = function(options) {
                     const startPos = myField.selectionStart;
                     const endPos = myField.selectionEnd;
                     myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-                    
+
                     functions.setCaretPosition(myField, startPos + 2)
-                    
+
                 } else {
                     myField.value += myValue;
                     myField.focus()
@@ -8007,7 +8007,7 @@ const EmojiPicker = function(options) {
             const val = e.target.value.trim();
 
             if (!emojiList) {
-                emojiList = Array.from(document.querySelectorAll('.fg-emoji-picker-category-wrapper li'));
+                emojiList = Array.from(document.querySelectorAll('.fg-emoji-picker-industry-wrapper li'));
             }
 
             emojiList.filter(emoji => {
@@ -8059,7 +8059,7 @@ const EmojiPicker = function(options) {
         this.lib(document).on('mousemove', functions.mouseMove);
     };
 
-    
+
 
     (() => {
 
@@ -8068,7 +8068,7 @@ const EmojiPicker = function(options) {
 
         // Event functions
         bindEvents.call(this);
-        
+
     })()
 
 }

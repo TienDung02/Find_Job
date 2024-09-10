@@ -67,7 +67,7 @@ class BlogController extends Controller
         $url = asset('storage/' . $path);
         $insert_blog->img = $url;
         if ($insert_blog->save()) {
-            toastr()->success('Added category successfully!');
+            toastr()->success('Added industry successfully!');
         } else {
             toastr()->error('There was an error adding a blog!');
             return 789;
@@ -120,7 +120,7 @@ class BlogController extends Controller
     {
         $blog_update = blog::find($id_blog);
         if (!$blog_update) {
-            return redirect()->route('category.index')->with('error', 'Category not found.');
+            return redirect()->route('industry.index')->with('error', 'Category not found.');
         }
         $blog_update->author = $request->input('author');
         $blog_update->category_blog_id = $request->input('category_blog_id');
@@ -146,7 +146,7 @@ class BlogController extends Controller
 
         if (!$blog) {
             toastr()->error('blog not found.');
-            return redirect()->route('category.index');
+            return redirect()->route('industry.index');
         }
 
         if ($blog->delete()) {

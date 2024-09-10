@@ -56,4 +56,8 @@ class Company extends Model
     {
         return $this->belongsTo(Ward::class, 'ward_id', 'id');
     }
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
 }

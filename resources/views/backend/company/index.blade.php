@@ -90,9 +90,9 @@
                     <select name="limit-category" id="show-limit">
                         @php
                             $shows = [ '5', '10', '15'];
-                            if ($limit_category = request()->input('limit-category'))
+                            if ($limit_category = request()->input('limit-industry'))
                             {
-                                $limit_category = request()->input('limit-category');
+                                $limit_category = request()->input('limit-industry');
                             }
                         @endphp
                         @foreach($shows as $show)

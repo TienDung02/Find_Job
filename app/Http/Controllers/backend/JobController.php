@@ -118,7 +118,7 @@ class JobController extends Controller
                 return redirect()->back();
             }
         } else {
-            toastr()->error('There was an error updating a category!');
+            toastr()->error('There was an error updating a industry!');
 //            return back();
         }
     }
@@ -130,7 +130,7 @@ class JobController extends Controller
 
         if (!$job) {
             toastr()->error('job not found.');
-            return redirect()->route('category.index');
+            return redirect()->route('industry.index');
         }
 
         if ($job->delete()) {

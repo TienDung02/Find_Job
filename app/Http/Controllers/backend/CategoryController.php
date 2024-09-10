@@ -12,12 +12,12 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $data = $this->getTable($request);
-        return view('backend.category.index', compact('data'));
+        return view('backend.industry.index', compact('data'));
     }
 
     public function getLimit (Request $request) {
         $data = $this->getTable($request);
-        return view('backend.category.ajax.table', compact('data'));
+        return view('backend.industry.ajax.table', compact('data'));
     }
 
     public function getTable ($request) {
@@ -42,7 +42,7 @@ class CategoryController extends Controller
         $name = '';
         $id_category = '';
         $categoryList = category::query()->where('level', '<', 4)->get();
-        return view('backend.category.add', compact('categoryList', 'name', 'id_category'));
+        return view('backend.industry.add', compact('categoryList', 'name', 'id_category'));
     }
 
     public function search($type, $keyword, $limit)
@@ -101,16 +101,16 @@ class CategoryController extends Controller
             ->exists();
         if (!$categoryExists) {
             if ($insert_category->save()) {
-                toastr()->success('Added category successfully!');
+                toastr()->success('Added industry successfully!');
             } else {
-                toastr()->error('There was an error adding a category!');
+                toastr()->error('There was an error adding a industry!');
                 return back();
             }
         } else {
-            toastr()->error('This category already exists!');
+            toastr()->error('This industry already exists!');
             return back();
         }
-        return view('backend.category.index', compact('data'));
+        return view('backend.industry.index', compact('data'));
     }
 
     public function edit($id_category)
@@ -119,7 +119,7 @@ class CategoryController extends Controller
         $name = $category_id->name;
         $parent_id = (int)$category_id->parent_id;
         $categoryList = category::query()->get();
-        return view('backend.category.add', compact('categoryList', 'name', 'id_category', 'parent_id'));
+        return view('backend.industry.add', compact('categoryList', 'name', 'id_category', 'parent_id'));
     }
 
 
@@ -135,7 +135,7 @@ class CategoryController extends Controller
             if ($keyword) {
                 $query->where('name', 'like', "%" . $keyword . "%");
             }
-        } else if ($type === 'category') {
+        } else if ($type === 'industry') {
             if ($parent_id) {
                 $query->where('parent_id', $parent_id);
             }
@@ -185,19 +185,19 @@ class CategoryController extends Controller
 
         $id_category = category::find($id);
         if (!$id_category) {
-            return redirect()->route('category.index')->with('error', 'Category not found.');
+            return redirect()->route('industry.index')->with('error', 'Category not found.');
         }
         $id_category->parent_id = $parentId;
         $id_category->level = $level;
         $id_category->name = $request->input('name');
         if ($id_category->save()) {
-            toastr()->success('Update category successfully!');
+            toastr()->success('Update industry successfully!');
         } else {
-            toastr()->error('There was an error updating a category!');
+            toastr()->error('There was an error updating a industry!');
             return back();
         }
 
-        return redirect()->route('category.index');
+        return redirect()->route('industry.index');
     }
 
 
@@ -207,14 +207,14 @@ class CategoryController extends Controller
 
         if (!$category) {
             toastr()->error('Category not found.');
-            return redirect()->route('category.index');
+            return redirect()->route('industry.index');
         }
 
         if ($category->delete()) {
             toastr()->success('Category deleted successfully!');
             return redirect()->back();
         } else {
-            toastr()->error('There was an error deleting the category!');
+            toastr()->error('There was an error deleting the industry!');
             return redirect()->back();
         }
     }

@@ -21,7 +21,7 @@
                             <a class="{{ Str::contains(request()->path(), 'home/browser-job') || Str::contains(request()->path(), 'home/tag-search-job') || Str::contains(request()->path(), 'home/browser-search') ? 'active' : '' }}" href="{{route('job.browser')}}">Browse Jobs</a>
                         </li>
                         <li>
-                            <a class="{{ Str::contains(request()->path(), 'home/browser-category') ? 'active' : '' }}" href="{{route('category.browser')}}">Browse Categories</a>
+                            <a class="{{ Str::contains(request()->path(), 'home/browser-industry') ? 'active' : '' }}" href="{{route('industry.browser')}}">Browse Industries</a>
                         </li>
                         <li>
                             <a class="{{ Str::contains(request()->path(), 'resume/add') ? 'active' : '' }}" href="{{route('resume.add')}}">Add Resume</a>
@@ -51,7 +51,7 @@
 
                     <ul id="responsive" class="m-0 w-100 h-100">
                         <li class="h-100 w-100 m-0 menu-dropdown">
-                            <img src="{{Session::get('user_data.avatar')}}">
+                            <img src="{{asset(Session::get('user_data.avatar'))}}">
                             <ul class="ul-dropdown">
                                 <li><a href="{{route('profile')}}">My Profile</a></li>
                                 <li><a href="{{route('messages.index')}}">Messenger</a></li>
