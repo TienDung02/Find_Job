@@ -51,17 +51,20 @@ class MessagesController extends Controller
         }
         $messages_selected = null;
         if ($chat_selected != null){
-            $messages_selected = ContentChat::query()->where('chat_id', $chat_selected->id)->paginate(10);
+            $messages_selected = ContentChat::query()->where('chat_id', $chat_selected->id)->orderBy('created_at', 'DESC')->paginate(10);
+            $messages_selected = $messages_selected->getCollection()->reverse()->values();
         }
         foreach ($data_chat_list as $key => $chat_list){
             if ($chat_list->id == $chat_selected->id){
                 unset($data_chat_list[$key]);
             }
         }
-        return view('livewire.frontend.chat.index', compact('data_chat_list',  'chat_selected', 'selected_content_chat', 'messages_selected', 'check_messages_prev'));
+        $page = 1;
+        return view('livewire.frontend.chat.index', compact('data_chat_list',  'chat_selected', 'selected_content_chat', 'messages_selected', 'check_messages_prev', 'page'));
     }
     public function change_messages(Request $request){
-        $messages_selected = ContentChat::query()->where('chat_id', $request->id)->paginate(10);
+        $messages_selected = ContentChat::query()->where('chat_id', $request->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $messages_selected = $messages_selected->getCollection()->reverse()->values();
         $messages_update = ContentChat::query()->where('chat_id', $request->id)->get();
         foreach ($messages_update as $update){
             $update->status_receiver = 'Seen';
@@ -84,6 +87,30 @@ class MessagesController extends Controller
         if ($hasMoreMessages->isNotEmpty()){
             $check_messages_prev= true;
         }
-        return view('livewire.frontend.ajax.change_messages', compact( 'messages_selected', 'check_messages_prev'));
+        $chat_id = $request->id;
+        $page = 1;
+        return view('livewire.frontend.ajax.change_messages', compact( 'messages_selected', 'check_messages_prev', 'chat_id', 'page'));
+    }
+    public function load_prev_messages(Request $request){
+        $messages_selected = ContentChat::query()
+            ->where('chat_id', $request->id)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10, ['*'], 'page',($request->page + 1));
+
+        $messages_selected = $messages_selected->getCollection()->reverse()->values();
+
+        $check_messages_prev= false;
+        $hasMoreMessages = ContentChat::query()
+            ->where('chat_id', $request->id)
+            ->orderBy('created_at', 'DESC')
+            ->skip(($request->page + 1) * 10)
+            ->take(1)
+            ->get();
+        if ($hasMoreMessages->isNotEmpty()){
+            $check_messages_prev= true;
+        }
+        $chat_id = $request->id;
+        $page = $request->page + 1;
+        return view('livewire.frontend.ajax.change_messages', compact( 'messages_selected', 'check_messages_prev', 'chat_id', 'page'));
     }
 }

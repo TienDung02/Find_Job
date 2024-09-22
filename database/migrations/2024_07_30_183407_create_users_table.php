@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('password');
             $table->integer('role');
             $table->integer('active');
+            $table->integer('last_message_selected');
             $table->timestamps();
             $table->softDeletes();
         });

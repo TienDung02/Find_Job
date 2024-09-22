@@ -24,6 +24,7 @@
 <!-- Wrapper / End -->
 <!-- Scripts
 ================================================== -->
+
 @include('.frontend.component.script')
 @if (isset(session('alert_')['alert_type']))
     <script>

@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
             DistrictSeeder::class,
             ProvinceSeeder::class,
             WardSeeder::class,
-//
+
             UserSeeder::class,
-//
+
             TagSeeder::class,
 
             CategorySeeder::class,
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             BookmarkSeeder::class,
 
             BlogSeeder::class,
-//            BlogCommentSeeder::class,
+            BlogCommentSeeder::class,
 
             ApplicationStatusSeeder::class,
             JobAlertSeeder::class,

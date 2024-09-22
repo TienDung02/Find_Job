@@ -16,6 +16,7 @@
         "laravel/ui": "^3.4",
         "livewire/livewire": "^2.12",
         "meilisearch/meilisearch-php": "^1.10",
+        "pusher/pusher-php-server": "^7.2",
         "yoeunes/toastr": "^2.3"
     },
     "require-dev": {

@@ -79,7 +79,7 @@ class BookmarkCandidateController extends Controller
     public function select_search(Request $request){
         $data_tag = Tag::query()->get();
         $data_jobs = $this->getTable($request);
-        return view('frontend.job.ajax.select_search_result', compact( 'data_jobs', 'data_tag'));
+        return view('frontend.bookmark.ajax.select_search_jobs_result', compact( 'data_jobs', 'data_tag'));
     }
     public function getTable ($request) {
         $now = Carbon::now();
@@ -126,12 +126,12 @@ class BookmarkCandidateController extends Controller
     public function select2_search(Request $request){
         $data_tag = Tag::query()->get();
         $data_jobs = $this->getTable($request);
-        return view('frontend.job.ajax.select_search_result', compact( 'data_jobs', 'data_tag'));
+        return view('frontend.bookmark.ajax.select_search_jobs_result', compact( 'data_jobs', 'data_tag'));
     }
     public function checkbox_search(Request $request){
         $data_tag = Tag::query()->get();
         $data_jobs = $this->getTable($request);
-        return view('frontend.job.ajax.select_search_result', compact( 'data_jobs', 'data_tag'));
+        return view('frontend.bookmark.ajax.select_search_jobs_result', compact( 'data_jobs', 'data_tag'));
     }
     public function __invoke(Request $request)
     {

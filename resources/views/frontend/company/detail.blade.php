@@ -13,51 +13,37 @@
                     <a href="" ><h4 class="fw-semibold mb-3 text-white">{{$company->company_name}}</h4>
                         <h5 class="text-white">{{$company->company_tagline}}</h5></a>
                     <div class="mt-3 d-flex">
-                        @if($company->company_website)
-                            <span class="me-4"><a class="text-white" href="{{$company->company_website}}"><i class="fa fa-link"></i> Website </a></span>
-                        @endif
-                        @if($company->twitter)
-                            <span class="me-4"><a class="text-white" href="{{$company->twitter}}"><i class="fa fa-link"></i> twitter </a></span>
-                        @endif
-                        @if($company->facebook)
-                            <span><a class="text-white" href="{{$company->facebook}}"><i class="fa fa-link"></i> Website </a></span>
-                        @endif
+                        <div class="two-buttons d-flex flex-wrap-reverse text-end margin-top-55">
+
+                                <a href="#small-dialog" class="popup-with-zoom-anim button position-static"> Write Review</a>
+
+                            <div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup border-radius-5">
+                                <div class="small-dialog-headline border-radius-5">
+                                    <h2>Send Message to John Doe</h2>
+                                </div>
+
+                                <div class="small-dialog-content">
+                                    <form action="#" method="get" >
+                                        <input type="text" placeholder="Full Name" value=""/>
+                                        <input type="text" placeholder="Email Address" value=""/>
+                                        <textarea placeholder="Message"></textarea>
+
+                                        <button class="send">Send Application</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
+                </div>
+                <div class="content mt-2">
+                    <a  class=""> Write Review</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
         <div class="six columns">
-            <div class="two-buttons d-flex flex-wrap-reverse text-end margin-top-55">
 
-                <div class="w-100">
-                    <a href="#small-dialog" class="popup-with-zoom-anim button position-static"><i class="fa fa-envelope"></i> Send Message</a>
-                </div>
-
-                <div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup">
-                    <div class="small-dialog-headline">
-                        <h2>Send Message to John Doe</h2>
-                    </div>
-
-                    <div class="small-dialog-content">
-                        <form action="#" method="get" >
-                            <input type="text" placeholder="Full Name" value=""/>
-                            <input type="text" placeholder="Email Address" value=""/>
-                            <textarea placeholder="Message"></textarea>
-
-                            <button class="send">Send Application</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="w-100">
-                    @if(isset($check_bookmark) && $check_bookmark == 2)
-                        <a href="{{route('job.bookmark', 1)}}" class="button button position-static"><i class="fa fa-star"></i> Bookmark This Company</a>
-                    @elseif(isset($check_bookmark) && $check_bookmark == 1)
-                        <a href="{{route('job.remove-bookmark', 1)}}" class="button dark position-static"><i class="fa fa-star"></i> Remove Bookmark</a>
-                    @endif
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -66,7 +52,8 @@
 <!-- Content
 ================================================== -->
 <div class="container">
-
+    <div class="d-flex">
+        <div>
     <!-- Recent Jobs -->
     <div class="eleven columns">
         <div class="padding-right">
@@ -96,7 +83,7 @@
 
         </div>
     </div>
-
+        </div>
 
     <!-- Widgets -->
     <div class="five columns">
@@ -154,7 +141,7 @@
 
     </div>
     <!-- Widgets / End -->
-
+    </div>
 
 </div>
 @stop

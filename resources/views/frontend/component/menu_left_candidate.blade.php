@@ -3,7 +3,7 @@
         <ul class="nav-link menu_profile">
                 <h4>Main</h4>
             <li class="{{ Str::contains(request()->path(), 'messages') ? 'active' : '' }}">
-                <a href="{{route('messages.index')}}">Messages &nbsp; <span>2</span></a>
+                <a href="{{route('chat')}}">Messages &nbsp; <span>2</span></a>
             </li>
             <li class="{{ Str::contains(request()->path(), 'bookmark') ? 'active' : '' }}">
                 <a href="{{route('bookmark_candidate.index')}}">Bookmarks</a>

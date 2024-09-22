@@ -1,5 +1,5 @@
 <div id="main-list" class="padding-right">
-    <form action="{{ route('job.meili') }}" method="get" class="list-search">
+    <form action="{{ route('bookmark_candidate.meili') }}" method="get" class="list-search">
         <button><i class="fa fa-search"></i></button>
         <input type="search" id="query" name="query" placeholder="job title, keywords or company name" value=""/>
         <div class="clearfix"></div>

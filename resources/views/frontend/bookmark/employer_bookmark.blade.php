@@ -86,6 +86,11 @@
                     @endforeach
                 </ul>
                 <div class="clearfix"></div>
+                <div class="pagination-container mb-5">
+                    <div class="paginate " id="pagination-links">
+                        {{$data_resumes->withQueryString()->appends($_GET)->links('.frontend.component.paginate')}}
+                    </div>
+                </div>
             </div>
             </div>
 

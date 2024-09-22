@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 if (!function_exists('getDayDifference')) {
     function getDayDifference($data)
     {
-        $dateToCompare = $data->created_at;
+        $dateToCompare = $data->updated_at;
         $now = Carbon::now();
         $daysDifference = $now->diffInDays($dateToCompare);
 

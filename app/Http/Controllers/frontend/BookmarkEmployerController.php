@@ -118,7 +118,7 @@ class BookmarkEmployerController extends Controller
             $filters = 'id IN [' . implode(',', $id_resumes->toArray()) . ']';
 
             $data_resumes = CandidateResume::search($query, function ($meilisearch, $query, $options) use ($filters) {
-                $options['filter'] = '';
+                $options['filter'] = $filters;
                 return $meilisearch->search($query, $options);
             })->paginate(5);
         }

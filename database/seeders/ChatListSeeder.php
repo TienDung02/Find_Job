@@ -21,8 +21,8 @@ class ChatListSeeder extends Seeder
 
         $chat_list = [];
 
-        for ($i = 0; $i < 100; $i++) {
-            $user_id_1 = 1;
+        for ($i = 0; $i < 200; $i++) {
+            $user_id_1 = $faker->randomElement($user_ids);
             $user_id_2 = $faker->randomElement($user_ids);
             $check_ids = ChatList::query()->where('user_1', $user_id_1)->pluck('user_2')->toArray();
             while ($user_id_1 == $user_id_2 || in_array($user_id_2, $check_ids)) {

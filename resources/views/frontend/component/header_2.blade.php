@@ -54,7 +54,7 @@
                             <img src="{{asset(Session::get('user_data.avatar'))}}">
                             <ul class="ul-dropdown">
                                 <li><a href="{{route('profile')}}">My Profile</a></li>
-                                <li><a href="{{route('messages.index')}}">Messenger</a></li>
+                                <li><a href="{{route('chat')}}">Messenger</a></li>
                                 <li>
                                     <a href="/logout" >{{ __('Logout') }}</a>
                                 </li>

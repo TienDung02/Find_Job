@@ -56,7 +56,6 @@ function select2_selected(url, tag_id, type, id) {
                     }
                 });
             } else {
-                console.log('No matching item found');
             }
         }
     });
@@ -151,7 +150,6 @@ function Alert_delete($url) {
 /*  Application Tabs
 /*----------------------------------------------------*/
 function adjustDiv2Height() {
-    console.log('aaaaaaaaaa');
     var $container = $('.message-content');
     var $div1 = $('.message-content-block');
     var $div2 = $('.message-send-block');
@@ -162,3 +160,21 @@ function adjustDiv2Height() {
 
     $div1.height(div1Height);
 }
+
+/*----------------------------------------------------*/
+/*  Messages Scroll To Last
+/*----------------------------------------------------*/
+function scrollToBottom() {
+    console.log('aa');
+    var hasScrolled = false;
+    if (!hasScrolled) {
+        var main_messages = $('.message-content-block');
+        main_messages.addClass('scroll-smooth');
+        setTimeout(function() {
+            main_messages.scrollTop(main_messages.prop("scrollHeight"));
+            hasScrolled = true;
+            main_messages.removeClass('scroll-smooth');
+        }, 500);
+    }
+}
+

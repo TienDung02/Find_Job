@@ -21,7 +21,7 @@ class BookmarkSeeder extends Seeder
         $user_id_employer = DB::table('users')->where('role', 3)->pluck('id');
         $blog = [];
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 300; $i++) {
             if ($i%2 == 0){
                 $job_id = $faker->randomElement($job_ids);
                 $user_id = $faker->randomElement($user_id_candidate);
@@ -55,15 +55,17 @@ class BookmarkSeeder extends Seeder
                 }
                 $job_id = null;
             }
-            $blog[] = [
-                'user_id' => $user_id,
-                'job_id' => $job_id,
-                'resume_id' => $resume_id,
-                'type_bookmark' => $type_bookmark,
-                'created_at' => $createdAt,
-                'updated_at' => $createdAt,
-                'deleted_at' => null
-            ];
+            if ($i%2 !== 0 || $createdAt_candidate < $closing_day){
+                $blog[] = [
+                    'user_id' => $user_id,
+                    'job_id' => $job_id,
+                    'resume_id' => $resume_id,
+                    'type_bookmark' => $type_bookmark,
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt,
+                    'deleted_at' => null
+                ];
+            }
         }
         DB::table('bookmarks')->insert($blog);
     }

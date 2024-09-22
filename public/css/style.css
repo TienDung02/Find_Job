@@ -7402,10 +7402,10 @@ input.toggle_switch[type="checkbox"]:checked {
 .job-closingDay input{
     padding: 12px;
     font-size: 14px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ababab;
     width: 100%;
     margin-bottom: 18px;
-    color: #888;
+    color: #484848;
     font-family: 'Lato', 'sans-serif';
     font-size: 16px;
     font-weight: 300;
@@ -7540,7 +7540,7 @@ header .active{
 }
 .message-content .message-content-block{
     overflow-y: auto;
-	scroll-behavior: smooth;
+	/*scroll-behavior: smooth;*/
 }
 .messages-container-inner .messages-inbox ul::-webkit-scrollbar-track{
     -webkit-box-shadow: inset 0 0 4px #888;
@@ -7559,7 +7559,7 @@ header .active{
     background-color: #ffffff;
 }
 .message-content .message-content-block::-webkit-scrollbar{
-    width: 5px;
+    width: 7px;
     background-color: #ffffff;
 }
 .message-content .message-content-block::-webkit-scrollbar-thumb{
@@ -7635,6 +7635,8 @@ header .active{
 }
 .message-text i{
 	height: 14px;
+	line-height: 14px;
+	font-size: 12px;
 }
 .message-text i:before{
 	line-height: 14px !important;
@@ -7658,4 +7660,23 @@ header .active{
 }
 .active-message{
 	background-color: #2db2ea52;
+}
+.img-messages{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns by default */
+    gap: 10px;
+}
+.img-messages img{
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+.img-messages > img:only-child {
+    grid-column: 1 / -1;
+}
+.alert-send-fail{
+    display: none;
+}
+.scroll-smooth {
+	scroll-behavior: smooth;
 }

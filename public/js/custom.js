@@ -1253,7 +1253,7 @@
         });
 
         /*----------------------------------------------------*/
-        /*  Checkbox
+        /*  Checkbox Search Job
         /*----------------------------------------------------*/
         $('input[name="check"]').change(function() {
             $('input[name="check"]').prop('checked', false);
@@ -1295,41 +1295,72 @@
             $('input[name="check"]').prop('checked', false);
             $('input[name="check"][value="' + jobType + '"]').prop('checked', true);
         }
-        /*----------------------------------------------------*/
-        /*  Ajax Change Messages
-        /*----------------------------------------------------*/
-        $(document).on('click', '.change-messages', function() {
-            var id = $(this).attr('data-messages-id');
-            var element = $(this);
-            $.ajax({
-                url: $('#get-url').attr('data-url-change-messages'),
-                type: 'GET',
-                data: {
-                    'id': id
-                },
-                success: function(data) {
-                    var html = $(data).children();
-                    $('#messages').html(html);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
 
-            $('.messages-container-inner .messages-inbox ul li a').removeClass('active-message');
-            element.addClass('active-message');
-            var main_mesages = $('.message-content-block');
 
-            setTimeout(function() {
-                main_mesages.scrollTop(main_mesages.prop("scrollHeight"));
-                element.find('span.rounded-circle').remove();
-                element.find('p.fw-semibold').removeClass('fw-semibold');
-            }, 500);
+        /*----------------------------------------------------*/
+        /*  Scroll to Bottom When Push Messages
+        /*----------------------------------------------------*/
+        $('.Send-Messages').on('click', function () {
+            scrollToBottom();
         });
-        var main_mesages = $('.message-content-block');
-        setTimeout(function() {
-            main_mesages.scrollTop(main_mesages.prop("scrollHeight"));
-        }, 500);
+
+        /*----------------------------------------------------*/
+        /*  Scroll to Bottom When Load Page
+        /*----------------------------------------------------*/
+        scrollToBottom();
+
+        /*----------------------------------------------------*/
+        /*  Scroll to Bottom When Load Page
+        /*----------------------------------------------------*/
+        $('#myList').on('click', 'li.item', function() {
+            $('#myList .item').removeClass('active-message');
+            $(this).addClass('active-message');
+        });
+
+        window.addEventListener('scroll-bottom', function () {
+            scrollToBottom();
+        });
+
+        let previousHeight = 0;
+        let currentScrollPosition = 0;
+
+        $('.message-content-block').on('scroll', function() {
+            if ($(this).scrollTop() === 0) {
+                let messageContainer = $(this);
+                previousHeight = messageContainer.prop('scrollHeight'); // Đảm bảo previousHeight được cập nhật
+                currentScrollPosition = messageContainer.scrollTop();
+                Livewire.emit('loadMoreMessages');
+            }
+        });
+
+        window.addEventListener('messagesLoaded', function() {
+            let messageContainer = $('.message-content-block');
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+            let newHeight = messageContainer.prop('scrollHeight');
+
+            let heightDifference = newHeight - previousHeight;
+
+            messageContainer.scrollTop(currentScrollPosition + heightDifference);
+        });
+
+
+        function loadMoreMessages() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    $('.message-content-block').append('<div>New Message</div>');
+                    resolve();
+                }, 1000); // Giả lập thời gian tải 1 giây
+            });
+        }
+
+        // Livewire.on('messagesLoaded', function() {
+        //     console.log('previousHeight:'+ previousHeight);
+        //     let messageContainer = $('.message-content-block');
+        //     let newHeight = messageContainer.prop('scrollHeight');
+        //     let heightDifference = newHeight - previousHeight;
+        //
+        //     messageContainer.scrollTop(currentScrollPosition + heightDifference);
+        // });
 
 
 

@@ -3,7 +3,7 @@ php artisan migrate
 php artisan db:seed
 
 php artisan scout:import "App\Models\Job"
-
+php artisan scout:import "App\Models\CandidateResume"
 
 php artisan cache:clear
 php artisan route:clear

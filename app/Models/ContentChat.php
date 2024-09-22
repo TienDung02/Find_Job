@@ -48,4 +48,8 @@ class ContentChat extends Model
     {
         return $this->belongsTo(User::class, 'sender_id', 'id');
     }
+    public function chatUnread()
+    {
+        return $this->where('status_receiver', 'Unread');
+    }
 }

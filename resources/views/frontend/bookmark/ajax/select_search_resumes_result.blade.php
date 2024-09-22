@@ -1,10 +1,11 @@
 <div id="main-list" class="padding-right">
 
-    <form action="#" method="get" class="list-search">
+    <form action="{{ route('bookmark_employer.meili') }}" method="get" class="list-search">
         <button><i class="fa fa-search"></i></button>
-        <input type="text" placeholder="Search freelancer services (e.g. logo design)" value=""/>
+        <input type="search" id="query" name="query" placeholder="Name, keywords or skills" value=""/>
         <div class="clearfix"></div>
     </form>
+
     <ul class="resumes-list">
         @foreach($data_resumes as $resume)
 
