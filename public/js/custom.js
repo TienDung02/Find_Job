@@ -1317,6 +1317,12 @@
             $(this).addClass('active-message');
         });
 
+
+
+
+        /*----------------------------------------------------*/
+        /*  Auto Load Messages Previous
+        /*----------------------------------------------------*/
         window.addEventListener('scroll-bottom', function () {
             scrollToBottom();
         });
@@ -1335,11 +1341,8 @@
 
         window.addEventListener('messagesLoaded', function() {
             let messageContainer = $('.message-content-block');
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
             let newHeight = messageContainer.prop('scrollHeight');
-
             let heightDifference = newHeight - previousHeight;
-
             messageContainer.scrollTop(currentScrollPosition + heightDifference);
         });
 
@@ -1353,14 +1356,9 @@
             });
         }
 
-        // Livewire.on('messagesLoaded', function() {
-        //     console.log('previousHeight:'+ previousHeight);
-        //     let messageContainer = $('.message-content-block');
-        //     let newHeight = messageContainer.prop('scrollHeight');
-        //     let heightDifference = newHeight - previousHeight;
-        //
-        //     messageContainer.scrollTop(currentScrollPosition + heightDifference);
-        // });
+        /*----------------------------------------------------*/
+        /*  Create a Conversation
+        /*----------------------------------------------------*/
 
 
 

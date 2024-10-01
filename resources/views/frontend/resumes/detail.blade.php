@@ -47,7 +47,7 @@
 		<div class="six columns">
 			<div class="two-buttons">
 
-				<a href="#small-dialog" class="popup-with-zoom-anim button"><i class="fa fa-envelope"></i> Send Message</a>
+				    <a class="cursor-pointer create_conversation button" data-id="{{ $resumes->id }}"><i class="fa fa-envelope"></i>Send Message</a>
 
 				<div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup">
 					<div class="small-dialog-headline">

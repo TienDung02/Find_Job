@@ -19,6 +19,7 @@ class Conversation extends Component
         $id = auth()->user()->id;
         return [
             'refresh' => 'handleRefresh',
+            'createConversation' => 'createConversation',
             "echo:users.{$id},.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated" => 'ConversationHandleEvent',
         ];
     }
@@ -97,6 +98,10 @@ class Conversation extends Component
 
             $this->mount();
         }
+    }
+
+    public function createConversation(){
+        dd('aaaaaaaaaaa');
     }
     public function mount(){
         $id = auth()->user()->id;

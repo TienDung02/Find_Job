@@ -165,7 +165,6 @@ function adjustDiv2Height() {
 /*  Messages Scroll To Last
 /*----------------------------------------------------*/
 function scrollToBottom() {
-    console.log('aa');
     var hasScrolled = false;
     if (!hasScrolled) {
         var main_messages = $('.message-content-block');

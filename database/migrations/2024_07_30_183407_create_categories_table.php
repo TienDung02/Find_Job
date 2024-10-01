@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('is_popular');
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 

@@ -17,6 +17,11 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('province_id');
             $table->string('name', 255);
+
+            $table->foreign('province_id')
+            ->references('id')
+            ->on('provinces')
+            ->onDelete('cascade');
         });
     }
     /**

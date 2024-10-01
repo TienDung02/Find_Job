@@ -34,9 +34,6 @@
 
             <!-- Content
             ================================================== -->
-            @livewireStyles
-
-
             <div class="padding-50 border-radius-5 ">
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
@@ -60,12 +57,6 @@
                 </div>
             </div>
             <script src="{{ mix('js/app.js') }}"></script>
-            @livewireScripts
-            <script>
-                Livewire.on('notificationReceived', event => {
-                    console.log('Notification received:', event);
-                });
-            </script>
         </div>
     </div>
 @stop

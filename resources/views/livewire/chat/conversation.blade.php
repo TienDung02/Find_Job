@@ -10,7 +10,7 @@
                     </div>
                     <div class="message-by col-10 position-relative">
                         <div class="message-by-headline d-flex">
-                            <h5>{{$chat_list->anotherUser()->first_name . ' ' . $chat_list->anotherUser()->last_name}} {{$chat_list->id}}</h5>
+                            <h5>{{$chat_list->anotherUser()->first_name . ' ' . $chat_list->anotherUser()->last_name}}</h5>
                             <span class="position-absolute end-0 top-0 text-secondary">{{getDayDifference($chat_list)}}</span>
                         </div>
                         <div class="d-flex short-messages w-100">

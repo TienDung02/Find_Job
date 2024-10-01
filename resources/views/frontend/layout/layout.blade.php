@@ -6,9 +6,9 @@
 @else
     @include('frontend.component.header')
 @endif
-
+@livewireStyles
 @yield('content')
-
+@livewireScripts
 
 <!-- Footer
 ================================================== -->
@@ -26,6 +26,16 @@
 ================================================== -->
 
 @include('.frontend.component.script')
+<script>
+    document.addEventListener('livewire:load', function () {
+        $('.create_conversation').on('click', function() {
+            const id = $(this).data('id');
+            Livewire.emit('createConversation', id);
+            console.log('Sự kiện đã phát: createConversation với ID:', id);
+
+        });
+    });
+</script>
 @if (isset(session('alert_')['alert_type']))
     <script>
         alert_after_load('{{session('alert_')['alert_title']}}', '{{session('alert_')['alert_type']}}', '{{session('alert_')['alert_text']}}', '{{session('alert_')['alert_reload']}}')

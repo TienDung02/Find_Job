@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FrequencySeeder::class,
 
-            DistrictSeeder::class,
             ProvinceSeeder::class,
+            DistrictSeeder::class,
             WardSeeder::class,
 
             UserSeeder::class,
