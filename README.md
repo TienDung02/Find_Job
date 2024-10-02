@@ -109,12 +109,14 @@ git clone https://github.com/TienDung02/Find_Job
 ```
 
 Step 2: Install Dependencies
+
 Navigate to the project directory and run the following command to install all necessary libraries and dependencies:
 ```bash
 cd Find_Job
 composer install
 ```
 Step 3: Create Configuration File
+
 Create a .env file from the sample .env.example file using the following command:
 ```bash
 cp .env.example .env
@@ -124,11 +126,13 @@ If you are using Windows, use the following command:
 copy .env.example .env
 ```
 Step 4: Generate Application Key
+
 Generate a unique application key for the project using the command:
 ```bash
 php artisan key:generate
 ```
 Step 5: Set Up the Database
+
 Before running the following commands, make sure you have configured the database connection information in the .env file.
 
 Then, run the following commands to wipe existing data (if any), perform migrations, and seed sample data:
@@ -138,11 +142,13 @@ php artisan migrate
 php artisan db:seed
 ```
 Step 6: Run Meilisearch
+
 If your project uses Meilisearch, run the following command in the terminal to start Meilisearch:
 ```bash
 meilisearch
 ```
 Step 7: Import Data into Scout
+
 Finally, run the following commands to import data into Scout:
 ```bash
 php artisan scout:import "App\Models\Job"
