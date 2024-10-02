@@ -20,6 +20,7 @@
     <li><a href="#advancedfeatures">Advanced Features</a></li>
     <li><a href="#model">Entity-Relationship Diagram</a></li>
     <li><a href="#technology">Technologies Used</a></li>
+    <li><a href="#setup">Laravel Project Setup Guide</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -84,6 +85,69 @@ The software aims to achieve the following objectives:
   
 # <h2 id="model">Entity-Relationship Diagram
 ![sơ đồ 2](https://github.com/TienDung02/Find_Job/blob/main/Worksout-ERD.png)
+
+
+# <h2 id="setup">Laravel Project Setup Guide
+
+Welcome to Worksout Laravel project! Below is a step-by-step guide to help you set up and run the project easily.
+
+<h3>Prerequisites</h3> 
+
+Before you begin, ensure you have the following software installed:
+
+- **PHP** (compatible versions 7.3, 7.4, 8.0, 8.1)
+- **Composer** (package manager for PHP)
+- **MySQL** or **MariaDB** (or any database you have configured)
+- **Node.js** và **npm** (if the project uses frontend)
+- **Meilisearch** (if you are using Meilisearch for search functionality)
+
+Step 1:  Clone the Project
+
+Clone the project from GitHub to your local machine:
+```bash
+git clone https://github.com/TienDung02/Find_Job
+```
+
+Step 2: Install Dependencies
+Navigate to the project directory and run the following command to install all necessary libraries and dependencies:
+```bash
+cd Find_Job
+composer install
+```
+Step 3: Create Configuration File
+Create a .env file from the sample .env.example file using the following command:
+```bash
+cp .env.example .env
+```
+If you are using Windows, use the following command:
+```bash
+copy .env.example .env
+```
+Step 4: Generate Application Key
+Generate a unique application key for the project using the command:
+```bash
+php artisan key:generate
+```
+Step 5: Set Up the Database
+Before running the following commands, make sure you have configured the database connection information in the .env file.
+Then, run the following commands to wipe existing data (if any), perform migrations, and seed sample data:
+```bash
+php artisan db:wipe
+php artisan migrate
+php artisan db:seed
+```
+Step 6: Run Meilisearch
+If your project uses Meilisearch, run the following command in the terminal to start Meilisearch:
+```bash
+meilisearch
+```
+Step 7: Import Data into Scout
+Finally, run the following commands to import data into Scout:
+```bash
+php artisan scout:import "App\Models\Job"
+php artisan scout:import "App\Models\CandidateResume"
+```
+
 
 # <h2 id="contact">Contact
 Project Link: https://github.com/TienDung02/Find_Job </br>
