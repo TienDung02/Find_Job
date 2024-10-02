@@ -73,7 +73,7 @@ The software aims to achieve the following objectives:
 
 # <h2 id="technology">Technologies
 <h4>Backend:
- <a href="https://laravel.com/docs/8.x/">Laravel Framework</a>
+ <a href="https://laravel.com/docs/8.x/">Laravel 8</a>
 <h4>Frontend:
  <a href="https://getbootstrap.com/">Bootstrap 5</a>
 , <a href="">HTML</a>
