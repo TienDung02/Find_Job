@@ -130,6 +130,7 @@ php artisan key:generate
 ```
 Step 5: Set Up the Database
 Before running the following commands, make sure you have configured the database connection information in the .env file.
+
 Then, run the following commands to wipe existing data (if any), perform migrations, and seed sample data:
 ```bash
 php artisan db:wipe
